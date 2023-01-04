@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+
+from core.redis2psql import redis2psql
+from psql.dbConnServer import dbConnServer
+from lib.classAsProcRunner import classAsProcRunner
+
+REDIS_HOST = "localhost"
+REDIS_PORT = 16379
+# -- prod --
+# REDIS_HOST = "10.0.0.122"
+# REDIS_PORT = 6379
+# -- global --
+REDIS_PWD = "Q@@bcd!234##!"
+PROC_NAME = "redis2psql"
+REDIS_CONF = {"HOST": REDIS_HOST, "PORT": REDIS_PORT, "PWD": REDIS_PWD}
+PSQL_DB = dbConnServer.getConnection()
+
+
+__redis2psql: redis2psql = redis2psql(redisConf=REDIS_CONF, psqlConn=PSQL_DB)
+runner: classAsProcRunner = classAsProcRunner(PROC_NAME, __redis2psql, "run")
+runner.init()
+runner.run_main_loop()
