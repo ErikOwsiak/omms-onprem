@@ -7,7 +7,7 @@ from core.logProxy import logProxy
 
 
 NULL = "null"
-SUB_CHANNEL = "CK_PZEM_READER_ROOF_READS"
+SUB_CHANNEL = "CK_ROOF_PZEM6_READS"
 
 
 class redis2psql(object):
