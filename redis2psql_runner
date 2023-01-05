@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import time
+import time, psutil
 import setproctitle
 import threading as th
 from core.redis2psql import redis2psql
@@ -40,5 +40,15 @@ def main():
 
 # -- -- start here -- --
 if __name__ == "__main__":
-   setproctitle.setproctitle("red2psqlRunr")
+   proc_name = "red2psqlRunr"
+   # -- look for previous prox --
+   for p in psutil.process_iter():
+      try:
+         if p.name() == proc_name:
+            print(F"PreviousProcFound | PID: {p.pid}\n\tkilling...")
+            p.kill()
+      except Exception as e:
+         print(e)
+   # -- start --
+   setproctitle.setproctitle(proc_name)
    main()
