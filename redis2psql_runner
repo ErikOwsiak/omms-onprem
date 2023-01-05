@@ -24,16 +24,18 @@ PSQL_DB = dbConnServer.getConnection()
 __redis2psql: redis2psql = redis2psql(redisConf=REDIS_CONF, psqlConn=PSQL_DB)
 __redis2psqlTh: th.Thread = th.Thread(target=__redis2psql.run, args=())
 
-# runner: classAsProcRunner = classAsProcRunner(PROC_NAME, __redis2psql, "run")
-# runner.init()
-# runner.run_main_loop()
-
 
 def main():
    __redis2psqlTh.start()
    while True:
-      time.sleep(8.0)
-      print("main_loop")
+      try:
+         time.sleep(8.0)
+         print("main_loop")
+         if __redis2psqlTh.is_alive():
+            print("__redis2psqlTh.is_alive")
+      except Exception as e:
+         print(e)
+         time.sleep(16.0)
 
 
 # -- -- start here -- --
