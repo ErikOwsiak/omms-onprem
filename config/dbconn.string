@@ -3,5 +3,5 @@
 #host=10.0.40.208 dbname=sbms_db user=sbms_admin password=abcd1234@@
 #host=localhost dbname=sbms user=sbms_rest_api password=sbms_rest_api_pwd
 # -- new db --
-host=localhost port=8787 dbname=omms user=omms_0x0022 password=abcd1234
-# host=localhost port=5432 dbname=omms user=omms_0x0022 password=abcd1234
+# host=localhost port=8787 dbname=omms user=omms_0x0022 password=abcd1234
+host=localhost port=5432 dbname=omms user=omms_0x0022 password=abcd1234
