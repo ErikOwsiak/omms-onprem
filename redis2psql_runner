@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 import time, psutil
-import setproctitle
 import threading as th
+import setproctitle, redis
 from core.redis2psql import redis2psql
 from psql.dbConnServer import dbConnServer
 from core.debug import debug
+from core.utils import sysUtils as utils
 
 
 REDIS_PWD = "Q@@bcd!234##!"
@@ -17,15 +18,25 @@ if debug.is_dev_box():
    REDIS_HOST = "localhost"
    REDIS_PORT = 16379
 
-# -- global --
-REDIS_CONF = {"HOST": REDIS_HOST, "PORT": REDIS_PORT, "PWD": REDIS_PWD}
-PSQL_DB = dbConnServer.getConnection()
 
-__redis2psql: redis2psql = redis2psql(redisConf=REDIS_CONF, psqlConn=PSQL_DB)
+red: redis.Redis = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PWD)
+if not red.ping():
+   print(f"Can't Ping Redis Server: {REDIS_HOST}:{REDIS_PORT}")
+   exit(1)
+
+
+PSQL_DB = dbConnServer.getConnection()
+__redis2psql: redis2psql = redis2psql(red=red, psqlConn=PSQL_DB)
 __redis2psqlTh: th.Thread = th.Thread(target=__redis2psql.run, args=())
 
 
 def main():
+   # -- -- -- --
+   _dict = {"boot_dts_utc": utils.dts_utc()
+      , "lan_ip": utils.lan_ip(), "hostname": utils.HOST}
+   red.select(1)
+   red.hset("OMMS_ONPREM", mapping=_dict)
+   # -- -- -- --
    __redis2psqlTh.start()
    while True:
       try:
@@ -33,6 +44,7 @@ def main():
          print("main_loop")
          if __redis2psqlTh.is_alive():
             print("__redis2psqlTh.is_alive")
+         red.hset("OMMS_ONPREM", "last_tick", utils.dts_utc())
       except Exception as e:
          print(e)
          time.sleep(16.0)

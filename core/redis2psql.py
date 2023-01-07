@@ -13,30 +13,25 @@ SUB_CHANNEL_P16_MQTT = "CK_P16_MQTT_READS"
 
 class redis2psql(object):
 
-   def __init__(self, redisConf: {}, psqlConn: _conn):
+   def __init__(self, red: redis.Redis, psqlConn: _conn):
       self.prc_name = "redis2psql"
-      self.redis_conf = redisConf
+      self.red: redis.Redis = red
       self.psql_conn: _conn = psqlConn
       self.dbops = dbOps(self.psql_conn)
       self.syspath_dbids: {} = {}
-      self.red: redis.Redis = self.__build_red()
       self.pubsub = self.red.pubsub()
       self.pubsub_thread = None
       self.__redis_subscribe()
 
-   def __build_red(self) -> redis.Redis:
-      try:
-         red_host: str = self.redis_conf["HOST"]
-         red_port: int = int(self.redis_conf["PORT"])
-         red_pwd: str = self.redis_conf["PWD"]
-         red: redis.Redis = redis.Redis(host=red_host, port=red_port, password=red_pwd)
-         ping_val: bool = red.ping()
-         if not ping_val:
-            raise Exception("RedisPingError!")
-         # -- -- run -- --
-         return red
-      except Exception as e:
-         logProxy.log_exp(e)
+   # def test_red(self) -> redis.Redis:
+   #    try:
+   #       ping_val: bool = self.red.ping()
+   #       if not ping_val:
+   #          raise Exception("RedisPingError!")
+   #       # -- -- run -- --
+   #       return red
+   #    except Exception as e:
+   #       logProxy.log_exp(e)
 
    def __attach_eventers(self):
       pass
