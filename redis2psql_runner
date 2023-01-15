@@ -2,65 +2,84 @@
 
 import time, psutil
 import threading as th
+import configparser as _cp
 import setproctitle, redis
-from core.redis2psql import redis2psql
-from psql.dbConnServer import dbConnServer
+# -- system --
 from core.debug import debug
+from core.redis2psql import redis2psql
 from core.utils import sysUtils as utils
+from psql.dbConnServer import dbConnServer
 
 
-REDIS_PWD = "Q@@bcd!234##!"
+INI: _cp.ConfigParser = _cp.ConfigParser()
+INI.read("conf/redis2psql.ini")
+
+
+# -- -- -- -- -- -- -- --
 PROC_NAME = "redis2psql"
-REDIS_HOST = "localhost"
-REDIS_PORT = 6379
-# -- dev box --
+RED_CONN_SEC_INI = INI["REDIS_PROD"]
+PSQL_CONN_SEC_INI = INI["PSQL_PROD"]
 if debug.is_dev_box():
-   REDIS_HOST = "localhost"
-   REDIS_PORT = 16379
+   RED_CONN_SEC_INI = INI["REDIS_DEV"]
+   PSQL_CONN_SEC_INI = INI["PSQL_DEV"]
+# -- -- -- -- -- -- -- --
+REDIS_PWD = INI["REDIS"]["PWD"]
+REDIS_HOST = RED_CONN_SEC_INI["HOST"]
+REDIS_PORT: int = int(RED_CONN_SEC_INI["PORT"])
+PSQL_CONN_STR: str = PSQL_CONN_SEC_INI["CONN_STR"]
 
 
-red: redis.Redis = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PWD)
-if not red.ping():
+# -- dev box --
+RED: redis.Redis = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PWD)
+if not RED.ping():
    print(f"Can't Ping Redis Server: {REDIS_HOST}:{REDIS_PORT}")
    exit(1)
 
-
-PSQL_DB = dbConnServer.getConnection()
-__redis2psql: redis2psql = redis2psql(red=red, psqlConn=PSQL_DB)
+# -- redis to psql object --
+PSQL_CONN = dbConnServer.getConnection(PSQL_CONN_STR)
+__redis2psql: redis2psql = redis2psql(INI=INI, red=RED, psqlConn=PSQL_CONN)
+__redis2psql.int()
+# -- redis object thread --
 __redis2psqlTh: th.Thread = th.Thread(target=__redis2psql.run, args=())
+__redis2psqlTh.start()
 
+
+def clear_previous_prox():
+   # -- -- -- --
+   def __on_proc(pr: psutil.Process):
+      try:
+         if pr.name() == PROC_NAME:
+            print(F"PreviousProcFound | PID: {pr.pid}\n\tkilling...")
+            pr.kill()
+      except Exception as ex:
+         print(ex)
+   # -- -- -- --
+   for ipr in psutil.process_iter():
+      __on_proc(ipr)
+   # -- -- -- --
 
 def main():
-   # -- -- -- --
+   # -- -- -- -- -- -- -- --
    _dict = {"boot_dts_utc": utils.dts_utc()
       , "lan_ip": utils.lan_ip(), "hostname": utils.HOST}
-   red.select(1)
-   red.hset("OMMS_ONPREM", mapping=_dict)
-   # -- -- -- --
-   __redis2psqlTh.start()
+   RED.select(1)
+   RED.hset("OMMS_ONPREM", mapping=_dict)
+   # -- -- -- -- -- -- -- --
    while True:
       try:
-         time.sleep(8.0)
          print("main_loop")
          if __redis2psqlTh.is_alive():
             print("__redis2psqlTh.is_alive")
-         red.hset("OMMS_ONPREM", "last_tick", utils.dts_utc())
+         RED.hset("OMMS_ONPREM", "last_tick", utils.dts_utc())
+         time.sleep(8.0)
       except Exception as e:
          print(e)
          time.sleep(16.0)
+   # -- -- -- -- -- -- -- --
 
 
 # -- -- start here -- --
 if __name__ == "__main__":
-   proc_name = "red2psqlRunr"
-   # -- look for previous prox --
-   for p in psutil.process_iter():
-      try:
-         if p.name() == proc_name:
-            print(F"PreviousProcFound | PID: {p.pid}\n\tkilling...")
-            p.kill()
-      except Exception as e:
-         print(e)
-   # -- start --
-   setproctitle.setproctitle(proc_name)
+   clear_previous_prox()
+   setproctitle.setproctitle(PROC_NAME)
    main()
