@@ -1,9 +1,11 @@
 #!/bin/bash
 
 
+# -- -- kill if running -- --
+killall -s KILL omms-webui
+
 RPTS_DIR=/opt/iotech/omms/reports/electric
 START_DIR=$(pwd)
-
 
 if [ ! -d $RPTS_DIR ]; then
   echo "FolderNotFound: $RPTS_DIR"
@@ -28,8 +30,21 @@ cd webui || exit 30
 RPT_DIR_SYMLINK="$(pwd)/www/reports"
 if [ ! -h "$RPT_DIR_SYMLINK"  ]; then
   echo "SymlinkNotFound: $RPT_DIR_SYMLINK"
-  exit 32
+  echo "making..."
+  sleep 2
+  cd www || exit 32
+  ln -s $RPTS_DIR reports
+  # -- -- -- --
+  if [ $? == 0 ]; then
+    echo "symlink created..."
+  else
+    echo "symlink create error!"
+    exit 34
+  fi
+  # -- -- -- --
 fi
 
+cd ../webui || exit 34
+echo "CWD: $(pwd)"
 chmod +x webapp
 ./webapp >> /dev/null &
