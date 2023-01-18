@@ -4,6 +4,7 @@
 # -- -- kill if running -- --
 killall -s KILL omms-webui
 
+
 RPTS_DIR=/opt/iotech/omms/reports/electric
 START_DIR=$(pwd)
 
@@ -19,7 +20,7 @@ echo ""
 
 
 cd ../ || exit 20
-echo "CWD: $(pwd)"
+echo "CWD_0: $(pwd)"
 PYTHONPATH=$(pwd)
 export PYTHONPATH=$PYTHONPATH
 echo "PYTHONPATH: $PYTHONPATH"
@@ -44,7 +45,9 @@ if [ ! -h "$RPT_DIR_SYMLINK"  ]; then
   # -- -- -- --
 fi
 
+echo "CWD_1: $(pwd)"
+
 cd ../webui || exit 34
-echo "CWD: $(pwd)"
+echo "CWD_2: $(pwd)"
 chmod +x webapp
 ./webapp >> /dev/null &
