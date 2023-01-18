@@ -27,7 +27,7 @@ cd webui || exit 30
 # -- check reports folder symlink --
 RPT_DIR_SYMLINK="$(pwd)/www/reports"
 if [ ! -h "$RPT_DIR_SYMLINK"  ]; then
-  echo "SymlinkNotFound: "
+  echo "SymlinkNotFound: $RPT_DIR_SYMLINK"
   exit 32
 fi
 
