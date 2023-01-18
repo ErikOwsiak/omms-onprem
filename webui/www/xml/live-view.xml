@@ -1,0 +1,14 @@
+<div id="liveViewFrame" class="live-view">
+   <div>
+
+   </div>
+      
+   __script
+      /* 1. pull clients
+         2. let user select a client
+         3. pull clients meters   
+         init stream graph */
+      liveView.init();
+   script__
+
+</div>

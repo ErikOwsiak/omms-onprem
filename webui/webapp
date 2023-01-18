@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+
+import configparser as _cp, json, os, redis
+from psycopg2.extensions import connection as __psql_conn
+from flask import Flask, render_template, request
+from www.api.apiOps import apiOps
+from core.debug import debug
+from psql.dbConnServer import dbConnServer
+
+# -- load ini file --
+WEBUI_INI: _cp.ConfigParser = _cp.ConfigParser()
+WEBUI_INI.read("webui.ini")
+WEBUI_PORT: int = WEBUI_INI.getint("WEBUI", "PORT")
+
+# -- -- -- --
+REDIS_SEC = "REDIS_PROD"
+PSQL_CONN_SEC = "PSQL_PROD"
+if debug.is_dev_box():
+   PSQL_CONN_SEC = "PSQL_DEV"
+   REDIS_SEC = "REDIS_DEV"
+# -- -- -- --
+PSQL_CONN_STR = WEBUI_INI.get(PSQL_CONN_SEC, "CONN_STR")
+PSQL_CONN: __psql_conn = dbConnServer.getConnection(PSQL_CONN_STR)
+RED: _cp.SectionProxy = WEBUI_INI[REDIS_SEC]
+RED_CORE: _cp.SectionProxy = WEBUI_INI["REDIS_CORE"]
+REDIS: redis.Redis = redis.Redis(host=RED.get("HOST")
+   , port=RED.getint("PORT"), password=RED_CORE.get("PWD"))
+if not REDIS.ping():
+   print("RedisBadPing!")
+   exit(1)
+
+
+CTYPE_JSON = "text/json"
+
+
+app = Flask(__name__
+   , static_url_path=""
+   , static_folder="www"
+   , template_folder="www")
+
+
+@app.route("/", methods=["GET"])
+@app.route("/home", methods=["GET"])
+def index():
+   return render_template("index.html")
+
+
+"""
+   "/api/get/list-reports";
+"""
+@app.route("/api/get/<item>", methods=["GET"])
+def apiget(item):
+   errcode = 200; CTYPE = "text/plain"
+   # -- create api object and pass the call --
+   if item == "list-reports":
+      buffout = apiOps.list_reports()
+      CTYPE = CTYPE_JSON
+   elif item == "clients":
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn=PSQL_CONN, red=REDIS)
+      buffout = apiops.list_clients()
+      CTYPE = CTYPE_JSON
+   else:
+      buffout = ""; errcode = 404
+   # -- -- return data -- --
+   return buffout, errcode, {"content-type": CTYPE}
+
+@app.route("/api/post", methods=["POST"])
+def apipost():
+   # -- create api object and pass the call --
+   pass
+
+
+# == == == == == == == == == == == == == == == == == == == == == == == == == ==
+# -- -- start app here -- --
+if __name__ == "__main__":
+   app.run(port=WEBUI_PORT)
+# == == == == == == == == == == == == == == == == == == == == == == == == == ==

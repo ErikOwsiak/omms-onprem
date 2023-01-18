@@ -105,3 +105,14 @@ class dbOps(object):
          logProxy.log_exp(e)
       finally:
          cur.close()
+
+   def get_active_clients(self) -> []:
+      cur: cursor = self.conn.cursor()
+      try:
+         qry = "select t.* from config.clients t where t.is_deleted = false;"
+         cur.execute(qry)
+         return cur.fetchall()
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
