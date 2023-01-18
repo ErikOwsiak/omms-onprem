@@ -1,0 +1,20 @@
+<div id="databaseEditorFrame" class="db-editor-frame">
+   <div id="dbEditorFrmHeader" class="dbEditor-frm-header">
+      <span>database editor</span>
+   </div>
+   <div class="db-editor-frm-body">
+      <div id="dbEditorFrmLfCol" class="db-editor-frm-lf-col">
+         <div class="div-filter-frame">
+            <input type="text" id="txtObjSelFilter" placeholder="filter items"/>
+         </div>
+         <div id="dbObjSelector" class="db-obj-sel">
+         </div>
+      </div>
+      <div id="dbEditorFrmRtCol" class="db-editor-frm-rt-col">
+      </div>
+   </div>
+   __script
+      app.__databaseTable = new databaseTable();
+      app.__databaseTable.attachFilter();
+   script__
+</div>

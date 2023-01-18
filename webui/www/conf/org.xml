@@ -1,0 +1,25 @@
+<org>
+
+   <level type="geolocaton" id="1" name="Gdynia" enabled="true">
+      <level type="building" id="1" name="Centrum Kwiatkowskiego">
+         <level id="1" type="electricalroom" targetfor="meter" name="P16">
+         </level>
+         <level id="2" type="electricalroom" targetfor="meter" name="B410">
+         </level>
+         <level id="3" type="electricalroom" targetfor="meter" name="">
+         </level>
+      </level>
+   </level>
+
+   <level type="geolocaton" id="2" name="Gdańsk" enabled="true">
+      <level type="building" id="1" name="Hotel Central">
+         <level type="electricalroom" id="1" name="">
+         </level>
+         <level type="electricalroom" id="2" name="">
+         </level>
+         <level type="electricalroom" id="2" name="">
+         </level>
+      </level>
+   </level>
+
+</org>

@@ -1,0 +1,41 @@
+<div id="streamFrame" class="stream-frame">
+   <div id="streamFrmHeader" class="stream-frm-header">
+   </div>
+   <div class="stream-frm-body">
+      <div id="streamFrmLfCol" class="stream-frm-lf-col">
+      </div>
+      <div id="streamFrmRtCol" class="stream-frm-rt-col">
+      </div>
+   </div>
+   <!-- bottom controls will go in here -->
+   <div id="sfBottomDiv" class="sf-botoom-div">
+      <div id="realtimeStreamSelector" class="fldset-bdy">
+         histogram:&nbsp;<input id="__histogram" name="_streamType" 
+            type="radio" checked="checked" />&nbsp;&nbsp;
+         runtime:&nbsp;<input id="__basic_pwr_stats" name="_streamType" 
+            type="radio" />&nbsp;&nbsp;
+         kWhrs:&nbsp;<input id="__kwhrs" name="_streamType" 
+            type="radio" />&nbsp;&nbsp;
+         view last: <select id="histoHrs">
+               <option value="1">1 hr</option>
+               <option value="3" selected>3 hrs</option>
+               <option value="6">6 hrs</option>
+               <option value="12">12 hrs</option>
+               <option value="24">24 hrs</option>
+            </select>
+      </div>
+   </div>
+   __script
+      /* init stream graph */
+      clickRouter.initGraphSelector();
+      /* - - */
+      $("#streamSelector").removeAttr("disabled");
+      /*realtimeMonitor.clearTimers();
+      realtimeMonitor.streamTbl = null;
+      realtimeMonitor.meterDBID = null;
+      realtimeMonitor.callback = gui.displayRealtime;
+      setTimeout(realtimeMonitor.tick, 200);*/
+      /* -- */
+      app.initStreamFrame();
+   script__
+</div>

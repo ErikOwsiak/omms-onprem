@@ -1,0 +1,256 @@
+
+.reports-menu-head {
+   width: 96%;
+   margin: auto;
+   text-align: center;
+   border-bottom: 1px dotted #3f3f61;
+}
+
+.reports-menu-body {
+   width: 90%;
+   height: 68vh;
+   margin: 2vh auto;
+   /*border: 1px dotted blue;
+   border-radius: 1vh;*/
+}
+
+.nav-sub-btns {
+   display: none;
+}
+
+.kwhrs-rpt-header {
+   display: block;
+   width: 96%;
+   height: 8vh;
+   line-height: 8vh;
+   margin: 2vh auto;
+   border: 1px solid rgb(85, 84, 100);
+   border-radius: 2vh;
+}
+
+.kwhrs-rpt-header h2 {
+   display: inline-block;
+   vertical-align: top;
+   margin: 0 1vw;
+}
+
+.kwh-selector {
+   display: inline-block;
+}
+
+.fldset-kwhrs-rpt {
+   display: inline-block;
+   width: 96%;
+   margin: 2vh 1%;
+   text-align: right;
+   border-radius: 8px;
+}
+
+.kwhrs-rpt-body {
+   width: 96%;
+   height: 80vh;
+   margin: 2vh 2%;
+}
+
+.kwhrs-rpt-clt {
+   width: 98%;
+   margin: 8px;
+   border: 0px dotted red;
+}
+.clt-meter-hdr {
+   height: 3.2vh;
+   line-height: 3.2vh;
+   font-size: 2vh;
+   border: 1px solid #3f3f61;
+   border-radius: 1.6vh;
+   background-color: #8888df50;
+}
+
+.clt-meter-hdr div {
+   display: inline-block;
+}
+
+.clt-meter-hdr div:nth-child(1) {
+   width: 60%;
+   margin-left: 1vh;
+}
+
+.clt-meter-hdr div:nth-child(2) {
+   width: 20%;
+}
+
+.clt-meter-hdr div:nth-child(3) {
+   width: 18%;
+   text-align: right;
+}
+
+.kwhrs-rpt-ln {
+   width: 96%;
+   height: 2.4vh;
+   line-height: 2.4vh;
+   margin: 1vh 0 1vh 2%;
+   font-size: 1.6vh;
+   text-indent: 1vh;
+   border: 1px solid #606070;
+   border-radius: 1.1vh;
+}
+
+.kwhrs-rpt-ln div {
+   display: inline-block;
+}
+
+.kwhrs-rpt-ln div:nth-child(1) {
+   width: 22%;
+}
+
+.kwhrs-rpt-ln div:nth-child(2) {
+   width: 62%;
+   border-left: 1px solid #96979c;
+}
+
+.kwhrs-rpt-ln div:nth-child(3) {
+   width: 12%;
+   text-align: right;
+   float: right;
+   margin-right: 1.1vh;
+   border-left: 1px solid #96979c;
+}
+
+/*.kwhrs-rpt-ln div:nth-child(4) {
+   width: 28%;
+   text-align: right;
+}*/
+
+.kwhrs-rpt-ln:nth-child(even) {
+   background-color: rgba(226, 226, 235, 0.8);
+}
+
+.kwhrs-rpt-ln:last-child {
+   margin-bottom: 3.2vh;
+}
+
+/* preview table */
+.kwhrs-rpt-preview {
+   width: 98%;
+   margin: 2vh auto;
+   border: 1px solid rgb(103, 100, 134);
+   border-radius: 8px;
+}
+
+.kwhrs-rpt-preview th {
+   height: 4vh;
+   line-height: 4vh;
+   text-align: left;
+   text-indent: 2px;
+   font-size: 2.4vh;
+   border-bottom: 1px solid rgb(103, 100, 134);
+   background-color: rgba(86, 70, 160, 0.32);
+}
+
+.kwhrs-rpt-preview td {
+   height: 2.8vh;
+   line-height: 2.8vh;
+   text-align: left;
+   text-indent: 8px;
+}
+
+.kwhrs-rpt-preview tr th:last-child {
+   text-align: center;
+   border-radius: 0 8px 0 0;
+}
+
+.kwhrs-rpt-preview tr th:first-child {
+   border-radius: 8px 0 0 0;
+}
+
+.kwhrs-rpt-preview tr td:last-child {
+   text-align: right;
+   padding-right: 8px;
+}
+
+.kwhrs-rpt-preview tr:nth-child(even) {
+   background-color: aliceblue;
+}
+
+.kwhrs-t1 {
+   font-size: 1.8vh;
+   font-weight: bold;
+}
+
+.kwh-bottom-bar-ctrl {
+   text-align: right;
+}
+
+.kwh-bottom-bar-ctrl input {
+   margin-right: 2vw;
+   font-size: 2.4vh;
+}
+
+.year_files {
+   height: 14vh;
+   margin-top: 1vh;
+   text-align: center;
+   /* border: 1px dotted rebeccapurple; */
+}
+
+div.rpt_lst_hdr {
+   margin-top: 3vh;
+   font-size: 3.2vh;
+   color: rgb(41, 59, 119);
+}
+
+div.no_xl, div.gd_xl {
+   display: inline-block;
+   width: 6.4%;
+   height: 12vh;
+   margin: 0.5vh 0.5%;
+   text-align: center;
+   vertical-align: top;  
+   border-radius: 1vh;
+}
+
+div.gd_xl:hover {
+   cursor: pointer;
+} 
+
+div.gd_xl {
+   border: 2px solid rgb(63, 104, 194);
+}
+
+div.no_xl {
+   border: 2px solid rgb(136, 35, 10);
+   opacity: 0.28;
+}
+
+div.no_xl > div:nth-child(1), div.gd_xl > div:nth-child(1) {
+   width: 90%;
+   margin: 0.5vh 5% 0 5%;
+   height: 8vh;
+   border-radius: 1vh;
+}
+
+div.gd_xl > div:nth-child(1) {
+   background-position: center;
+   background-size: 68%;
+   background-repeat: no-repeat;
+   background-image: url(/xicons/xls-file_64px.png);
+}
+
+div.no_xl > div:nth-child(1) {
+   background-position: center;
+   background-size: 68%;
+   background-repeat: no-repeat;
+   background-image: url(/xicons/no_file_64px.png);
+}
+
+div.no_xl > div:nth-child(2), div.gd_xl > div:nth-child(2) {
+   font-size: 1.6vh;
+}
+
+div.yr_hdr {
+   text-align: right;
+   margin-top: 0.8vh;
+   font-size: 2.2vh;
+   padding-right: 1vh;
+   border-bottom: 2px solid rgb(56, 63, 107);
+}

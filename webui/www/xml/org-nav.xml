@@ -1,0 +1,16 @@
+<div id="orgNav" class="org-nav">
+   <!-- static displays org head; root; zero element -->
+   <div id="orgNavHead" class="org-nav-head">
+   </div>
+   <!-- this where all the clicking takes place -->
+   <div id="orgNavBody" class="org-nav-body">
+   </div>
+   <div id="orgNavBodyBusy" class="org-nav-body-busy">
+      <img src="/imgs/loading.gif"/>
+      <div>loading data for:</div>
+   </div>
+   __script
+      app.orgNav = new orgNavigator();
+      app.orgNav.init();
+   script__
+</div>

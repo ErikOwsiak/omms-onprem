@@ -1,0 +1,16 @@
+<div id="lbPane" class="lb-pane">
+   <div class="lb-pane-head">
+      <div id="lbPaneTitle0" class="lb-pane-title0">
+      </div>
+      <div id="lbPaneTitle1" class="lb-pane-title1">
+      </div>
+      <div id="lbPaneClose" class="lb-pane-close">
+      </div>
+   </div>
+   <div id="lbPaneBody" class="lb-pane-body">
+   </div>
+   <div id="lbPaneBottom" class="lb-pane-bottom">
+   </div>
+   __script
+   script__
+</div>

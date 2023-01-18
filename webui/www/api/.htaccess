@@ -1,0 +1,42 @@
+
+RewriteEngine on
+
+RewriteRule ^(get)/(org)$ api.py?method=$1&api=$2
+# meter calls
+# RewriteRule ^(get)/(meters)$ api.py?method=$1&api=$2
+RewriteRule ^(get)/(meters)/(.*)$ api.py?method=$1&api=$2&flags=$3
+# client calls
+RewriteRule ^(get)/(clients)$ api.py?method=$1&api=$2
+RewriteRule ^(get)/(circuits)$ api.py?method=$1&api=$2
+RewriteRule ^(get)/(clt-circuits)$ api.py?method=$1&api=$2
+RewriteRule ^(get)/(datalists)/(.*) api.py?method=$1&api=$2&dl=$3
+RewriteRule ^(get)/(histogram)/(.*)$ api.py?method=$1&api=$2&mid=$3
+RewriteRule ^(get)/(table-info)/(.*)$ api.py?method=$1&api=$2&tbl=$3
+RewriteRule ^(get)/(elc-room-meters)/(.*)$ api.py?method=$1&api=$2&entityTag=$3
+RewriteRule ^(get)/(elc-room-meters-active)/(.*)$ api.py?method=$1&api=$2&entityTag=$3
+
+RewriteRule ^v1/(get)/(histogram)/([0-9]{1,2})/(.*)$ api_v1.py?method=$1&api=$2&hrs=$3&mid=$4
+RewriteRule ^v1/(get)/(edgestats)/(.*)$ api_v1.py?method=$1&api=$2&hostname=$3
+RewriteRule ^v1/(get)/(overview)$ api_v1.py?method=$1&api=$2
+
+
+RewriteRule ^(get)/(lastreading)/([_a-zA-Z]{4,32})/([0-9]{4,6})$ \
+   api.py?method=$1&api=$2&tbl=$3&mid=$4
+
+# reports
+RewriteRule ^(get)/(report)/(client-kwhrs)/([a-zA-Z0-9\-]{4,32})/(.*)/(.*)$ \
+   api.py?method=$1&api=$2&rpt=$3&clttag=$4&sd=$5&ed=$6
+
+# config calls
+RewriteRule ^(put)\/(config)\/(.*)$ api.py?method=$1&api=$2&load=$3
+RewriteRule ^(del)\/(config)\/(.*)$ api.py?method=$1&api=$2&load=$3
+# RewriteRule ^(put)/(clt-circuits)/(.*)$ api.py?method=$1&api=$2&load=$3
+# RewriteRule ^(del)/(clt-circuits)/(.*)$ api.py?method=$1&api=$2&load=$3
+
+# fetch for datalist
+# /get/fetchcol/reports.clients/client_tag
+RewriteRule ^(get)/(fetchcol)/([a-z\-_\.]{8,32})/([a-z\-_\|]{4,32})$ \
+   api.py?method=$1&api=$2&tbl=$3&col=$4
+
+RewriteRule ^(get)/(table)/([a-z\-_\|]{4,32})$ api.py?method=$1&api=$2&tbl=$3
+RewriteRule ^(get)/(table)/([a-z\-_\|]{4,32})/(.*)$ api.py?method=$1&api=$2&tbl=$3&args=$4

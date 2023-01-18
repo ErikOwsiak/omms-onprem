@@ -1,0 +1,66 @@
+
+.realtime-frame {
+   width: 94%;
+   margin: 1.8vh auto 0 auto;
+   border: 0px dotted gainsboro;
+}
+
+.stream-frm-header {
+   width: 98%;
+   height: 4.6vh;
+   line-height: 4.6vh;
+   font-size: 1.8vh;
+   margin: 2vh auto;
+   /*border: 1px solid #535258;
+   border-radius: 1vh;*/
+   border-bottom: 1px solid #a4a3aa;
+   text-indent: 1vw;
+}
+
+.stream-frm-body {
+   display: inline-block;
+   width: 98%;
+   height: 70vh;
+   margin-left: 1%;
+}
+
+.stream-frm-lf-col, .stream-frm-rt-col {
+   display: block;
+   width: 48%;
+   height: 60vh;
+   border: 0px dotted red;
+}
+
+.stream-frm-lf-col {
+   float: left;
+   margin-left: 1.6%;
+}
+
+.stream-frm-rt-col {
+   float: right;
+   margin-right: 1.6%;
+}
+
+
+.read-item {
+   width: 98%;
+   height: auto;
+   line-height: auto;
+   margin: 1vh auto 0 auto;
+   font-size: 2vh;
+   border: 1px solid #535258;
+   border-radius: 4px;
+   text-align: right;
+   padding: 2px;
+}
+
+.read-item:nth-child(even) {
+   background-color: rgba(209, 204, 204, 0.48);
+}
+
+.read-item input {
+   width: 42%;
+   margin-left: 1vw;
+   font-size: 2vh;
+   text-indent: 8px;
+}

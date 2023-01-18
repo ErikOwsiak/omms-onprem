@@ -1,0 +1,79 @@
+
+.settings-menu-head {
+   width: 96%;
+   margin: auto;
+   text-align: center;
+   border-bottom: 1px dotted;
+}
+
+.settings-menu-body {
+   width: 90%;
+   height: 68vh;
+   margin: 2vh auto;
+   border: 0px dotted blue;
+   border-radius: 1vh;
+}
+
+.data-form {
+   display: inline-block;
+   width: 82%;
+   height: auto;
+   margin: 8vh 8%;
+   font-size: 2.4vh;
+   padding-left: 2vw;
+   border: 0px dotted red;
+   border-radius: 1vh;
+}
+
+.data-form input {
+   width: 80%;
+   font-size: 2vh;
+}
+
+.data-form input[type=button] {
+   width: auto !important;
+   font-size: 2.2vh;
+   padding: 1vh 2vw;
+}
+
+.data-form input[type=button]:hover {
+   cursor: pointer;
+}
+
+
+.data-form p {
+   margin: 0;
+   font-size: 1.4vh;
+}
+
+.data-frm-ln {
+   margin: 2vh 0;
+}
+
+.data-form label {
+   display: block;
+}
+
+.data-frm-col-left {
+   display: block;
+   width: 48%;
+   float: left;
+   border: 0px solid rgb(58, 62, 114);
+   border-radius: 1vh;
+}
+
+.data-frm-col-right {
+   display: block;
+   width: 48%;
+   float: right;
+   border: 0px solid rgb(58, 62, 114);
+   border-radius: 1vh;
+}
+
+.sel-cir-tag {
+   width: 80%;
+   min-height: 10vh;
+   max-height: 62vh;
+   border: 2px solid rgb(114, 116, 126);
+   overflow-y: scroll;
+}

@@ -1,0 +1,21 @@
+<div id="kWhrsRptFrame" class="consumption-rpt-frame">
+   <div id="kwhrsRptBody" class="kwhrs-rpt-body">
+   </div>
+   __script
+
+      /* $("#dateRangeSelector").off().on("change", app.quickSelectChanged);
+         app.kWhrsClicks = new appClicks();
+         $("#btnRunReport").off().on("click", app.kWhrsClicks.run_kWhrsReport);
+         $("#btnExportReport").off().on("click", app.kWhrsClicks.export_kWhrsReport);
+         $("#kWhrsRptFrame .kwhrs-rpt-body").html("");
+         app.lastFiveYears("selReportKwhrsYear"); */
+      
+         /* -- */
+      if (app.restapi)
+         app.restapi = null;
+      /* -- */
+      app.restapi = new restAPI();
+      app.restapi.getKwhrsReportList(app.renderReportFiles);
+
+   script__
+</div>

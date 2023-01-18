@@ -1,0 +1,87 @@
+
+.sys-overview {
+   width: 90%;
+   margin: 4vh auto;
+}
+
+.sys-overview .pane-head {
+   height: 6vh;
+   line-height: 6vh;
+   font-size: 3.2vh;
+   border-bottom: 1px solid rgb(9, 9, 94);
+}
+
+.sf-botoom-div {
+   width: 80%;
+   margin: 1vh auto 0 auto;
+   padding: 0.8vh 0;
+   font-size: 1.6vh;
+   text-align: center;
+   border: 1px solid #dcdcdc;
+   border-radius: 4px;
+}
+
+div.sys-ping {
+   width: 96%;
+   height: 4vh;
+   line-height: 4vh;
+   margin: 1vh auto;
+   font-size: 2vh;
+   border: 2px solid #6b6c75;
+   border-radius: 1vh;
+}
+
+div.ping-ontime {
+   background-color: rgba(142, 228, 130, 0.1);
+}
+
+div.ping-late {
+   background-color: rgba(228, 130, 154, 0.1);
+}
+
+div.sys-ping:first-child {
+   margin-top: 4vh;
+}
+
+div.sys-ping div {
+   display: inline-block;
+}
+
+div.sys-ping div:nth-child(1) {
+   text-indent: 8px;
+   width: 38%;
+}
+
+div.sys-ping div:nth-child(2) {
+   width: 32%;
+}
+
+div.sys-ping div:nth-child(3) {
+   width: 28%;
+}
+
+div.ping-status-hdr {
+   width: 96%;
+   margin: 4vh auto 0 auto;
+   font-size: 2.2vh;
+   font-weight: bold;
+   text-indent: 1vh;
+}
+
+.less5, .over5 {
+   margin: auto 8px;
+   padding: 2px 8px;
+   font-size: 1.8vh !important;
+   font-weight: normal !important;
+   float: right;
+   border: 1px solid #4f5374 !important;
+   border-radius: 4px;
+}
+
+.less5 {
+   background-color: rgba(142, 228, 130, 0.1);
+}
+
+.over5 {
+   background-color: rgba(228, 130, 154, 0.1);
+}

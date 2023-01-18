@@ -1,0 +1,11 @@
+<div id="systemOverview" class="sys-overview">
+   <div class="pane-head">
+      <span>System Overview</span>
+   </div>
+   <div id="soPaneBody" class="so-pane-body"> 
+   </div>
+   __script
+      app.sysOverview = new SystemOverview("systemOverview")
+      setTimeout(app.sysOverview.tick, 200);
+   script__
+</div>

@@ -1,0 +1,8 @@
+
+.canvas-amps {
+   width: 98%;
+   height: 68vh !important;
+   margin-left: calc(1% - 2px);
+   border: 0px solid rgb(69, 72, 121);
+   border-radius: 1vh;
+}

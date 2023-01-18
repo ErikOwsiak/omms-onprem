@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>openbms::server</title>
+      <link type="text/css" rel="stylesheet" href="/css/includes.css" />
+      <!-- include javascript app code -->
+      <!--#include virtual="/js/sbms-app-js.includes" -->
+   </head>
+   <body>
+      <div class="app-top-bar">
+         <div class="top-menu-bar">
+            <div id="userID" class="user-id"></div>
+            <appbtn acl="1" id="loadOrNav" selcolor="" submsg="">meter-nav</appbtn>
+            <appbtn acl="1" id="systemReports" selcolor="" submsg="configure & run system reports">reports</appbtn>
+            <appbtn acl="15" id="systemSettings" selcolor="" submsg="select meter">settings</appbtn>
+            <appbtn acl="15" id="ogpio" selcolor="" submsg="set gpio">open-gpio</appbtn>
+            <appbtn acl="1" id="systemHelp" selcolor="" submsg="select meter">help</appbtn>
+            <!-- home & exit -->
+            <appbtn acl="1" id="home" class="home" title="home"></appbtn>
+            <appbtn acl="1" id="logout" class="logout" title="logout"></appbtn>
+         </div>
+      </div>
+      <div id="appBodyBox" class="app-body-box">
+         <div id="appViewport" class="app-viewport">
+         </div>
+         <!-- submenu stuff get stuffed into this -->
+         <div id="subMenuCol" class="app-submenu-col">
+         </div>
+      </div>
+      <div id="dataBlock" style="display:none;">
+         <dts><!--#echo var="DATE_LOCAL" --></dts>
+         <div id="xmlForms">
+            <!--#include virtual="/xml/stream-frame.xml" -->
+            <!--#include virtual="/xml/reports.xml" -->
+            <!--#include virtual="/xml/settings.xml" -->
+            <!--#include virtual="/xml/consuption-rpt-frame.xml" -->
+            <!--#include virtual="/xml/system-overview.xml" -->
+         </div>
+         <div id="orgXml">
+            <!--#include virtual="/xml/org-nav.xml" -->
+         </div>
+         <div id="dataXmlForms">
+            <!--#include virtual="/xml/settings-data-forms.xml" -->
+            <!--#include virtual="/xml/db-editor-frame.xml" --> 
+         </div>
+         <div id="guiParts">
+            <!--#include virtual="/xml/lightbox-pane.xml" -->
+         </div>
+      </div>
+   </body>
+</html>

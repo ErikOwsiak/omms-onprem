@@ -1,0 +1,68 @@
+<div id="xmlSettings">
+   <div id="settingsMenuHead" class="settings-menu-head">
+      <h1>settings</h1>
+      <p>configure system settings</p>
+   </div>
+   <div id="settingsMenuBody" class="settings-menu-body">
+      <div class="submenu-buttons">
+         <navbtn id="settingsClient" tbl="clients" class="nav-btn">
+            <div class="nav-btn-lbl">
+               <span>client(s)</span>
+            </div>
+            <div class="nav-sub-btns">
+               <div></div>
+            </div>
+         </navbtn>
+         <navbtn id="settingsSpaces" tbl="spaces" class="nav-btn">
+            <div class="nav-btn-lbl">
+               <span>space(s)</span>
+            </div>
+            <div class="nav-sub-btns">
+               <div></div>
+            </div>
+         </navbtn>
+         <navbtn id="settingsCircuit" tbl="circuits" class="nav-btn">
+            <div class="nav-btn-lbl">
+               <span>circuit(s)</span>
+            </div>
+            <div class="nav-sub-btns">
+               <div></div>
+            </div>
+         </navbtn>
+         <navbtn id="settingsClientSpaceCircuits" tbl="client_space_circuits" class="nav-btn">
+            <div class="nav-btn-lbl">
+               <span>client::space::circuit(s)</span>
+            </div>
+            <div class="nav-sub-btns">
+               <div></div>
+            </div>
+         </navbtn>
+         <navbtn id="settingsMeters" tbl="meters" class="nav-btn">
+            <div class="nav-btn-lbl">
+               <span>meter(s)</span>
+            </div>
+            <div class="nav-sub-btns">
+               <div></div>
+            </div>
+         </navbtn>
+
+         <!--
+         <navbtn id="settingsClientSpaceCircuits" tbl="client_space_circuits" class="nav-btn">
+            <div class="nav-btn-lbl">
+               <span>client::space::circuits</span>
+            </div>
+            <div class="nav-sub-btns">
+               <div></div>
+            </div>
+         </navbtn>
+         -->
+
+      </div>
+   </div>
+   __script
+      gui.clearViewport();
+      app.subNav = new submenuNav("settingsMenuBody");
+      app.dataOps = new dataOps();
+      app.dataOps.getOrg();
+   script__
+</div>

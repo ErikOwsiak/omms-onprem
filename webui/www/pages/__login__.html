@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>openbms::login</title>
+   <link type="text/css" rel="stylesheet" href="/css/login.css" />
+   <script src="/js/session.js"></script>
+   <script src="/js/login.js"></script>
+</head>
+<body>
+   <div class="page-head">
+   </div>
+   <div class="page-body">
+      <div class="logo-div bms-logo">
+         <div class="xform">
+            <form method="POST" action="/do/login">
+               <div>
+                  <input type="text" id="UID" name="UID" required placeholder="user id" />
+               </div>
+               <div>
+                  <input type="password" id="PWD" name="PWD" required placeholder="user password" />
+               </div>
+               <div>
+                  <input type="submit" value="login" />
+               </div>
+               <div id="msgBox" class="msg-box">
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+   <div class="page-footer">
+   </div>
+</body>
+</html>

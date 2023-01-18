@@ -1,0 +1,54 @@
+<div id="settingsDataForms">
+   <!-- client form -->
+   <div id="clientForm" class="data-form clt-form">
+      <div class="data-frm-ln">
+         <label>unique client tag:</label>
+         <input type="text" id="txtCltLbl" maxlength="32" />
+         <p>use tax ID / NIP a unique number or name</p>
+      </div>
+      <div class="data-frm-ln">
+         <label>unique client name:</label>
+         <input type="text" id="txtCltName" maxlength="32" />
+      </div>
+      <div class="data-frm-ln">
+         <input type="button" id="btnClientAddEdit" value="add" />
+      </div>
+      __script
+         console.log("clientForm");
+      script__
+   </div>
+   <!-- circuit form -->
+   <div id="circuitForm" class="data-form cir-form">
+      <div class="data-frm-col-left">
+         <div class="data-frm-ln">
+            <label>find circuit tag:</label>
+            <input type="text" id="txtSearchCirTag" maxlength="32" />
+            <p>type 1R1.1 etc...</p>
+         </div>
+         <div id="selCirTags" class="sel-cir-tag">
+         </div>
+      </div>
+      <div class="data-frm-col-right">
+         <div class="data-frm-ln">
+            <label>unique circuit tag:</label>
+            <input type="text" id="txtCirTag" maxlength="32" />
+            <p>1R2.03 or 1R1.1 etc...</p>
+         </div>
+         <div class="data-frm-ln">
+            <label>max amps:</label>
+            <input type="text" id="txtMaxCirAmps" maxlength="4" pattern="[0-9]{1,4}" />
+         </div>
+         <div class="data-frm-ln">
+            <label>entag:</label>
+            <input type="text" id="txtEnTag" maxlength="32" />
+            <p>enterpise wide building tag</p>
+         </div>
+         <div class="data-frm-ln">
+            <input type="button" id="btnClientAddEdit" value="add&middot;update" />
+         </div>
+      </div>
+      __script
+         console.log("circuitForm");
+      script__
+   </div>
+</div>

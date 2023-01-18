@@ -1,0 +1,126 @@
+
+#dbTableForm {
+   margin-top: 2vh;
+}
+
+#dbTableForm label {
+   font-size: 1.6vh;
+   margin-left: 8.4%;
+   font-weight: bold;
+}
+
+.div-filter-frame {
+   width: 92%;
+   margin: 4vh auto 2vh auto;
+   border: 0px dotted #dcdcdc;
+}
+
+.div-filter-frame input{
+   width: 99%;
+   font-size: 2.2vh;
+   border: 2px solid #35363f;
+   border-radius: 4px;
+}
+
+.dbEditor-frm-header {
+   width: 94%;
+   height: 4vh;
+   line-height: 4vh;
+   margin: 1vh auto;
+   font-size: 2.4vh;
+   text-indent: 1vw;
+   border: 1px solid rgb(51, 54, 65);
+   border-radius: 1vh;
+   background-color: rgba(233, 239, 245, 0.64);
+}
+
+.db-editor-frm-body {
+   width: 92%;
+   height: 78vh;
+   margin: 1vh auto;
+   border: 0px dotted blue;
+}
+
+.db-editor-frm-rt-col, .db-editor-frm-lf-col {
+   display: inline-block;
+   width: 48%;
+   height: calc(100% - 2px);
+   margin: 0 0.8%;
+   vertical-align: top;
+   border: 1px solid rgb(90, 90, 95);
+   border-radius: 1vh;
+}
+
+.db-input-txt, .db-input-int
+   , .db-input-real {
+   width: 82%;
+   margin: 2px 0 0.8vh 8%;
+   font-size: 2.2vh;
+}
+
+.db-editor-frm-rt-col input:first-child {
+   margin-top: 8vh;
+}
+
+.db-obj-sel {
+   width: 92%;
+   height: 66vh;
+   margin-left: 3.8%;
+   border: 2px solid rgb(98, 98, 102);
+   border-radius: 4px;
+   overflow-y: scroll;
+}
+
+.clt-sel-item {
+   width: 96%;
+   height: auto;
+   margin: 1vh auto;
+   padding: 4px 0;
+   border: 1px solid rgb(162, 165, 238);
+   border-radius: 4px;
+}
+
+.clt-sel-item:hover {
+   cursor: pointer;
+   background-color: rgba(218, 219, 243, 0.64);
+}
+
+.clt-sel-item div {
+   margin: 2px 0;
+   text-indent: 1vh;
+}
+
+.input-frm-btns {
+   width: auto;
+   margin: 2vh 4vw 0 4vw;
+   text-align: center;
+   font-size: 1.8vh;
+   border: 1px solid rgb(128, 128, 133);
+   border-radius: 1vh;
+}
+
+.input-frm-btns input {
+   margin: 1vh 1vh !important;
+   font-size: 1.8vh;
+   padding: 0.8vh 0.8vw;
+}
+
+.input-frm-btns input[type=button]:hover {
+   cursor: pointer;
+}
+
+#dbTableOpCode {
+   display: inline-block;
+   width: 2.8vw;
+   padding: 4px !important;
+}
+
+.head-db-tbl-form {
+   width: 98%;
+   margin: auto;
+   height: 6vh;
+   line-height: 6vh;
+   font-size: 2.8vh;
+   text-indent: 1vw;
+   border-bottom: 1px dotted rgb(160, 160, 167);
+}

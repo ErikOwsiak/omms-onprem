@@ -1,0 +1,37 @@
+<div id="xmlReports">
+   <div id="reportsMenuHead" class="reports-menu-head">
+      <h1>reports</h1>
+      <p>create &amp; run reports</p>
+   </div>
+   <div id="reportsMenuBody" class="reports-menu-body">
+      <navbtn id="kWhrsReports" class="nav-btn">
+         <div class="nav-btn-lbl">
+            <sapn>kWh reports</sapn>
+         </div>
+         <div class="nav-sub-btns">
+            <div></div>
+         </div>
+      </navbtn>
+      <navbtn id="statReports" class="nav-btn greyout">
+         <div class="nav-btn-lbl">
+            <span>stats reports</span>
+         </div>
+         <div class="nav-sub-btns">
+            <div></div>
+         </div>
+      </navbtn>
+      <navbtn id="createReport" class="nav-btn greyout">
+         <div class="nav-btn-lbl">
+            <span>create report</span>
+         </div>
+         <div class="nav-sub-btns">
+            <div>monthly</div>
+            <div>weekly</div>
+            <div>daily</div>
+         </div>
+      </navbtn>
+   </div>
+   __script
+      app.subNav = new submenuNav("reportsMenuBody");
+   script__
+</div>

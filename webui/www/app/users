@@ -1,0 +1,10 @@
+# user id; pwd md5 hash; acl;
+# acl bits:
+# 0th: enable/disable; 1st: read; 2nd: write; 3rd: admin
+# disabled admin
+# read only
+# versus admin ~ versus4321abcd
+versus.user;0ee1c15e03661f1d4a02b8503d52b4f1;1;
+versus.admin;dfe93f755c8d2206b357b8b166ff8b1a;15;
+guest;fac38cbc2e0af6719ea5c399e832739e;1;
+erik.owsiak;f307d5af652d43816428a884fb1fab4c;15;

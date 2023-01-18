@@ -1,0 +1,11 @@
+<div id="DBID_${dbid}" dbid="${dbid}" class="cls_meter">
+   <jsonbuff>${JSON.stringify(item)}</jsonbuff>  
+   <div class="meter-txt-info">
+      <div class="meter_ln cls_cir_lbl">name: <b>${item.circuit_label}</b></div> 
+      <div class="meter_ln cls_bus_type">bus type: <b>${item.bus_type}</b></div> 
+      <div class="meter_ln cls_meter_adr">bus address: <b>${item.bus_address}</b></div>
+   </div>
+   <div class="meter">
+
+   </div>
+</div>

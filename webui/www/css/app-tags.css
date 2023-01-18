@@ -1,0 +1,112 @@
+
+
+jsonbuff {
+   display: none;
+}
+
+appbtn {
+   height: 3.2vh;
+   line-height: 3.2vh;
+   padding: 4px 16px;
+   /* - - */
+   display: inline-block;
+   border: 1px solid #352a77;
+   border-right-width: 4px;
+   border-left-width: 4px;
+   border-radius: 1vh;
+   margin: 2.8vh 2vh 0 0;
+   vertical-align: top;
+}
+
+appbtn:hover {
+   background-color: lavender;
+   cursor: pointer;
+}
+
+appbtn.logout, appbtn.home {
+   width: 4.8vh !important;
+   height: 4.8vh !important;
+   /* - - */
+   display: inline-block;
+   border: 0 !important;
+   margin: 2vh 1vh 0 0 !important;
+   padding: 4px !important;
+   vertical-align: top;
+   background-position: center;
+   background-size: contain;
+   background-repeat: no-repeat;
+}
+
+appbtn.logout:hover, appbtn.home:hover  {
+   background-color: #ffffff00 !important;
+}
+
+appbtn.logout {
+   margin-right: 1vw !important;
+   background-image: url(/xicons/logout128.png);
+}
+
+appbtn.home {
+   margin-left: 2vw !important;
+   background-image: url(/xicons/home128.png);
+}
+
+appbtn_clicked {
+   background-color: rgb(229, 240, 229);
+}
+
+xb {
+   display: inline-block;
+   width: 32%;
+   font-weight: bold;
+}
+
+navbtn {
+   /* - - */
+   display: inline-block;
+   width: 80%;
+   height: 4.2vh;
+   line-height: 4.2vh;
+   font-size: 2.2vh;
+   text-indent: 1vw;
+   /* - - */
+   border: 1px solid #352a77;
+   border-right-width: 4px;
+   border-left-width: 4px;
+   border-radius: 1vh;
+   margin: 2vh 0 0 10%;
+   vertical-align: top;
+}
+
+navbtn:hover {
+   cursor: pointer;
+   background-color: rgba(218, 219, 243, 0.637);
+}
+
+.btnhov:hover {
+   cursor: pointer;
+   background-color: rgba(218, 219, 243, 0.637);
+}
+
+
+navbtn.greyout {
+   opacity: 0.32;
+   filter: grayscale(100%);
+}
+
+navbtn.greyout:hover {
+   cursor: default;
+   background-color: #ffffff;
+}
+
+/* lightbox */
+lightbox {
+   position: absolute;
+   display: inline-block;
+   top: 0px;
+   left: 0px;
+   width: 100vw;
+   height: 100vh;
+   z-index: 32;
+   background-color: rgba(53, 38, 119, 0.28);
+}

@@ -1,0 +1,130 @@
+
+
+
+.org-nav-head {
+   text-align: center;   
+}
+
+.et_business {
+   display: block;
+   width: 96%;
+   height: 8vh;
+   margin: 1vh auto;
+   line-height: 8vh;
+   font-size: 3.2vh;
+   text-align: center;
+   border-bottom: 1px dotted rgb(53, 53, 77);
+}
+
+.et_geoloc {
+   display: block;
+   width: 94%;
+   margin: 1vh auto;
+   border: 0px dotted rgb(42, 42, 116);
+   border-radius: 1vh;
+}
+
+.et_geoloc .et_head {
+   display: block;
+   width: 98%;
+   min-height: 4.8vh;
+   line-height: 4.8vh;
+   margin: 1vh auto;
+   font-size: 2.8vh;
+   text-align: left;
+   text-indent: 1vh;
+   border: 1px solid rgb(49, 49, 201);
+   border-radius: 1vh;
+}
+
+.et_geoloc .et_head:hover {
+   background-color: rgba(30, 143, 255, 0.082);
+   cursor: pointer;
+}
+
+.et_building {
+   display: block;
+   width: 94%;
+   margin: 1vh auto;
+   border: 0px dotted rgb(42, 42, 116);
+   border-radius: 1vh;
+}
+
+.et_building .et_head {
+   display: block;
+   width: 94%;
+   min-height: 4.2vh;
+   line-height: 4.2vh;
+   margin: 1vh auto;
+   font-size: 2vh;
+   text-align: left;
+   text-indent: 1vh;
+   border: 1px solid rgb(49, 49, 201);
+   border-radius: 1vh;
+}
+
+.et_building .et_head:hover {
+   background-color: rgba(30, 143, 255, 0.082);
+   cursor: pointer;
+}
+
+.et_electricalroom {
+   display: block;
+   width: 94%;
+   margin: 1vh auto;
+   border: 0px dotted rgb(42, 42, 116);
+   border-radius: 1vh;   
+}
+
+.et_electricalroom .et_head {
+   min-height: 3.6vh;
+   line-height: 3.6vh;
+   font: 1.6vh;
+   margin: 1vh auto;
+   border: 1px solid rgb(49, 49, 201);
+   border-radius: 1vh; 
+}
+
+.et-clicked-box {
+   text-align: center;
+}
+
+.meter_clicker {
+   width: 96%;
+   height: auto;
+   text-align: center;
+}
+
+.meter_button {
+   display: inline-block;
+   width: 44%;
+   height: 2.6vh;
+   line-height: 2.6vh;
+   margin: 0.4vh;
+   font-size: 2vh;
+   border: 1px solid rgb(49, 49, 201);
+   border-radius: 1vh;
+}
+
+.meter_button_dim {
+   display: inline-block;
+   width: 44%;
+   height: 2.6vh;
+   line-height: 2.6vh;
+   margin: 0.4vh;
+   font-size: 2vh;
+   border: 1px solid rgb(49, 49, 201);
+   border-radius: 1vh;
+   opacity: 0.36;
+}
+
+.meter_button:hover {
+   background-color: rgba(10, 111, 211, 0.267);
+   cursor: pointer;
+}
+
+.meter_btn_clicked {
+   opacity: 0.1;
+   border: 1px solid green;
+   border-radius: 1vh;
+}
