@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 import os, cgi
-from core.resp import resp
-from core.pagebuff import pageBuffer
-from core.guard import guard
-from core.sys import CTYPES
+from webui.app.core.resp import resp
+from webui.app.core.pagebuff import pageBuffer
+from webui.app.core import guard
+from webui.app.core.sys import CTYPES
 
 
 login = "login"

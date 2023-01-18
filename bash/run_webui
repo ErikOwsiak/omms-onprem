@@ -1,0 +1,35 @@
+#!/bin/bash
+
+
+RPTS_DIR=/opt/iotech/omms/reports/electric
+START_DIR=$(pwd)
+
+
+if [ ! -d $RPTS_DIR ]; then
+  echo "FolderNotFound: $RPTS_DIR"
+  exit 10
+fi
+
+
+echo ""
+echo "START_DIR: $START_DIR"
+echo ""
+
+
+cd ../ || exit 20
+echo "CWD: $(pwd)"
+PYTHONPATH=$(pwd)
+export PYTHONPATH=$PYTHONPATH
+echo "PYTHONPATH: $PYTHONPATH"
+
+
+cd webui || exit 30
+# -- check reports folder symlink --
+RPT_DIR_SYMLINK="$(pwd)/www/reports"
+if [ ! -h "$RPT_DIR_SYMLINK"  ]; then
+  echo "SymlinkNotFound: "
+  exit 32
+fi
+
+chmod +x webapp
+./webapp >> /dev/null &

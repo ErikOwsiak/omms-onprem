@@ -1,5 +1,5 @@
 
-from core.pagebuff import pageBuffer
+from webui.app.core.pagebuff import pageBuffer
 
 
 pb: pageBuffer = pageBuffer()
