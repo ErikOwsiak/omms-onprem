@@ -35,19 +35,22 @@ if [ ! -h "$RPT_DIR_SYMLINK"  ]; then
   sleep 2
   cd www || exit 32
   ln -s $RPTS_DIR reports
-  # -- -- -- --
+  # -- -- -- -- -- -- -- --
   if [ $? == 0 ]; then
     echo "symlink created..."
   else
     echo "symlink create error!"
     exit 34
   fi
-  # -- -- -- --
+  # -- -- -- -- -- -- -- --
 fi
 
 echo "CWD_1: $(pwd)"
-
 cd ../webui || exit 34
 echo "CWD_2: $(pwd)"
 chmod +x webapp
 ./webapp >> /dev/null &
+
+echo ""
+echo "   --- [ end start ] ---"
+echo ""
