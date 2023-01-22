@@ -1,7 +1,6 @@
 
-
 /* main app class -> entry point */
-var app = {
+_omms.app = {
 
    ZERO_PAD: "0",
    helpUrl: "https://omms.iotech.systems",
@@ -17,12 +16,12 @@ var app = {
 
    /* - - */
    init() {
-      clickRouter.init();
-      gui.loadDataBlockXml("orgNav", "subMenuCol");
-      gui.loadDataBlockXml("systemOverview", "appViewport")
-      setTimeout(app.readOmmsUser, 200);
-      app.setAcl();
-      app.applyAcl();
+      _omms.clickRouter.init();
+      _omms.gui.loadDataBlockXml("orgNav", "subMenuCol");
+      _omms.gui.loadDataBlockXml("systemOverview", "appViewport")
+      setTimeout(_omms.app.readOmmsUser, 200);
+      _omms.app.setAcl();
+      _omms.app.applyAcl();
    },
 
    setAcl() {
@@ -33,9 +32,9 @@ var app = {
          return;
       /* -- */
       if (m.length == 2) {
-         app.ommsAcl = parseInt(m[1]);
+         _omms.app.ommsAcl = parseInt(m[1]);
       } else {
-         app.ommsAcl = 1;
+         _omms.app.ommsAcl = 1;
       }
       /* -- */
    },
@@ -43,7 +42,7 @@ var app = {
    applyAcl() {
       $("appbtn").each((_, appbtn) => {
             let acl = $(appbtn).attr("acl");
-            if (app.ommsAcl < acl) {
+            if (_omms.app.ommsAcl < acl) {
                $(appbtn).removeClass("hover");
                $(appbtn).css("opacity", "0.28");
                $(appbtn).attr("title", "disabled for your ACL");
@@ -67,18 +66,18 @@ var app = {
    meterOnClick() {
       try {
          /* set last clicked meter */
-         app.lastClickedMeter = this;
+         _omms.app.lastClickedMeter = this;
          /* load gui stuff */
          if ($("#appViewport #streamFrame").length == 0)
-            gui.loadDataBlockXml("streamFrame", null);
+            _omms.gui.loadDataBlockXml("streamFrame", null);
          /* start running */
-         realtimeMonitor.meterDBID = $(this).attr("dbid");
+         _omms.realtimeMonitor.meterDBID = $(this).attr("dbid");
          /* run tick */
-         realtimeMonitor.tick();
+         _omms.realtimeMonitor.tick();
       } catch(e) {
-         system.handleException(e);
-         gui.clearViewport();
-         gui.loadDataBlockXml("streamFrame", null);   
+         _omms.system.handleException(e);
+         _omms.gui.clearViewport();
+         _omms.gui.loadDataBlockXml("streamFrame", null);   
       }
    },
 
@@ -90,7 +89,7 @@ var app = {
       /* - - */
       let msg = `loading data for: ${ctag}`;
       $("#orgNavBodyBusy div").html(msg);
-      app.fadeOutFadeIn("#orgNavBody", "#orgNavBodyBusy", 280);
+      _omms.app.fadeOutFadeIn("#orgNavBody", "#orgNavBodyBusy", 280);
       let btn = document.querySelector(selector);
       let ofLeft = btn.parentElement.offsetLeft,
          ofTop = btn.parentElement.offsetTop,
@@ -100,7 +99,7 @@ var app = {
 
    unblockoutButtons() {
       $("#orgNavBodyBusy div").html("");
-      app.fadeOutFadeIn("#orgNavBodyBusy", "#orgNavBody", 280);
+      _omms.app.fadeOutFadeIn("#orgNavBodyBusy", "#orgNavBody", 280);
    },
 
    showDataLoading(txt) {
@@ -124,8 +123,8 @@ var app = {
    },
 
    loadOrgNav() {
-      app.orgNav = new orgNavigator();
-      app.orgNav.init();
+      _omms.app.orgNav = new orgNavigator();
+      _omms.app.orgNav.init();
    },
 
    quickSelectChanged() {
@@ -141,7 +140,7 @@ var app = {
       let dayStr = (currentDayOfMonth < 10) ? `0${currentDayOfMonth}` : `${currentDayOfMonth}`;
       $("#kWhrsRptFrame .kwhrs-rpt-body").html("");
       /* - - */
-      switch(val) {
+      switch (val) {
          case "manual":
             {
                $(selector).val("");
@@ -159,8 +158,8 @@ var app = {
          case "thisMonth":
             {
                currentMonth++;
-               firstDayStr = app.firstDayDateOfYearMonth(currentFullYear, currentMonth);
-               lastDayStr = app.lastDayDateOfYearMonth(currentFullYear, currentMonth);
+               firstDayStr = _omms.app.firstDayDateOfYearMonth(currentFullYear, currentMonth);
+               lastDayStr = _omms.app.lastDayDateOfYearMonth(currentFullYear, currentMonth);
             }
             break;
          case "lastMonth":
@@ -174,7 +173,7 @@ var app = {
             {
                currentMonth++;
                firstDayStr = "2020-01-01";
-               lastDayStr = app.lastDayDateOfYearMonth(currentFullYear, currentMonth);
+               lastDayStr = _omms.app.lastDayDateOfYearMonth(currentFullYear, currentMonth);
             }
             break;
          default:
@@ -187,11 +186,11 @@ var app = {
    },
 
    initStreamFrame() {
-      realtimeMonitor.clearTimers();
-      realtimeMonitor.streamTbl = null;
-      realtimeMonitor.meterDBID = null;
-      realtimeMonitor.callback = gui.displayRealtime;
-      setTimeout(realtimeMonitor.tick, 200);
+      _omms.realtimeMonitor.clearTimers();
+      _omms.realtimeMonitor.streamTbl = null;
+      _omms.realtimeMonitor.meterDBID = null;
+      _omms.realtimeMonitor.callback = gui.displayRealtime;
+      _omms.setTimeout(realtimeMonitor.tick, 200);
    },
 
    lastMonth() {
@@ -247,7 +246,7 @@ var app = {
             $("#kwhrsRptBody").append(`${hdr}${fls}`);
             onfiles(y, arr);
             /* add onclick */
-            $("div.gd_xl").off().on("click", app.onXmlFileClick);
+            $("div.gd_xl").off().on("click", _omms.app.onXmlFileClick);
          };
       /* -- */
       let onfiles = function(y, arr) {
@@ -278,10 +277,34 @@ var app = {
       let xls = this.getAttribute("xls");
       console.log(xls);
       window.open(xls, "_blank");
+   },
+
+   onViewCltMeterData() {
+      /* -- */
+      let v = $("#selCltSelector").val(),
+         d = $("#txtCltViewDate").val();
+      if (d == "") {
+         alert("Select Date!");
+         return;
+      }
+      let arr = v.split("|");
+      if (arr.length != 2) {
+         alert("SelectedValueParseError!");
+         return;
+      }
+      /* -- */
+      let [dbid, tag] = arr;
+      dbid = dbid.replace("dbid:", "").trim();
+      tag = tag.replace("tag:", "").trim();
+      _omms.restapi = new restAPI();
+      _omms.restapi.getClientMeters(dbid, (jsarr) => {
+            console.log(jsarr);
+         });
+      /* -- */
    }
 
 };
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* attach page loaded event */
-window.addEventListener("DOMContentLoaded", app.init);
+window.addEventListener("DOMContentLoaded", _omms.app.init);

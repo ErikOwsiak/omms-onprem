@@ -1,5 +1,5 @@
 
-var login = {
+_omms.login = {
 
    init() {
       /* read url for msg = ??? */
@@ -22,4 +22,4 @@ var login = {
 };
 
 /* attach page loaded event */
-window.addEventListener("DOMContentLoaded", login.init);
+window.addEventListener("DOMContentLoaded", _omms.login.init);

@@ -1,5 +1,5 @@
-import gc
 
+import redis
 from psycopg2.extensions import connection
 from psycopg2.extensions import cursor
 from core.logProxy import logProxy
@@ -10,20 +10,35 @@ class dbOps(object):
    NULL = 'null'
    PWR_STATS_TBL = "streams.power_stats"
 
-   def __init__(self, conn: connection):
+   def __init__(self, conn: connection, red: redis.Redis = None):
       self.conn: connection = conn
+      self.red: redis.Redis = red
 
    def get_meter_syspath_dbid(self, syspath: str) -> int:
       cur: cursor = self.conn.cursor()
       try:
-         qry = f"select t.met_dbid from config.meters t where t.syspath = '{syspath}';"
+         tbl = "core.meters"
+         qry = f"select t.met_rowid from {tbl} t where t.syspath = '{syspath}';"
          cur.execute(qry)
          row = cur.fetchone()
          if row is not None:
             return int(row[0])
          else:
-            qry = f"insert into config.meters" \
-               f" values(default, '{syspath}', 'Unknown', 'Unknown', 'Unknown', now()) returning met_dbid;"
+            m_type = "Unknown"
+            m_maker = m_type
+            m_model = m_type
+            # -- -- -- --
+            DB_IDX_READS: int = 2
+            if self.red is not None:
+               # brand: orno; model: orno516; phases: 3
+               self.red.select(DB_IDX_READS)
+               h_val = self.red.hget(syspath, "meter_info")
+               if h_val:
+                  m_type, m_maker, m_model = self.__parse_meter_info_str(h_val.decode("utf-8"))
+            # -- -- -- --
+            qry = f"insert into {tbl}" \
+               f" values(default, '{syspath}', '{m_type}', '{m_maker}', '{m_model}'," \
+               f" now()) returning met_rowid;"
             cur.execute(qry)
             row = cur.fetchone()
             self.conn.commit()
@@ -109,10 +124,35 @@ class dbOps(object):
    def get_active_clients(self) -> []:
       cur: cursor = self.conn.cursor()
       try:
-         qry = "select t.* from config.clients t where t.is_deleted = false;"
+         qry = "select t.clt_rowid as dbid, t.clt_tag as tag, t.clt_name as clt_name" \
+            " from config.clients t where t.is_deleted = false;"
          cur.execute(qry)
          return cur.fetchall()
       except Exception as e:
          logProxy.log_exp(e)
       finally:
          cur.close()
+
+   def get_client_meters(self, clt_dbid: int) -> []:
+      cur: cursor = self.conn.cursor()
+      try:
+         # -- get circuits --
+         qry = f"select t.cir_rowid from config.clt_locl_cirs t where" \
+            f" t.clt_rowid = {clt_dbid} and t.status = 1;"
+         cur.execute(qry)
+         return cur.fetchall()
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def __parse_meter_info_str(self, buff) -> (str, str, str):
+      """
+         # brand: orno; model: orno516; phases: 3
+      """
+      b, m, p = buff.split(";")
+      b = b.replace("brand:", "").strip()
+      m = m.replace("model:", "").strip()
+      p = p.replace("phases:", "").strip()
+      p = f"e{p}" if p in ["1", "3"] else p
+      return p, b, m

@@ -1,5 +1,5 @@
 
-var html = {
+_omms.html = {
 
    subMenuHead(headTite, headMsg) {
       return `<div><div class=\"submenu-col-head\">` + 
@@ -90,4 +90,4 @@ var html = {
          `<div>From&nbsp;IP:&nbsp;&nbsp;${ip}</div><div>@UTC:&nbsp;&nbsp;${dts}</div></div>`;
    }
 
-}
+};

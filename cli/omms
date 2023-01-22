@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+
+import os
+import configparser as _cp
+from lib.edgeOps import edgeOps
+
+
+INI: _cp.ConfigParser = _cp.ConfigParser()
+if len(INI.read("conf/cli.ini")) == 0:
+   print("NoIniLoaded")
+   exit(1)
+
+
+edges: [] = INI.get("SYSTEM", "EDGE_HOSTS").split("\n")
+MM = "\n\t--- [ omms cli ] ---\n\n\t\t1. list edges\n\t\t2. run CMD on edges\n\t\t" \
+   "3. exit\n\t\t?: "
+NM = "\n\t\t1. exit\n\t\t2. main menu\n\t\t?: "
+
+
+def main():
+   while True:
+      os.system("clear")
+      val_in = input(MM)
+      if val_in in [None, ""]:
+         break
+      val_in = int(val_in)
+      if val_in == 1:
+         print("\n")
+         for e in edges:
+            print(f"\t{e}")
+         nm = int(input(NM))
+         if nm == 2:
+            continue
+         break
+      elif val_in == 2:
+         edgeops: edgeOps = edgeOps()
+         edgeops.run_edge_cmd(edges)
+      elif val_in == 3:
+         break
+      else:
+         break
+   # -- -- -- --
+   print("\n\n\t[ EXIT ]\n\n")
+
+
+# -- -- -- -- ep -- -- -- --
+if __name__ == "__main__":
+   main()

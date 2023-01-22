@@ -30,28 +30,28 @@ class kWhrsReport {
    static getClientMeterReportHtmlPreview() {
       /* - - */
       let out = [];
-      if (!app.lastReports.clientMeters.length)
+      if (!_omms.app.lastReports.clientMeters.length)
          return out;
       /* - - */
       let onreport = function(rpt) {
             for (let midx in rpt.lnsArr) {
                   let meter = rpt.lnsArr[midx],
                      kwhs = meter.kwhs.toFixed(2),
-                     buff = html.kWhPreviewTableRow(meter.clt.client_tag
+                     buff = _omms.html.kWhPreviewTableRow(meter.clt.client_tag
                         , meter.clt.client_name, meter.space, meter.ctags, kwhs);
                /* - - */
                out.push(buff);
             }
          };
       /* - - */
-      app.lastReports.clientMeters.forEach(onreport);
+      _omms.app.lastReports.clientMeters.forEach(onreport);
       /* - - */
-      return html.kWhPreviewTable(out.join(""));
+      return _omms.html.kWhPreviewTable(out.join(""));
    }
 
    static getClientSpacesReportHtmlPreview() {
       let out = [];
-      if (!app.lastReports.clientSpaces.length)
+      if (!_omms.app.lastReports.clientSpaces.length)
          return out;
       /* - - */
       let onreport = function(rpt) {
@@ -64,7 +64,7 @@ class kWhrsReport {
                   } else {
                      try {
                         let kwhs = space.kwhs.toFixed(2);
-                        buff = html.kWhPreviewTableRow(space.clt.client_tag
+                        buff = _omms.html.kWhPreviewTableRow(space.clt.client_tag
                            , space.clt.client_name, space.space, space.ctags, kwhs);
                      } catch(e) {
                         console.log(`Error for spaceID: ${spaceID}`);
@@ -77,9 +77,9 @@ class kWhrsReport {
             }
          };
       /* - - */
-      app.lastReports.clientSpaces.forEach(onreport);
+      _omms.app.lastReports.clientSpaces.forEach(onreport);
       /* - - */
-      return html.kWhPreviewTable(out.join(""));
+      return _omms.html.kWhPreviewTable(out.join(""));
    }
 
    
@@ -102,8 +102,8 @@ class kWhrsReport {
    */
    run() {
       /* -- clear cache -- */
-      app.lastReports.clientMeters = [];
-      app.lastReports.clientSpaces = [];
+      _omms.app.lastReports.clientMeters = [];
+      _omms.app.lastReports.clientSpaces = [];
       /* - - */
       let __this = this,
          data = {"aggreateOn": this.aggreateOn, "startDate": this.startDate
@@ -128,9 +128,9 @@ class kWhrsReport {
       let runReportPerClient = function(clt) {
             /* load kwh from the server per client */
             __this.restApi.getReport_kWhrsByClient(clt, data, function(res) {
-                  gui.kWhrsReportLineAdd(clt, data, res);
+               _omms.gui.kWhrsReportLineAdd(clt, data, res);
                   if (resClients.length == ((callCounter++) + 1))
-                     app.lightBoxedPane.onClickX();
+                  _omms.app.lightBoxedPane.onClickX();
                });
          };
       /* -- resClients is a list of clients -- */ 

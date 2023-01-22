@@ -1,5 +1,5 @@
 
-var gui = {
+_omms.gui = {
 
    viewport: "#appViewport",
    submenucol: "#subMenuCol",
@@ -8,12 +8,12 @@ var gui = {
    displayRealtime(resJObj) {
       /* check if histogram */
       if (resJObj.streamTbl == "__histogram") {
-         gui.displayHistogram(resJObj);
+         _omms.gui.displayHistogram(resJObj);
       } else {
-         app.histogram = null;
+         _omms.app.histogram = null;
          $("#canvasAmps").remove();
          /* update readltime header info */
-         let jsonbuff = $(app.lastClickedMeter).find("jsonbuff").text(),
+         let jsonbuff = $(_omms.app.lastClickedMeter).find("jsonbuff").text(),
             jobj = JSON.parse(jsonbuff);
          /* - - */
          let dts = new Date().toLocaleString("PL").replace(",", "&nbsp;&nbsp;"), 
@@ -24,7 +24,7 @@ var gui = {
          /* - - */
          $("#streamFrmHeader").html(txt);
          /* load data cols */
-         gui.loadRealtimeCols(resJObj);
+         _omms.gui.loadRealtimeCols(resJObj);
       }
    },
 
@@ -36,7 +36,7 @@ var gui = {
       let idx = 0, MAX_ROWS = 12;
       for (let p in jobj) {
          let targetCol = (idx++ < MAX_ROWS) ? "streamFrmRtCol" : "streamFrmLfCol";
-         let collbl = gui.getLabelFromName(p), 
+         let collbl = _omms.gui.getLabelFromName(p), 
             buff = html.lblTextBox(collbl, jobj[p]);
          /* - - */
          $(`#${targetCol}`).append(buff);
@@ -50,7 +50,7 @@ var gui = {
       else
          this.lastHistogramMD5 = resJObj.md5;   
       /* update readltime header info */
-      let jsonbuff = $(app.lastClickedMeter).find("jsonbuff").text(),
+      let jsonbuff = $(_omms.app.lastClickedMeter).find("jsonbuff").text(),
       jobj = JSON.parse(jsonbuff);
       /* - - */
       /* let dts = new Date().toLocaleString("PL").replace(",", "&nbsp;&nbsp;"), */
@@ -69,11 +69,11 @@ var gui = {
       if ($("#canvasAmps").length == 0)
          $("#streamFrame .stream-frm-body").append(canvas);
       /* - - */
-      if (app.histogram) {
-         app.histogram.update(jobj, resJObj.rows);
+      if (_omms.app.histogram) {
+         _omms.app.histogram.update(jobj, resJObj.rows);
       } else {
-         app.histogram = new histogram(jobj, resJObj.rows);
-         app.histogram.draw();
+         _omms.app.histogram = new histogram(jobj, resJObj.rows);
+         _omms.app.histogram.draw();
       }
    },
    
@@ -87,33 +87,36 @@ var gui = {
 
    subMenu: {
       load(htmlBuff) {
-         $(gui.submenucol).html(htmlBuff);
+         $(_omms.gui.submenucol).html(htmlBuff);
       }
    },
 
    clearViewport() {
-      $(gui.viewport).html("");
+      $(_omms.gui.viewport).html("");
    },
 
    /* looks in data bock */
    loadDataBlockXml(blockID, targetID = null, newID = false) {
-      /* set target id */
-      targetID = (targetID == null) ? gui.viewport : `#${targetID}`;
-      /* zero elmt is a pure html obj; no jq wrapper */
-      let obj = $(`#dataBlock #${blockID}`)[0],
-         buff = gui.fixScriptTag(obj.outerHTML),
-         buffNewID = targetID;
-      console.log(buff);
-      /* -- */
-      if (newID) {
-         let ts = Date.now();
-         buffNewID = `${blockID}_${ts}`;
-         buff = buff.replace(blockID, buffNewID);
+      try {
+         targetID = (targetID == null) ? _omms.gui.viewport : `#${targetID}`;
+         /* zero elmt is a pure html obj; no jq wrapper */
+         let obj = $(`#dataBlock #${blockID}`)[0],
+            buff = _omms.gui.fixScriptTag(obj.outerHTML),
+            buffNewID = targetID;
+         // console.log(buff);
+         /* -- */
+         if (newID) {
+            let ts = Date.now();
+            buffNewID = `${blockID}_${ts}`;
+            buff = buff.replace(blockID, buffNewID);
+         }
+         /* gui objs need unique ids */
+         $(targetID).html(buff);
+         /* - - */
+         return buffNewID;
+      } catch(e) {
+         console.log(e);
       }
-      /* gui objs need unique ids */
-      $(targetID).html(buff);
-      /* - - */
-      return buffNewID;
    },
 
    updateOrgNavBox(jarr) {
@@ -122,8 +125,8 @@ var gui = {
    },
 
    loadHelp() {
-      $(gui.viewport).html("");
-      $(gui.viewport).html(`<iframe class="iframe-help" src="${app.helpUrl}" />`);
+      $(_omms.gui.viewport).html("");
+      $(_omms.gui.viewport).html(`<iframe class="iframe-help" src="${_omms.app.helpUrl}" />`);
    },
 
    fixScriptTag(buff) {
@@ -137,10 +140,10 @@ var gui = {
    kWhrsReportLineAdd(clt, data, jarr) {
       switch(data.aggreateOn) {
          case "client_meter":
-            gui.__client_meter__(clt, data, jarr);
+            _omms.gui.__client_meter__(clt, data, jarr);
             break;
          case "client_space":
-            gui.__client_space__(clt, data, jarr);
+            _omms.gui.__client_space__(clt, data, jarr);
             break;
          default:
             break;
@@ -149,22 +152,22 @@ var gui = {
 
    __client_space__(clt, data, jarr) {
       /* - - */
-      gui.__client_total__(clt, jarr)
+      _omms.gui.__client_total__(clt, jarr)
       if (data.totalOnly)
          return;
       /* add circuit reads */
       let lns = [], 
          dops = new dataOps(),
          localReport = dops.getPerClientSpaceSummary(clt, jarr);
-      app.lastReports.clientSpaces.push(localReport);
+      _omms.app.lastReports.clientSpaces.push(localReport);
       /* - - */
       for (let p in localReport.lnsObj) {
          let ln = localReport.lnsObj[p];
-         lns.push(html.kwhrsReportLinePerSpace(ln));
+         lns.push(_omms.html.kwhrsReportLinePerSpace(ln));
       }
       /* - - */
       if (lns.length == 0)
-         lns.push(html.kwhrsReportLinePerSpace(null));
+         lns.push(_omms.html.kwhrsReportLinePerSpace(null));
       /* - - */
       let cltboxid = `cbid_${clt.client_tag}`,
          selector = `#${cltboxid} .clt-meter-lst`;
@@ -177,7 +180,7 @@ var gui = {
    */
    __client_meter__(clt, data, jarr) {
       /* - - */
-      gui.__client_total__(clt, jarr)
+      _omms.gui.__client_total__(clt, jarr)
       if (data.totalOnly)
          return;
       /* - - */
@@ -185,7 +188,7 @@ var gui = {
          dops = new dataOps(),
          localReport = dops.getPerClientMeterSummary(clt, jarr);
       /* cache here */
-      app.lastReports.clientMeters.push(localReport);
+      _omms.app.lastReports.clientMeters.push(localReport);
       /* -- stores report for export */
       for (let p in localReport.lnsArr) {
          let ln = localReport.lnsArr[p];
@@ -232,8 +235,6 @@ var gui = {
    }
 
 }
-
-
 
 
 /* to keep number of files down */

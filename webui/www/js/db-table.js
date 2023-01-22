@@ -1,5 +1,5 @@
 
-var dlSrcUrls = {
+_omms.dlSrcUrls = {
    client_tag: "href:/api/get/datalists/client-tags",
    circuit_tag: "href:/api/get/datalists/circuit-tags",
    building_tags: "href:/api/get/datalists/building-tags",
@@ -12,21 +12,21 @@ var dlSrcUrls = {
 };
 
 
-var dlSources = {
+_omms.dlSources = {
    /* - - */
-   tbls: {client_space_circuits: {entag: dlSrcUrls.building_tags,
-            circuit_tag: dlSrcUrls.circuit_tag,
-            client_tag: dlSrcUrls.client_tag,
-            space_tag: dlSrcUrls.fetch_space_tag,
+   tbls: {client_space_circuits: {entag: _omms.dlSrcUrls.building_tags,
+            circuit_tag: _omms.dlSrcUrls.circuit_tag,
+            client_tag: _omms.dlSrcUrls.client_tag,
+            space_tag: _omms.dlSrcUrls.fetch_space_tag,
             status: `json:{"off": 0, "on": 1}`},
       /* - - */
       meters: {elcrm_entag: "href:/api/get/datalists/elcrm-tags"}, 
-      clients: {client_tag: dlSrcUrls.fetch_client_tag},
-      circuits: {circuit_tag: dlSrcUrls.fetch_circuit_tag, 
-         entag: dlSrcUrls.fetch_builing_tag},
-      spaces: {building_entag: dlSrcUrls.fetch_builing_tag,
-         space_tag: dlSrcUrls.fetch_space_tag,
-         floor: dlSrcUrls.floors}},
+      clients: {client_tag: _omms.dlSrcUrls.fetch_client_tag},
+      circuits: {circuit_tag: _omms.dlSrcUrls.fetch_circuit_tag, 
+         entag: _omms.dlSrcUrls.fetch_builing_tag},
+      spaces: {building_entag: _omms.dlSrcUrls.fetch_builing_tag,
+         space_tag: _omms.dlSrcUrls.fetch_space_tag,
+         floor: _omms.dlSrcUrls.floors}},
    /* - - */
    get(tblname, colname) {
       let tbl = this.tbls[tblname];

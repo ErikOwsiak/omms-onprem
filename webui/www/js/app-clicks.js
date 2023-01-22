@@ -1,5 +1,5 @@
 
-__str__ = strings.en;
+_omms.__str__ = _omms.strings.en;
 
 
 class appClicks {
@@ -7,26 +7,25 @@ class appClicks {
    constructor() {}
 
    loadOrNavClick() {
-      realtimeMonitor.stop();
-      gui.loadDataBlockXml("orgNav", "subMenuCol");
-      gui.clearViewport();
+      _omms.realtimeMonitor.stop();
+      _omms.gui.loadDataBlockXml("orgNav", "subMenuCol");
+      _omms.gui.clearViewport();
    }
 
    systemReportsClick(__this) {
-      realtimeMonitor.stop();
-      gui.clearViewport();
+      _omms.realtimeMonitor.stop();
+      _omms.gui.clearViewport();
       /* - - */
       let text = __this.innerText,
-         subMsg = __str__. sysRpts,
-         subMenu = html.subMenuHead(text, subMsg);
-      gui.subMenu.load(subMenu);
-      /* - - */
-      gui.loadDataBlockXml("xmlReports", "subMenuCol");
+         subMsg = _omms.__str__. sysRpts,
+         subMenu = _omms.html.subMenuHead(text, subMsg);
+      _omms.gui.subMenu.load(subMenu);
+      _omms.gui.loadDataBlockXml("xmlReports", "subMenuCol");
    }
 
    logoutClick(__this) {
-      realtimeMonitor.stop();
-      gui.clearViewport();
+      _omms.realtimeMonitor.stop();
+      _omms.gui.clearViewport();
       /* - - */
       $.get("/do/logout", (jobj) => {
             if (jobj.error == 0) {
@@ -42,32 +41,31 @@ class appClicks {
 
    ogpioClick() {
       try {
-         app.gpio = new OpenGPIO("appViewport");
-         app.gpio.init();
+         _omms.app.gpio = new OpenGPIO("appViewport");
+         _omms.app.gpio.init();
       } catch (e) {
          console.log(e);
       }
    }
 
    liveViewClick() {
-      //realtimeMonitor.stop();
-      gui.loadDataBlockXml("liveViewFrame", "subMenuCol");
-      gui.clearViewport();   
+      _omms.gui.clearViewport();
+      _omms.gui.loadDataBlockXml("xmlClientView", "subMenuCol");
    }
 
    systemSettingsClick(__this) {
-      realtimeMonitor.stop();
+      _omms.realtimeMonitor.stop();
       let text = __this.innerText,
-         subMsg = __str__.sysSettings,
-         subMenu = html.subMenuHead(text, subMsg);
+         subMsg = _omms.__str__.sysSettings,
+         subMenu = _omms.html.subMenuHead(text, subMsg);
       /* - - */
-      gui.subMenu.load(subMenu);
-      gui.loadDataBlockXml("xmlSettings", "subMenuCol");
+      _omms.gui.subMenu.load(subMenu);
+      _omms.gui.loadDataBlockXml("xmlSettings", "subMenuCol");
    }
 
    systemHelpClick(__this) {
-      realtimeMonitor.keepTicking = false;
-      gui.loadHelp();
+      _omms.realtimeMonitor.keepTicking = false;
+      _omms.gui.loadHelp();
    }
 
    laodSubmenu(xmlID) {
@@ -79,9 +77,9 @@ class appClicks {
    }
 
    realtimeStreamOnClick() {
-      gui.lastHistogramMD5 = null;
-      if (app.lastClickedMeter)
-         $(app.lastClickedMeter).click();
+      _omms.gui.lastHistogramMD5 = null;
+      if (_omms.app.lastClickedMeter)
+         $(_omms.app.lastClickedMeter).click();
    }
 
    run_kWhrsReport() {
@@ -98,16 +96,16 @@ class appClicks {
          return;
       }
       /* - - */
-      app.kwhrsReport = {"dts": new Date(), "jarrs": []};
+      _omms.app.kwhrsReport = {"dts": new Date(), "jarrs": []};
       /* clear last report results */
-      app.lastReports["clientSpaces"] = [];
-      app.report_kwh = new kWhrsReport(api, aggreateOn, startDate, endDate, totalOnly);
-      app.report_kwh.run();
+      _omms.app.lastReports["clientSpaces"] = [];
+      _omms.app.report_kwh = new kWhrsReport(api, aggreateOn, startDate, endDate, totalOnly);
+      _omms.app.report_kwh.run();
       /* - - */
-      app.lightBoxedPane = new lightBoxedPane("", "", "");
+      _omms.app.lightBoxedPane = new lightBoxedPane("", "", "");
       let spinner = `<div id="idSpinner" class="loading-spinner">` + 
          `<div class="spinner-msg">loading...</div></div>`;
-      app.lightBoxedPane.showLoading(spinner);
+         _omms.app.lightBoxedPane.showLoading(spinner);
       /* - - */
    }
 
@@ -117,20 +115,19 @@ class appClicks {
          edate = $("#endDate").val(),
          title0 = "kWh Report Export Preview",
          title1 = `<span class="kwhrs-t1">report dates: ${sdate} :: ${edate}</span>`,
-         bottomHtml = html.kWhPreviewBottomBar(),
+         bottomHtml = _omms.html.kWhPreviewBottomBar(),
          repSelector = $("#selAggreateOn").val(),
          reportHtml = kWhrsReport.getReportHtmlPreview(repSelector); 
       /* - - */
       console.log(repSelector);
-      app.lbPane = new lightBoxedPane(title0, title1, reportHtml);
-      app.lbPane.show();
-      app.lbPane.loadBottomBar(bottomHtml);
+      _omms.app.lbPane = new lightBoxedPane(title0, title1, reportHtml);
+      _omms.app.lbPane.show();
+      _omms.app.lbPane.loadBottomBar(bottomHtml);
       /* btnSave_kWhReport */
       let selector = "input#btnSave_kWhReport";
       $(selector).off().on("click", function() {
             let filename = `kWhReport__${sdate}_${edate}.csv`;
-            app.report_kwh.saveCSV(filename);
+            _omms.app.report_kwh.saveCSV(filename);
          });
    }
-
 }

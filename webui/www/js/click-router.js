@@ -3,7 +3,7 @@
    attaches to all the appbtn elemetns 
 */
 
-var clickRouter = {
+_omms.clickRouter = {
 
    rtStreamInputClicks: null,
 
@@ -20,14 +20,14 @@ var clickRouter = {
       $(selector).off().on("click", 
          this.rtStreamInputClicks.realtimeStreamOnClick);
       $("#histoHrs").off().on("change", () => {
-            $(app.lastClickedMeter).click();
+            $(_omms.app.lastClickedMeter).click();
          });
    },
 
    click() {
       try {
          let clickName = `${this.id}Click`;
-         clickRouter.onBtnClickToggleCSS(this);
+         _omms.clickRouter.onBtnClickToggleCSS(this);
          let appClicksObj = new appClicks();
          appClicksObj[clickName](this);
       } catch(e) {

@@ -1,9 +1,9 @@
 
-let realtimeMonitorTimerIDsArr = [];
-let MINUTE = 60000;
+_omms.realtimeMonitorTimerIDsArr = [];
+_omms.MINUTE = 60000;
 
 
-var realtimeMonitor = {
+_omms.realtimeMonitor = {
 
    /* - - */
    minuteFreq: 6,
@@ -15,7 +15,7 @@ var realtimeMonitor = {
    /* - - */
    tick() {
       /* - - */
-      if (realtimeMonitor.isStreamFrameLoaded()) {
+      if (_omms.realtimeMonitor.isStreamFrameLoaded()) {
          /* read from radio buttons */
          let selector = "#appViewport input[name=\"_streamType\"]:checked", 
             radio = $(selector),
@@ -24,33 +24,33 @@ var realtimeMonitor = {
          let restapi = new restAPI();
          if (radioID != "__histogram") {
             restapi.getLastReading(radioID
-               , realtimeMonitor.meterDBID
-               , realtimeMonitor.tack);
+               , _omms.realtimeMonitor.meterDBID
+               , _omms.realtimeMonitor.tack);
          } else {
             /*restapi.getHistogramData(realtimeMonitor.meterDBID
                , realtimeMonitor.tack);*/
             let hrs = $("#histoHrs").val();
-            restapi.getHistogramData_v1(hrs, realtimeMonitor.meterDBID
-               , realtimeMonitor.tack); 
+            restapi.getHistogramData_v1(hrs, _omms.realtimeMonitor.meterDBID
+               , _omms.realtimeMonitor.tack); 
          }
          /* - - */
       } else {
-         realtimeMonitor.clearTimers();
+         _omms.realtimeMonitor.clearTimers();
       }
    },
 
    tack(jobj) {
       try {
          /* - - */
-         if (!realtimeMonitor.isStreamFrameLoaded()) {
-            realtimeMonitor.clearTimers();  
+         if (!_omms.realtimeMonitor.isStreamFrameLoaded()) {
+            _omms.realtimeMonitor.clearTimers();  
             return;
          }
          /* - - */
-         realtimeMonitor.clearTimers();
-         let timeout = (MINUTE / realtimeMonitor.minuteFreq),
-            timerID = setTimeout(realtimeMonitor.tick, timeout);
-         realtimeMonitorTimerIDsArr.push(timerID);
+         _omms.realtimeMonitor.clearTimers();
+         let timeout = (MINUTE / _omms.realtimeMonitor.minuteFreq),
+            timerID = setTimeout(_omms.realtimeMonitor.tick, timeout);
+            _omms.realtimeMonitorTimerIDsArr.push(timerID);
          /* -- so check if the last clicked table stream is the same as last comming 
             data packet as it could be from a previous table stream */
          let selector = "#appViewport input[name=\"_streamType\"]:checked", 
@@ -58,8 +58,8 @@ var realtimeMonitor = {
          if (jobj["streamTbl"] != currentTbl)
             return;
          /* - - */
-         if (realtimeMonitor.callback != null)
-            realtimeMonitor.callback(jobj);
+         if (_omms.realtimeMonitor.callback != null)
+            _omms.realtimeMonitor.callback(jobj);
          /* - - */
       } catch(e) {
          alert(e);
@@ -76,25 +76,25 @@ var realtimeMonitor = {
    },
 
    clearTimers() {
-      realtimeMonitorTimerIDsArr.forEach(timerID => {
+      _omms.realtimeMonitorTimerIDsArr.forEach(timerID => {
             clearTimeout(timerID);
          });
       /* - - */
-      realtimeMonitorTimerIDsArr = [];
+      _omms.realtimeMonitorTimerIDsArr = [];
    },
 
    stop() {
-      app.lastClickedMeter = null;
-      realtimeMonitor.keepTicking = false;
+      _omms.app.lastClickedMeter = null;
+      _omms.realtimeMonitor.keepTicking = false;
    },
 
    on() {
-      realtimeMonitor.keepTicking = true;
+      _omms.realtimeMonitor.keepTicking = true;
    },
 
    off() {
-      app.lastClickedMeter = null;
-      realtimeMonitor.keepTicking = false;
+      _omms.app.lastClickedMeter = null;
+      _omms.realtimeMonitor.keepTicking = false;
    }
 
 };

@@ -11,6 +11,7 @@ class restAPI {
    lastScannedStreamTbl = null;
 
    constructor(host = "", port = 0) {
+      /* -- */
       this.host = host;
       this.port = port;
       this.restURL = ``;
@@ -36,6 +37,8 @@ class restAPI {
       /* table quries */
       this.getTableUrl = "/api/get/table";
       this.getLisReportstUrl = "/api/get/list-reports";
+      // /api/get/meters
+      this.getClientMetersUrl = "/api/get/meters";
    }
 
    getOrg(callback = undefined) {
@@ -83,12 +86,12 @@ class restAPI {
    getClients(__cb__) {
       $.get(this.getClientsUrl, (jarr) => {
             if (jarr) {
-               app.clients = {};
-               app.clients.dts = Date();
-               app.clients.jarr = jarr;
+               _omms.app.clients = {};
+               _omms.app.clients.dts = Date();
+               _omms.app.clients.jarr = jarr;
             }
             /* -- */
-            __cb__(app.clients.jarr);
+            __cb__(_omms.app.clients.jarr);
          });
    }
 
@@ -136,12 +139,12 @@ class restAPI {
          url = `${this.getReportUrl}/client-kwhrs/${clttag}/${sdate}/${edate}`;
       /* make the call */
       $.get(url, function(jarr) {
-            if (app.kwhrsReport == undefined) {   
-               app.kwhrsReport = {"dts": new Date(), "jarrs": []};
+            if (_omms.app.kwhrsReport == undefined) {   
+               _omms.app.kwhrsReport = {"dts": new Date(), "jarrs": []};
             } else {
                /* sort jarr by client space here */
                jarr.sort(sort);
-               app.kwhrsReport.jarrs.push({"clttag": clttag, "jarr": jarr});
+               _omms.app.kwhrsReport.jarrs.push({"clttag": clttag, "jarr": jarr});
                callback(jarr);
             }
          });
@@ -160,16 +163,16 @@ class restAPI {
 
    getTableInfo(tbl, callback) {
       /* - - */
-      if (app.tblInfos == undefined)
-         app.tblInfos = {};
-      if (tbl in app.tblInfos) {
-         callback(app.tblInfos[tbl], tbl);
+      if (_omms.app.tblInfos == undefined)
+      _omms.app.tblInfos = {};
+      if (tbl in _omms.app.tblInfos) {
+         callback(_omms.app.tblInfos[tbl], tbl);
          return;
       }
       /* - - */
       let url = `${this.getTableInfoUrl}/${tbl}`;
       $.get(url, function(jarr) {
-            app.tblInfos[tbl] = jarr;
+         _omms.app.tblInfos[tbl] = jarr;
             callback(jarr, tbl);
          });
       /* - - */
@@ -185,4 +188,14 @@ class restAPI {
          });
    }
 
+   getClientMeters(dbid, __cb__) {
+      let url = `${this.getClientMetersUrl}/clt_dbid:${dbid}`;
+      $.get(url, (res) => {
+            if (__cb__) {
+               __cb__(res);
+            } else {
+               console.log(res);
+            }   
+         });
+   }
 };

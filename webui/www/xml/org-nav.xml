@@ -10,7 +10,7 @@
       <div>loading data for:</div>
    </div>
    __script
-      app.orgNav = new orgNavigator();
-      app.orgNav.init();
+      _omms.app.orgNav = new orgNavigator();
+      _omms.app.orgNav.init();
    script__
 </div>

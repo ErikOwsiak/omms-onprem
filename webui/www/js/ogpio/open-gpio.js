@@ -13,7 +13,6 @@ class OpenGPIO {
       $(`#${this.divID}`).html(OpenGPIO.IFrameBuffer);
       if (SystemOverview.__this__ ) {
          console.log(SystemOverview.__this__ );
-         
       } else {
          console.log("SystemOverview.__this__: false");
       }

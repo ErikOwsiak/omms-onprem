@@ -7,6 +7,7 @@ from flask import Flask, render_template
 from api.apiOps import apiOps
 from core.debug import debug
 from psql.dbConnServer import dbConnServer
+from core.logProxy import logProxy
 
 
 # -- load ini file --
@@ -24,13 +25,17 @@ if debug.is_dev_box():
 # -- -- -- --
 PSQL_CONN_STR = WEBUI_INI.get(PSQL_CONN_SEC, "CONN_STR")
 PSQL_CONN: __psql_conn = dbConnServer.getConnection(PSQL_CONN_STR)
+if PSQL_CONN.closed:
+   print("PSQL_CONN is closed!")
+   exit(1)
+
 RED: _cp.SectionProxy = WEBUI_INI[REDIS_SEC]
 RED_CORE: _cp.SectionProxy = WEBUI_INI["REDIS_CORE"]
 REDIS: redis.Redis = redis.Redis(host=RED.get("HOST")
    , port=RED.getint("PORT"), password=RED_CORE.get("PWD"))
 if not REDIS.ping():
    print("RedisBadPing!")
-   exit(1)
+   exit(2)
 
 
 CTYPE_JSON = "text/json"
@@ -69,9 +74,22 @@ def apiget(item):
    # -- -- return data -- --
    return buffout, errcode, {"content-type": CTYPE}
 
+@app.route("/api/get/meters/<args>", methods=["GET"])
+def apiget_meters(args):
+   try:
+      tag, val = args.split(":")
+      errcode = 200; CTYPE = "text/json"
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn=PSQL_CONN, red=REDIS)
+      buffout = apiops.list_client_meters(clt_dbid=int(val))
+      # -- -- return data; errcode = 404 -- --
+      return buffout, errcode, {"content-type": CTYPE}
+   except Exception as e:
+      logProxy.log_exp(e)
+      return str(e)
+
+
 @app.route("/api/post", methods=["POST"])
 def apipost():
-   # -- create api object and pass the call --
    pass
 
 

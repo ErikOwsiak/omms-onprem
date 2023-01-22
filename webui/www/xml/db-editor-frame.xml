@@ -14,7 +14,7 @@
       </div>
    </div>
    __script
-      app.__databaseTable = new databaseTable();
-      app.__databaseTable.attachFilter();
+      _omms.app.__databaseTable = new databaseTable();
+      _omms.app.__databaseTable.attachFilter();
    script__
 </div>

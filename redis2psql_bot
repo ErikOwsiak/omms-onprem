@@ -16,7 +16,7 @@ INI.read("conf/redis2psql.ini")
 
 
 # -- -- -- -- -- -- -- --
-PROC_NAME = "redis2psql"
+PROC_NAME = "omms-red2psql"
 RED_CONN_SEC_INI = INI["REDIS_PROD"]
 PSQL_CONN_SEC_INI = INI["PSQL_PROD"]
 if debug.is_dev_box():
@@ -59,18 +59,24 @@ def clear_previous_prox():
    # -- -- -- --
 
 def main():
+   # -- -- -- --
+   with open("/etc/iotech/systag") as f:
+      systag = f.read().strip()
+   diag_key = f"{systag.upper()}_OMMS_ONPREM"
+   # -- -- -- --
+   DB_IDX_ONPREM_DIAG: int = INI.getint("REDIS", "DB_IDX_ONPREM_DIAG")
    # -- -- -- -- -- -- -- --
    _dict = {"boot_dts_utc": utils.dts_utc()
       , "lan_ip": utils.lan_ip(), "hostname": utils.HOST}
-   RED.select(1)
-   RED.hset("OMMS_ONPREM", mapping=_dict)
+   RED.select(DB_IDX_ONPREM_DIAG)
+   RED.hset(diag_key, mapping=_dict)
    # -- -- -- -- -- -- -- --
    while True:
       try:
          print("main_loop")
          if __redis2psqlTh.is_alive():
             print("__redis2psqlTh.is_alive")
-         RED.hset("OMMS_ONPREM", "last_tick", utils.dts_utc())
+         RED.hset(diag_key, "last_tick", utils.dts_utc())
          time.sleep(8.0)
       except Exception as e:
          print(e)

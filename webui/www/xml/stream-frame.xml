@@ -27,15 +27,15 @@
    </div>
    __script
       /* init stream graph */
-      clickRouter.initGraphSelector();
+      _omms.clickRouter.initGraphSelector();
       /* - - */
       $("#streamSelector").removeAttr("disabled");
       /*realtimeMonitor.clearTimers();
-      realtimeMonitor.streamTbl = null;
-      realtimeMonitor.meterDBID = null;
-      realtimeMonitor.callback = gui.displayRealtime;
-      setTimeout(realtimeMonitor.tick, 200);*/
+      _omms.realtimeMonitor.streamTbl = null;
+      _omms.realtimeMonitor.meterDBID = null;
+      _omms.realtimeMonitor.callback = gui.displayRealtime;
+      setTimeout(_omms.realtimeMonitor.tick, 200);*/
       /* -- */
-      app.initStreamFrame();
+      _omms.app.initStreamFrame();
    script__
 </div>

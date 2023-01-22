@@ -1,14 +1,17 @@
 
+
 class submenuNav {
 
+
    static lastClickedSubmenu = null;
+
 
    static clickLastClickedSubmenu() {
       try {
          let btnID = $(submenuNav.lastClickedSubmenu).attr("id"),
          funcName = `${btnID}Click`;
          /* make call */
-         app.subNav[funcName](submenuNav.lastClickedSubmenu);
+         _omms.app.subNav[funcName](submenuNav.lastClickedSubmenu);
       } catch(e) {
          console.log(e);
       }
@@ -17,8 +20,8 @@ class submenuNav {
    static createTable(jarr, tbl, upsert = true, xnew = true, xdelete = true) {
       let __out = dbTableHtml.getRowInputForm(jarr, tbl);
       $("#dbEditorFrmRtCol").html(__out.join(""));
-      app.__databaseTable.attachUpsertNewDelete(upsert, xnew, xdelete);
-      app.__databaseTable.attachDatalists();
+      _omms.app.__databaseTable.attachUpsertNewDelete(upsert, xnew, xdelete);
+      _omms.app.__databaseTable.attachDatalists();
    }
 
    static createSelectorListItem(jarr, htmlGenFunc) {
@@ -56,7 +59,7 @@ class submenuNav {
             funcName = `${btnID}Click`;
          /* - - */
          console.log(funcName);
-         app.subNav[funcName](submenuNav.lastClickedSubmenu);
+         _omms.app.subNav[funcName](submenuNav.lastClickedSubmenu);
          /* - - */
       } catch(e) {
          console.log(e);
@@ -64,12 +67,12 @@ class submenuNav {
    }
 
    kWhrsReportsClick() {
-      gui.loadDataBlockXml("kWhrsRptFrame");            
+      _omms.gui.loadDataBlockXml("kWhrsRptFrame");            
    }
 
    settingsClientClick(__this) {
       /* - - */
-      gui.loadDataBlockXml("databaseEditorFrame");
+      _omms.gui.loadDataBlockXml("databaseEditorFrame");
       let tbl = $(__this).attr("tbl"),
          api = new restAPI();
       /* - - */
@@ -86,7 +89,7 @@ class submenuNav {
 
    settingsCircuitClick(__this) {
       /* - - */
-      gui.loadDataBlockXml("databaseEditorFrame");
+      _omms.gui.loadDataBlockXml("databaseEditorFrame");
       let tbl = $(__this).attr("tbl"),
          api = new restAPI();
       /* - - */
@@ -103,7 +106,7 @@ class submenuNav {
 
    settingsMetersClick(__this) {
       /* load xml */
-      gui.loadDataBlockXml("databaseEditorFrame");
+      _omms.gui.loadDataBlockXml("databaseEditorFrame");
       let api = new restAPI(),
          tbl = $(__this).attr("tbl");
       /* - - */
@@ -121,7 +124,7 @@ class submenuNav {
 
    settingsSpacesClick(__this) {
       /* - - */
-      gui.loadDataBlockXml("databaseEditorFrame");
+      _omms.gui.loadDataBlockXml("databaseEditorFrame");
       let tbl = $(__this).attr("tbl"),
          api = new restAPI();
       console.log(tbl);
@@ -139,7 +142,7 @@ class submenuNav {
 
    settingsClientSpaceCircuitsClick(__this) {
       /* - - */
-      gui.loadDataBlockXml("databaseEditorFrame");
+      _omms.gui.loadDataBlockXml("databaseEditorFrame");
       let tbl = $(__this).attr("tbl"),
          api = new restAPI();
       /* - - */
@@ -156,7 +159,7 @@ class submenuNav {
 
    to_delete_settingsClientSpaceCircuitsClick(__this) {
       /* - - */
-      gui.loadDataBlockXml("databaseEditorFrame");
+      _omms.gui.loadDataBlockXml("databaseEditorFrame");
       let tbl = $(__this).attr("tbl"),
          api = new restAPI();
       /* - - */

@@ -1,4 +1,5 @@
 <!-- reports classes -->
+<script src="/js/app_namespace_init.js"></script>
 <script src="/js/reports/histogram.js"></script>
 <script src="/js/reports/kwhrs-report.js"></script>
 <script src="/js/db-table.js"></script>

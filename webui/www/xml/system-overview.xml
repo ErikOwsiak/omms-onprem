@@ -5,7 +5,7 @@
    <div id="soPaneBody" class="so-pane-body"> 
    </div>
    __script
-      app.sysOverview = new SystemOverview("systemOverview")
-      setTimeout(app.sysOverview.tick, 200);
+      _omms.app.sysOverview = new SystemOverview("systemOverview")
+      setTimeout(_omms.app.sysOverview.tick, 200);
    script__
 </div>

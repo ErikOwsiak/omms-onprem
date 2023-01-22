@@ -29,9 +29,12 @@ class redis2psql(object):
       self.pubsub_thread: threading.Thread = None
       # -- -- channels -- --
       self.pubsub = self.red.pubsub()
-      self.pzemSub: pzemRedSub = pzemRedSub(ini=self.ini, dbops=self.dbops)
-      self.mqttSub: mqttRedSub = mqttRedSub(ini=self.ini, dbops=self.dbops)
-      self.modbusSub: modbusRedSub = modbusRedSub(ini=self.ini, dbops=self.dbops)
+      self.pzemSub: pzemRedSub = \
+         pzemRedSub(ini=self.ini, dbops=self.dbops, red=self.red)
+      self.mqttSub: mqttRedSub = \
+         mqttRedSub(ini=self.ini, dbops=self.dbops, red=self.red)
+      self.modbusSub: modbusRedSub = \
+         modbusRedSub(ini=self.ini, dbops=self.dbops, red=self.red)
       self.subs: [redSubChannel] = []
 
    def int(self):
@@ -60,8 +63,3 @@ class redis2psql(object):
       self.pubsub_thread: threading.Thread = self.pubsub.run_in_thread(sleep_time=0.001)
       self.pubsub_thread.name = "RedSubThread"
       print(self.pubsub_thread)
-
-   """
-      {'type': 'pmessage', 'pattern': b'CK_PZEM_READER_ROOF'
-         , 'channel': b'CK_PZEM_READER_ROOF', 'data': b'#RPT|MODE:Sleep!'}
-   """

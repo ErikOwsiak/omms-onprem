@@ -32,3 +32,7 @@ class apiOps(object):
    def list_clients(self) -> str:
       arr = self.dbops.get_active_clients()
       return json.dumps(arr)
+
+   def list_client_meters(self, clt_dbid: int) -> str:
+      arr = self.dbops.get_client_meters(clt_dbid)
+      return json.dumps(arr)

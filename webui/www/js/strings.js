@@ -1,5 +1,6 @@
 
-var strings = {
+
+_omms.strings = {
 
    en: {
       liveViewSubMsg: "realtime readout of meter's selected registers updated every 2 minutes",
@@ -16,9 +17,10 @@ var strings = {
 
    }
 
-}
+};
 
-var colNamesTable = {
+
+_omms.colNamesTable = {
 
    en: {
       fk_meter_dbid: "Meter DBID",
@@ -55,4 +57,4 @@ var colNamesTable = {
 
    }
 
-}
+};

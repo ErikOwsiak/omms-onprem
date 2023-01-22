@@ -10,12 +10,12 @@
          $("#kWhrsRptFrame .kwhrs-rpt-body").html("");
          app.lastFiveYears("selReportKwhrsYear"); */
       
-         /* -- */
-      if (app.restapi)
-         app.restapi = null;
       /* -- */
-      app.restapi = new restAPI();
-      app.restapi.getKwhrsReportList(app.renderReportFiles);
+      if (_omms.app.restapi)
+         _omms.app.restapi = null;
+      /* -- */
+      _omms.app.restapi = new restAPI();
+      _omms.app.restapi.getKwhrsReportList(_omms.app.renderReportFiles);
 
    script__
 </div>

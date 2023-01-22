@@ -8,7 +8,7 @@
          2. let user select a client
          3. pull clients meters   
          init stream graph */
-      liveView.init();
+         _omms.liveView.init();
    script__
 
 </div>

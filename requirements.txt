@@ -1,6 +1,13 @@
+
+setproctitle
 psycopg2==2.9.5
 psycopg2_binary==2.9.1
 pyserial==3.5
 redis==4.3.4
 typing~=3.7.4.3
 Flask==2.2.2
+fabric~=3.0.0
+requests~=2.22.0
+invoke~=2.0.0
+termcolor~=2.2.0
+paramiko~=2.6.0

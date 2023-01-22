@@ -1,5 +1,5 @@
 
-var system = {
+_omms.system = {
 
    handleException(e) {
       console.log(e);
@@ -22,16 +22,5 @@ class queryStringKeyVal {
       /* - - */
       return m[1].trim();
    }
-
-};
-
-class DateParser {
-
-   constructor() {
-
-   }
-
-   
-
 
 };

@@ -32,6 +32,6 @@
       </navbtn>
    </div>
    __script
-      app.subNav = new submenuNav("reportsMenuBody");
+      _omms.app.subNav = new submenuNav("reportsMenuBody");
    script__
 </div>

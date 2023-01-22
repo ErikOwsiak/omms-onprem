@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cd ..
+chmod +x server
+./server
+if [ $? != 0 ]; then
+  echo "BadServerRun"
+fi
+
+# sleep a bit
+sleep 4
+
+# start redis2psql
+chmod +x redis2psql
+./redis2psql

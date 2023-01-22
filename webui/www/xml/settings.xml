@@ -60,9 +60,9 @@
       </div>
    </div>
    __script
-      gui.clearViewport();
-      app.subNav = new submenuNav("settingsMenuBody");
-      app.dataOps = new dataOps();
-      app.dataOps.getOrg();
+      _omms.gui.clearViewport();
+      _omms.app.subNav = new submenuNav("settingsMenuBody");
+      _omms.app.dataOps = new dataOps();
+      _omms.app.dataOps.getOrg();
    script__
 </div>
