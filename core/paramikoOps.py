@@ -17,6 +17,9 @@ class paramikoOps(object):
       except paramiko.ssh_exception.NoValidConnectionsError as e:
          print(colored(f"\t{str(e)}", "dark_grey"))
          return False
+      except Exception as e:
+         print(colored(f"\t{str(e)}", "dark_grey"))
+         return False
 
    def run_as_root(self, conn, rpwd, cmd):
       shell: Channel = self.ssh_clt.invoke_shell()
