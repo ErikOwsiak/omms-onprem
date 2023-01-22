@@ -17,6 +17,8 @@ class edgeOps(object):
       cmd = input(txt)
       for e in edges:
          self.__cmd_on_edge(cmd, e)
+      # -- user input --
+      v = input("\n\tHit any key to continue: ")
 
    def __cmd_on_edge(self, cmd, edge: str):
       # -- -- -- -- -- -- -- --
