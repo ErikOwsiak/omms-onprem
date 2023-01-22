@@ -15,7 +15,7 @@ class paramikoOps(object):
          self.ssh_clt.connect(hostname=host, port=port, username=uid, password=pwd)
          return self.ssh_clt.get_transport().is_active()
       except paramiko.ssh_exception.NoValidConnectionsError as e:
-         print(colored(str(e), "dark_grey"))
+         print(colored(f"\t{str(e)}", "dark_grey"))
          return False
 
    def run_as_root(self, conn, rpwd, cmd):

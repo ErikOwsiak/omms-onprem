@@ -25,5 +25,6 @@ class edgeOps(object):
       u_uid, u_pwd = [v.strip() for v in usr.strip().split(" ")]
       su_uid, su_pwd = [v.strip() for v in su.strip().split(" ")]
       if not self.edgeops.ssh_clt_connect(ip, port, u_uid, u_pwd):
-         raise Exception("SHHClientNotConnected")
+         print(colored("\tSHHClientNotConnected", "red"))
+         return
       self.edgeops.run_as_root(f"{ip}:{port}", su_pwd, cmd)
