@@ -31,4 +31,8 @@ class edgeOps(object):
       if not self.edgeops.ssh_clt_connect(ip, port, u_uid, u_pwd):
          print(colored("\tSHHClientNotConnected", "red"))
          return
-      self.edgeops.run_as_root(f"{host}/{ip}:{port}", su_pwd, cmd)
+      try:
+         self.edgeops.run_as_root(f"{host}/{ip}:{port}", su_pwd, cmd)
+         self.edgeops.ssh_clt.close()
+      except Exception as e:
+         print(e)
