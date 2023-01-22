@@ -1,0 +1,42 @@
+<div id="xmlClientView">
+   
+   <div id="settingsMenuHead" class="settings-menu-head">
+      <h1>Client View</h1>
+      <p>view client's meter data</p>
+   </div>
+   
+   <div id="settingsMenuBody" class="settings-menu-body">
+      <div class="submenu-buttons">
+         <navbtn id="clientView" class="nav-btn">
+            <div class="nav-btn-lbl">
+               <select id="selCltSelector">
+               </select>
+            </div>
+            <div class="nav-sub-btns">
+               <div></div>
+            </div>
+         </navbtn>
+         <navbtn id="datePickerA" class="nav-btn">
+            <div class="nav-btn-lbl" style="text-align: center;">
+               <input type="date" id="txtCltViewDate" />
+               &nbsp;&nbsp;
+               <input type="button" id="btnRunCltView" value="[&nbsp;View&nbsp;&nbsp;Meters&nbsp;]"/>
+            </div>
+            <div class="">
+               <div></div>
+            </div>
+         </navbtn>
+      </div>
+   </div>
+   __script
+      
+      /* 1. pull clients
+         2. let user select a client
+         3. pull clients meters   
+         init stream graph */
+
+      _omms.gui.clearViewport();
+      _omms.liveView.init();
+      $("#btnRunCltView").off().on("click", _omms.app.onViewCltMeterData);
+   script__
+</div>
