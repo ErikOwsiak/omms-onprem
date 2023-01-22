@@ -10,9 +10,13 @@ class paramikoOps(object):
       self.ssh_clt: paramiko.SSHClient = paramiko.SSHClient()
 
    def ssh_clt_connect(self, host: str, port: int, uid: str, pwd: str) -> bool:
-      self.ssh_clt.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-      self.ssh_clt.connect(hostname=host, port=port, username=uid, password=pwd)
-      return self.ssh_clt.get_transport().is_active()
+      try:
+         self.ssh_clt.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+         self.ssh_clt.connect(hostname=host, port=port, username=uid, password=pwd)
+         return self.ssh_clt.get_transport().is_active()
+      except paramiko.ssh_exception.NoValidConnectionsError as e:
+         print(colored(str(e), "dark_grey"))
+         return False
 
    def run_as_root(self, conn, rpwd, cmd):
       shell: Channel = self.ssh_clt.invoke_shell()
