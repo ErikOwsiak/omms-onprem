@@ -16,7 +16,7 @@ class edgeOps(object):
       for e in edges:
          self.__cmd_on_edge(cmd, e)
       # -- user input --
-      v = input("\n\tHit any key to continue:\n\n")
+      v = input("\n\tHit any key to continue:")
 
    def __cmd_on_edge(self, cmd, edge: str):
       # -- -- -- -- -- -- -- --
@@ -42,6 +42,6 @@ class edgeOps(object):
          print(e)
 
    def __print_header(self):
-      txt = "exp:\n\tas root ->  /r ps -A | grep omms\n\tas user ->  ps -A | grep omms"
+      txt = "\texp:\n\t  as root ->  /r ps -A | grep omms\n\t  as user ->  ps -A | grep omms"
       cb = colored(txt, "yellow")
       print(cb)
