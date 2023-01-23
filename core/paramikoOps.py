@@ -3,6 +3,7 @@ import time, paramiko
 from termcolor import colored
 from paramiko.channel import Channel
 
+STEP_SLEEP_TINY: float = 1.0
 STEP_SLEEP_SHORT: float = 2.0
 STEP_SLEEP_LONG: float = 6.0
 
@@ -28,12 +29,17 @@ class paramikoOps(object):
       shell: Channel = self.ssh_clt.invoke_shell()
       # Send the su command
       shell.in_buffer.empty()
+      # -- send su -
       shell.send("su\n".encode())
-      time.sleep(STEP_SLEEP_SHORT)
-      # receive_buffer = shell.recv(1024)
+      time.sleep(STEP_SLEEP_TINY)
+      rec_buff: bytes = shell.recv(1024)
+      if rec_buff in [None, []]:
+         time.sleep(STEP_SLEEP_TINY)
+         rec_buff = shell.recv(1024)
+      # -- send su pwd --
       shell.in_buffer.empty()
       shell.send(rpwd + '\n')
-      time.sleep(STEP_SLEEP_SHORT)
+      time.sleep(STEP_SLEEP_TINY)
       # receive_buffer = shell.recv(1024)
       shell.in_buffer.empty()
       shell.send(f"{cmd}\n".encode())
