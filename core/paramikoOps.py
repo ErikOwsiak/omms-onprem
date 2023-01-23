@@ -45,7 +45,7 @@ class paramikoOps(object):
       shell.send(f"{cmd}\n".encode())
       max_ticks = 20
       # -- -- -- -- -- -- -- -- -- -- -- --
-      time.sleep(STEP_SLEEP_SHORT)
+      time.sleep(STEP_SLEEP_LONG)
       lns = shell.recv(4096).splitlines()
       if lns in [None, ""] or len(lns) == 0:
          time.sleep(STEP_SLEEP_LONG)
