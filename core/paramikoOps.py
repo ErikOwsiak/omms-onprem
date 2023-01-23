@@ -26,22 +26,29 @@ class paramikoOps(object):
       # Send the su command
       shell.in_buffer.empty()
       shell.send("su\n".encode())
-      time.sleep(0.66)
+      time.sleep(1.0)
       # receive_buffer = shell.recv(1024)
       shell.in_buffer.empty()
       shell.send(rpwd + '\n')
-      time.sleep(0.66)
+      time.sleep(1.0)
       # receive_buffer = shell.recv(1024)
       shell.in_buffer.empty()
       shell.send(f"{cmd}\n".encode())
-      # while shell.active:
+      max_ticks = 20
+      # -- -- -- -- -- -- -- -- -- -- -- --
+      while not shell.recv_ready():
+         time.sleep(0.2)
+         max_ticks -= 1
+         if max_ticks == 0:
+            print("MAX_TICKS_IS_ZERO")
+            raise Exception("MAX_TICKS_IS_ZERO")
       time.sleep(2.0)
       lns = shell.recv(4096).splitlines()
-      # -- -- display -- --
+      # -- -- -- -- display -- -- -- --
       print(colored(f"\n\t[ CONN:: {conn} ]", "blue"))
       print(colored(f"\t[ CMD:: {lns[0].decode()} ]", "green"))
       for ln in lns[1:-1]:
          print(colored(f"\t    > {ln.decode()}", "light_blue"))
       shell.in_buffer.empty()
       print(colored("\t--- end ---\n", "red"))
-      # -- -- end -- --
+      # -- -- -- -- end -- -- -- --
