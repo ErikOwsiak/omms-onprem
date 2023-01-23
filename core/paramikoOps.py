@@ -4,7 +4,7 @@ from termcolor import colored
 from paramiko.channel import Channel
 
 STEP_SLEEP_SHORT: float = 2.0
-STEP_SLEEP_LONG: float = 4.0
+STEP_SLEEP_LONG: float = 6.0
 
 
 class paramikoOps(object):
