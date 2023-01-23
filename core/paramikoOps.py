@@ -5,7 +5,7 @@ from paramiko.channel import Channel
 
 STEP_SLEEP_TINY: float = 1.0
 STEP_SLEEP_SHORT: float = 2.0
-STEP_SLEEP_LONG: float = 6.0
+STEP_SLEEP_LONG: float = 4.0
 
 
 class paramikoOps(object):
@@ -54,7 +54,7 @@ class paramikoOps(object):
       time.sleep(STEP_SLEEP_SHORT)
       lns = shell.recv(4096).splitlines()
       if lns in [None, ""] or len(lns) == 0:
-         time.sleep(STEP_SLEEP_SHORT)
+         time.sleep(STEP_SLEEP_LONG)
          lns = shell.recv(4096).splitlines()
       # -- -- -- -- display -- -- -- --
       print(colored(f"\n\t[ CONN:: {conn} ]", "blue"))
