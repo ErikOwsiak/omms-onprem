@@ -26,11 +26,11 @@ class paramikoOps(object):
       # Send the su command
       shell.in_buffer.empty()
       shell.send("su\n".encode())
-      time.sleep(0.66)
+      time.sleep(1.0)
       # receive_buffer = shell.recv(1024)
       shell.in_buffer.empty()
       shell.send(rpwd + '\n')
-      time.sleep(0.66)
+      time.sleep(1.0)
       # receive_buffer = shell.recv(1024)
       shell.in_buffer.empty()
       shell.send(f"{cmd}\n".encode())
