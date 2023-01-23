@@ -3,6 +3,9 @@ import time, paramiko
 from termcolor import colored
 from paramiko.channel import Channel
 
+STEP_SLEEP_SHORT: float = 2.0
+STEP_SLEEP_LONG: float = 4.0
+
 
 class paramikoOps(object):
 
@@ -26,11 +29,11 @@ class paramikoOps(object):
       # Send the su command
       shell.in_buffer.empty()
       shell.send("su\n".encode())
-      time.sleep(1.0)
+      time.sleep(STEP_SLEEP_SHORT)
       # receive_buffer = shell.recv(1024)
       shell.in_buffer.empty()
       shell.send(rpwd + '\n')
-      time.sleep(1.0)
+      time.sleep(STEP_SLEEP_SHORT)
       # receive_buffer = shell.recv(1024)
       shell.in_buffer.empty()
       shell.send(f"{cmd}\n".encode())
@@ -42,7 +45,7 @@ class paramikoOps(object):
          if max_ticks == 0:
             print("MAX_TICKS_IS_ZERO")
             raise Exception("MAX_TICKS_IS_ZERO")
-      time.sleep(2.0)
+      time.sleep(STEP_SLEEP_LONG)
       lns = shell.recv(4096).splitlines()
       # -- -- -- -- display -- -- -- --
       print(colored(f"\n\t[ CONN:: {conn} ]", "blue"))
