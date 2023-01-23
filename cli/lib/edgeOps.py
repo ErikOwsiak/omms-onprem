@@ -31,10 +31,13 @@ class edgeOps(object):
          print(colored("\tSHHClientNotConnected", "red"))
          return
       try:
-         lns = self.edgeops.run_cmd(f"{host} / {ip}:{port}", cmd, su_pwd)
+         conn_tag: str = f"{host} / {ip}:{port}"
+         lns = self.edgeops.run_cmd(conn_tag, cmd, su_pwd)
          # -- print --
+         ctxt = colored(f"\n\t[ {conn_tag} ]", "blue")
+         print(ctxt)
          for ln in lns:
-            print(ln)
+            print(f"\t  {ln}")
          self.edgeops.ssh_clt.close()
       except Exception as e:
          print(e)
