@@ -51,7 +51,8 @@ class paramikoOps(object):
       print(colored(f"\n\t[ CONN:: {conn} ]", "blue"))
       print(colored(f"\t[ CMD:: {lns[0].decode()} ]", "green"))
       for ln in lns[1:-1]:
-         print(colored(f"\t    > {ln.decode()}", "light_blue"))
+         if ln not in [None, ""]:
+            print(colored(f"\t    > {ln.decode()}", "light_blue"))
       shell.in_buffer.empty()
       print(colored("\t--- end ---\n", "red"))
       # -- -- -- -- end -- -- -- --
