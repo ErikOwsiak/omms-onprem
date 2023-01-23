@@ -35,7 +35,6 @@ class paramikoOps(object):
       rec_buff: bytes = shell.recv(1024)
       if rec_buff in [None, []]:
          time.sleep(STEP_SLEEP_TINY)
-         rec_buff = shell.recv(1024)
       # -- send su pwd --
       shell.in_buffer.empty()
       shell.send(rpwd + '\n')
@@ -43,7 +42,6 @@ class paramikoOps(object):
       # receive_buffer = shell.recv(1024)
       shell.in_buffer.empty()
       shell.send(f"{cmd}\n".encode())
-      max_ticks = 20
       # -- -- -- -- -- -- -- -- -- -- -- --
       time.sleep(STEP_SLEEP_LONG)
       lns = shell.recv(4096).splitlines()
