@@ -39,18 +39,12 @@ class paramikoOps(object):
       # -- send su pwd --
       shell.in_buffer.empty()
       shell.send(rpwd + '\n')
-      time.sleep(STEP_SLEEP_TINY)
+      time.sleep(STEP_SLEEP_SHORT)
       # receive_buffer = shell.recv(1024)
       shell.in_buffer.empty()
       shell.send(f"{cmd}\n".encode())
       max_ticks = 20
       # -- -- -- -- -- -- -- -- -- -- -- --
-      while not shell.recv_ready():
-         time.sleep(0.2)
-         max_ticks -= 1
-         if max_ticks == 0:
-            print("MAX_TICKS_IS_ZERO")
-            raise Exception("MAX_TICKS_IS_ZERO")
       time.sleep(STEP_SLEEP_SHORT)
       lns = shell.recv(4096).splitlines()
       if lns in [None, ""] or len(lns) == 0:
