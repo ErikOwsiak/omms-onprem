@@ -11,9 +11,8 @@ class edgeOps(object):
       self.edgeops: paramikoOps = paramikoOps()
 
    def run_edge_cmd(self, edges: []):
-      cb = colored("exp: /r <- as root ps -A | grep omms- ", "yellow")
-      txt = f"\n\t\tenter cmd {cb}: "
-      cmd = input(txt)
+      self.__print_header()
+      cmd = input(colored("\t\tenter cmd: ", "green"))
       for e in edges:
          self.__cmd_on_edge(cmd, e)
       # -- user input --
@@ -41,3 +40,8 @@ class edgeOps(object):
          self.edgeops.ssh_clt.close()
       except Exception as e:
          print(e)
+
+   def __print_header(self):
+      txt = "exp:\n\tas root ->  /r ps -A | grep omms\n\tas user ->  ps -A | grep omms"
+      cb = colored(txt, "yellow")
+      print(cb)
