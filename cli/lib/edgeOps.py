@@ -11,7 +11,7 @@ class edgeOps(object):
       self.edgeops: paramikoOps = paramikoOps()
 
    def run_edge_cmd(self, edges: []):
-      cb = colored("exp: ps -A | grep omms- ", "yellow")
+      cb = colored("exp: /r <- as root ps -A | grep omms- ", "yellow")
       txt = f"\n\t\tenter cmd {cb}: "
       cmd = input(txt)
       for e in edges:
@@ -31,7 +31,10 @@ class edgeOps(object):
          print(colored("\tSHHClientNotConnected", "red"))
          return
       try:
-         self.edgeops.run_as_root(f"{host} / {ip}:{port}", su_pwd, cmd)
+         lns = self.edgeops.run_cmd(f"{host} / {ip}:{port}", cmd, su_pwd)
+         # -- print --
+         for ln in lns:
+            print(ln)
          self.edgeops.ssh_clt.close()
       except Exception as e:
          print(e)
