@@ -45,8 +45,11 @@ class paramikoOps(object):
          if max_ticks == 0:
             print("MAX_TICKS_IS_ZERO")
             raise Exception("MAX_TICKS_IS_ZERO")
-      time.sleep(STEP_SLEEP_LONG)
+      time.sleep(STEP_SLEEP_SHORT)
       lns = shell.recv(4096).splitlines()
+      if lns in [None, ""] or len(lns) == 0:
+         time.sleep(STEP_SLEEP_SHORT)
+         lns = shell.recv(4096).splitlines()
       # -- -- -- -- display -- -- -- --
       print(colored(f"\n\t[ CONN:: {conn} ]", "blue"))
       print(colored(f"\t[ CMD:: {lns[0].decode()} ]", "green"))
