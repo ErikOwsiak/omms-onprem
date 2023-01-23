@@ -1,5 +1,4 @@
 
-import time
 from termcolor import colored
 from core.edgeProxy import edgeProxy
 from core.paramikoOps import paramikoOps
@@ -32,7 +31,7 @@ class edgeOps(object):
          print(colored("\tSHHClientNotConnected", "red"))
          return
       try:
-         self.edgeops.run_as_root(f"{host}/{ip}:{port}", su_pwd, cmd)
+         self.edgeops.run_as_root(f"{host} / {ip}:{port}", su_pwd, cmd)
          self.edgeops.ssh_clt.close()
       except Exception as e:
          print(e)
