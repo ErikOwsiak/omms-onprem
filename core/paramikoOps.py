@@ -49,6 +49,7 @@ class paramikoOps(object):
 
    def __run_cmd(self, cinfo, cmd) -> []:
       shell: Channel = self.ssh_clt.invoke_shell()
+      shell.in_buffer.empty()
       err, buff = self.__cmd_shell_resp(shell, cmd)
       return buff.splitlines()
 

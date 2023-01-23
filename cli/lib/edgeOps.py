@@ -17,7 +17,7 @@ class edgeOps(object):
       for e in edges:
          self.__cmd_on_edge(cmd, e)
       # -- user input --
-      v = input("\n\tHit any key to continue: \n\n")
+      v = input("\n\tHit any key to continue:\n\n")
 
    def __cmd_on_edge(self, cmd, edge: str):
       # -- -- -- -- -- -- -- --
@@ -33,7 +33,7 @@ class edgeOps(object):
       try:
          conn_tag: str = f"{host} / {ip}:{port}"
          lns = self.edgeops.run_cmd(conn_tag, cmd, su_pwd)
-         # -- print --
+         # -- -- print -- --
          ctxt = colored(f"\n\t[ {conn_tag} ]", "blue")
          print(ctxt)
          for ln in lns:
