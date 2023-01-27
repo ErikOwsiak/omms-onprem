@@ -35,7 +35,7 @@
 }
 
 .db-editor-frm-body {
-   width: 92%;
+   width: 94%;
    height: 78vh;
    margin: 1vh auto;
    border: 0px dotted blue;
@@ -123,4 +123,77 @@
    font-size: 2.8vh;
    text-indent: 1vw;
    border-bottom: 1px dotted rgb(160, 160, 167);
+}
+
+
+/* 
+   new db editor 
+*/
+
+.tbl_hdr {
+   width: 94%;
+   margin: 2vh auto;
+   font-size: 3.2vh;
+}
+
+.input_ln {
+   width: 86%;
+   margin: 1vh auto;
+}
+
+.input_ln input {
+   width: 100%;
+   margin: 0 !important;
+   font-size: 2.2vh;
+}
+
+div.lbl {
+   text-indent: 0.8vh;
+   font-size: 1.8vh;
+}
+
+div.lst-item-clt {
+   width: 96%;
+   margin: 1vh auto;
+   font-size: 2vh;
+   border: 1px solid darkblue;
+   border-radius: 4px;
+}
+
+div.lst-item-clt div {
+   width: 98%;
+   margin: 4px auto;
+}
+
+div.lst-item-clt:hover {
+   cursor: pointer;
+   background-color: rgba(191, 207, 221, 0.452);
+}
+
+div.syspath {
+   font-size: 1.8vh;
+   color: darkgreen;
+   padding: 4px;
+   border: 1px dotted darkgreen;
+   border-radius: 4px;
+}
+
+div.mmstr {
+   font-size: 1.8vh;
+   color: rgb(10, 8, 82);
+   padding: 4px;
+   border: 1px dotted rgb(10, 8, 82);
+   border-radius: 4px;
+}
+
+cln {
+   display: inline-block;
+   color: darkblue;
+}
+
+bb {
+   display: inline-block;
+   color: darkblue;
+   font-style: italic;
+   font-size: 2vh;
 }

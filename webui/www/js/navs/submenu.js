@@ -47,22 +47,20 @@ class submenuNav {
       this.xmlFormName = xmlFormName;
       console.log("submenuNav:c-tor");
       let selector = `#${this.xmlFormName} navbtn:not(.greyout)`;
-      $(selector).off().on("click", this.onItemClick);
+      $(selector).off().on("click", this.onSubmenuItemClick);
    }
 
-   /* fired by a submenu button */
-   onItemClick() {
+   /* fired by a submenu buttons o on the right */
+   onSubmenuItemClick() {
+      let funcName = "";
       try {
-         /* - - */
          submenuNav.lastClickedSubmenu = this;
-         let btnID = $(submenuNav.lastClickedSubmenu).attr("id"),
-            funcName = `${btnID}Click`;
-         /* - - */
+         let btnID = $(submenuNav.lastClickedSubmenu).attr("id");
+         funcName = `${btnID}Click`;
          console.log(funcName);
          _omms.app.subNav[funcName](submenuNav.lastClickedSubmenu);
-         /* - - */
       } catch(e) {
-         console.log(e);
+         console.log([funcName, e]);
       }
    }
 
@@ -73,34 +71,16 @@ class submenuNav {
    settingsClientClick(__this) {
       /* - - */
       _omms.gui.loadDataBlockXml("databaseEditorFrame");
-      let tbl = $(__this).attr("tbl"),
-         api = new restAPI();
-      /* - - */
-      api.getTableInfo(tbl, function(jarr, tbl) {
-            submenuNav.createTable(jarr, tbl);
-         });
-      /* - - */
-      api.getClients(function(jarr) { 
-            submenuNav.createSelectorListItem(jarr
-               , dbTableHtml.getClinetSelectorItem);
-         });
+      let tbl = $(__this).attr("tbl"), api = new restAPI();
+      _omms.dbedit.getTableInfo(tbl);
       /* - - */
    }
 
-   settingsCircuitClick(__this) {
+   settingsElecMeterCircuitsClick(__this) {
       /* - - */
       _omms.gui.loadDataBlockXml("databaseEditorFrame");
-      let tbl = $(__this).attr("tbl"),
-         api = new restAPI();
-      /* - - */
-      api.getTableInfo(tbl, function(jarr, tbl) {
-            submenuNav.createTable(jarr, tbl);
-         });
-      /* - - */
-      api.getCircuits(function(jarr) { 
-            submenuNav.createSelectorListItem(jarr
-               , dbTableHtml.getCircuitSelectorItem);
-         });
+      let tbl = $(__this).attr("tbl"), api = new restAPI();
+      _omms.dbedit.getTableInfo(tbl);
       /* - - */
    }
 
@@ -140,21 +120,13 @@ class submenuNav {
       /* - - */
    }
 
-   settingsClientSpaceCircuitsClick(__this) {
+   settingsClientMeterCircuitsClick(__this) {
       /* - - */
       _omms.gui.loadDataBlockXml("databaseEditorFrame");
       let tbl = $(__this).attr("tbl"),
          api = new restAPI();
       /* - - */
-      api.getTableInfo(tbl, function(jarr, tbl) {
-            submenuNav.createTable(jarr, tbl);
-         });
-      /* - - */
-      api.getClientCircuits(function(jarr) {
-            submenuNav.createSelectorListItem(jarr
-               , dbTableHtml.getCltCircuitSelectorItem);
-         });
-      /* - - */
+      _omms.dbedit.getTableInfo(tbl);
    }
 
    to_delete_settingsClientSpaceCircuitsClick(__this) {

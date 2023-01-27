@@ -58,3 +58,22 @@ _omms.colNamesTable = {
    }
 
 };
+
+
+_omms.dbColdNames = {
+
+   en: {
+      clt_tag: "Client tag: NIP, TaxID",
+      clt_phone: "Client's phone number",
+      clt_email: "Client's conntact email",
+      note: "Note about the client max 128 chr.",
+      clt_name: "Client's name",
+      clt_access_pin: "Client's access pin",
+      dt_link: "Date meter was liked to the client",
+      dt_unlink: "Date meter was unliked from the client",
+      code: "Python code used with reports & etc..",
+      locl_tag: "Client's locale TAG",
+      cir_tag: "Circuit TAG"
+   }
+
+};

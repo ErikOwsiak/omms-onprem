@@ -10,7 +10,7 @@ class redSubChannel(object):
       self.ini: _cp.ConfigParser = ini
       self.dbops: dbOps = db
       self.red: redis.Redis = red
-      self.sub_channel: str = ""
+      self.chnl_pattern: str = ""
 
    def init(self):
       pass

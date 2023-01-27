@@ -8,9 +8,9 @@ from psql.dbOps import dbOps
 from core.logProxy import logProxy
 # -- channels --
 from core.redSubChannel import redSubChannel
-from subchannels.mqttRedSub import mqttRedSub
-from subchannels.modbusRedSub import modbusRedSub
-from subchannels.pzemRedSub import pzemRedSub
+from redchannels.mqttRedSub import mqttRedSub
+from redchannels.modbusRedSub import modbusRedSub
+from redchannels.pzemRedSub import pzemRedSub
 
 
 NULL = "null"
@@ -58,7 +58,7 @@ class redis2psql(object):
       for red_sub in self.subs:
          red_sub: redSubChannel = red_sub
          red_sub.init()
-         self.pubsub.psubscribe(**{red_sub.sub_channel: red_sub.on_msg})
+         self.pubsub.psubscribe(**{red_sub.chnl_pattern: red_sub.on_msg})
       # -- -- -- --
       self.pubsub_thread: threading.Thread = self.pubsub.run_in_thread(sleep_time=0.001)
       self.pubsub_thread.name = "RedSubThread"

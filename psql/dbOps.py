@@ -1,7 +1,7 @@
 
 import redis
-from psycopg2.extensions import connection
-from psycopg2.extensions import cursor
+from psycopg2.extensions import connection, cursor
+# -- system --
 from core.logProxy import logProxy
 
 
@@ -9,6 +9,8 @@ class dbOps(object):
 
    NULL = 'null'
    PWR_STATS_TBL = "streams.power_stats"
+   METER_MODEL_INFO_REDIS_KEY = "MODEL_INFO"
+   DB_IDX_READS: int = 2
 
    def __init__(self, conn: connection, red: redis.Redis = None):
       self.conn: connection = conn
@@ -24,20 +26,22 @@ class dbOps(object):
          if row is not None:
             return int(row[0])
          else:
-            m_type = "Unknown"
-            m_maker = m_type
-            m_model = m_type
+            m_tp = "Unknown"; m_bnd = m_tp
+            m_mdl = m_tp; m_tag = m_tp
             # -- -- -- --
             DB_IDX_READS: int = 2
             if self.red is not None:
-               # brand: orno; model: orno516; phases: 3
+               # " type: xxx | brand: orno | model: orno516 | tag: xxxx "
                self.red.select(DB_IDX_READS)
-               h_val = self.red.hget(syspath, "meter_info")
-               if h_val:
-                  m_type, m_maker, m_model = self.__parse_meter_info_str(h_val.decode("utf-8"))
+               meter_info = self.red.hget(syspath, dbOps.METER_MODEL_INFO_REDIS_KEY)
+               if meter_info:
+                  m_tp, m_bnd, m_mdl, m_tag = \
+                     self.__parse_meter_info_str(meter_info.decode("utf-8"))
+               else:
+                  logProxy.log_warning(f"METER_INFO_NOT_FOUND: {syspath}")
             # -- -- -- --
             qry = f"insert into {tbl}" \
-               f" values(default, '{syspath}', '{m_type}', '{m_maker}', '{m_model}'," \
+               f" values(default, '{syspath}', '{m_tp}', '{m_bnd}', '{m_mdl}', '{m_tag}'," \
                f" now()) returning met_rowid;"
             cur.execute(qry)
             row = cur.fetchone()
@@ -146,13 +150,76 @@ class dbOps(object):
       finally:
          cur.close()
 
-   def __parse_meter_info_str(self, buff) -> (str, str, str):
+   def __parse_meter_info_str(self, buff: str, dlm: str = "|") -> (str, str, str, str):
       """
-         # brand: orno; model: orno516; phases: 3
+         # type: e3; brand: orno; model: orno516; tag: n/s
       """
-      b, m, p = buff.split(";")
+      ty, b, m, tg = buff.split(dlm)
+      ty = ty.replace("type:", "").strip()
       b = b.replace("brand:", "").strip()
       m = m.replace("model:", "").strip()
-      p = p.replace("phases:", "").strip()
-      p = f"e{p}" if p in ["1", "3"] else p
-      return p, b, m
+      tg = tg.replace("tag:", "").strip()
+      return ty, b, m, tg
+
+   def get_meter_info(self, met_syspath: str) -> (int, int):
+      # -- -- -- -- -- -- -- --
+      # for now; todo: try to reconnect
+      if self.conn is None:
+         pass
+      # -- -- -- -- -- -- -- --
+      cur: cursor = self.conn.cursor()
+      try:
+         # -- if exists it MUST have model info rowid string --
+         qry = f"select t.met_cir_rowid, t.met_model_rowid from" \
+            f" core.elec_meter_circuits t where t.met_syspath = '{met_syspath}';"
+         cur.execute(qry)
+         read_row = cur.fetchone()
+         if read_row:
+            # return int(row[0]), int(row[1])
+            return (int(x) for x in read_row)
+         else:
+            # -- insert model string in --
+            model_rowid: int = 0
+            err_code, minfo = self.__redis_model_info(met_syspath)
+            if err_code == 0:
+               qry = f"select t.mm_rowid from core.meter_models t" \
+                  f" where t.model_string = '{minfo}';"
+               cur.execute(qry)
+               read_row = cur.fetchone()
+               if read_row:
+                  model_rowid = int(read_row[0])
+               else:
+                  qry = f"insert into core.meter_models" \
+                     f" values(default, '{minfo}', now()) returning mm_rowid;"
+                  cur.execute(qry)
+                  write_row = cur.fetchone()
+                  self.conn.commit()
+                  model_rowid = int(write_row[0])
+            else:
+               pass
+            # -- -- -- --
+            met_cir_rowid: int = 0
+            qry = f"insert into core.elec_meter_circuits" \
+               f" (met_cir_rowid, met_syspath, met_model_rowid, met_dt_crd)" \
+               f" values(default, '{met_syspath}', {model_rowid}, now()) returning met_cir_rowid;"
+            cur.execute(qry)
+            write_row = cur.fetchone()
+            if write_row:
+               met_cir_rowid = int(write_row[0])
+            # -- -- -- --
+            return met_cir_rowid, model_rowid
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def __redis_model_info(self, met_syspath: str) -> (int, str):
+      self.red.select(dbOps.DB_IDX_READS)
+      meter_info = self.red.hget(met_syspath, dbOps.METER_MODEL_INFO_REDIS_KEY)
+      if meter_info:
+         minfo: str = meter_info.decode("utf-8").strip()
+         return 0, minfo
+      else:
+         msg = f"METER_INFO_NOT_FOUND: {meter_info}"
+         logProxy.log_warning(msg)
+         return 1, msg

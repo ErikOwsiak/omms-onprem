@@ -5,47 +5,44 @@
    </div>
    <div id="settingsMenuBody" class="settings-menu-body">
       <div class="submenu-buttons">
+         
+         <br/><br/>
          <navbtn id="settingsClient" tbl="clients" class="nav-btn">
             <div class="nav-btn-lbl">
-               <span>client(s)</span>
+               <span>Clients</span>
             </div>
             <div class="nav-sub-btns">
                <div></div>
             </div>
          </navbtn>
-         <navbtn id="settingsSpaces" tbl="spaces" class="nav-btn">
+         
+         <navbtn id="settingsClientMeterCircuits" tbl="client_meter_circuits" class="nav-btn">
             <div class="nav-btn-lbl">
-               <span>space(s)</span>
-            </div>
-            <div class="nav-sub-btns">
-               <div></div>
-            </div>
-         </navbtn>
-         <navbtn id="settingsCircuit" tbl="circuits" class="nav-btn">
-            <div class="nav-btn-lbl">
-               <span>circuit(s)</span>
-            </div>
-            <div class="nav-sub-btns">
-               <div></div>
-            </div>
-         </navbtn>
-         <navbtn id="settingsClientSpaceCircuits" tbl="client_space_circuits" class="nav-btn">
-            <div class="nav-btn-lbl">
-               <span>client::space::circuit(s)</span>
-            </div>
-            <div class="nav-sub-btns">
-               <div></div>
-            </div>
-         </navbtn>
-         <navbtn id="settingsMeters" tbl="meters" class="nav-btn">
-            <div class="nav-btn-lbl">
-               <span>meter(s)</span>
+               <span>ClientMeterCircuits</span>
             </div>
             <div class="nav-sub-btns">
                <div></div>
             </div>
          </navbtn>
 
+         <br/><br/>
+         <navbtn id="settingsElecMeterCircuits" tbl="elec_meter_circuits" class="nav-btn">
+            <div class="nav-btn-lbl">
+               <span>ElecMeterCircuits</span>
+            </div>
+            <div class="nav-sub-btns">
+               <div></div>
+            </div>
+         </navbtn>
+         
+         <!-- <navbtn id="settingsMeters" tbl="meters" class="nav-btn">
+            <div class="nav-btn-lbl">
+               <span>meter(s)</span>
+            </div>
+            <div class="nav-sub-btns">
+               <div></div>
+            </div>
+         </navbtn> -->
          <!--
          <navbtn id="settingsClientSpaceCircuits" tbl="client_space_circuits" class="nav-btn">
             <div class="nav-btn-lbl">
@@ -60,9 +57,9 @@
       </div>
    </div>
    __script
-      _omms.gui.clearViewport();
-      _omms.app.subNav = new submenuNav("settingsMenuBody");
-      _omms.app.dataOps = new dataOps();
-      _omms.app.dataOps.getOrg();
+      if (_omms.xmlsecs)
+         _omms.xmlsecs.settings();
+      else
+         console.log("_omms.xmlsecs is false");
    script__
 </div>

@@ -38,7 +38,7 @@
 
 .app-submenu-col {
    display: block;
-   width: 23%;
+   width: 22%;
    height: inherit;
    border: 1px solid #352a77;
    border-radius: 1vh;
@@ -125,7 +125,7 @@
 }
 
 .org-nav-body {
-   overflow-y: scroll;
+   overflow-y: auto;
    height: 72vh;
 }
 
