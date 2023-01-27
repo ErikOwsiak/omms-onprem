@@ -24,10 +24,14 @@ if debug.is_dev_box():
    REDIS_SEC = "REDIS_DEV"
 # -- -- -- --
 PSQL_CONN_STR = WEBUI_INI.get(PSQL_CONN_SEC, "CONN_STR")
+print(f"\nPSQL_CONN_STR: {PSQL_CONN_STR}")
 PSQL_CONN: _psql_conn = dbConnServer.getConnection(PSQL_CONN_STR)
 if PSQL_CONN.closed:
-   print("PSQL_CONN is closed!")
+   print("PSQL_CONN is closed!\n")
    exit(1)
+else:
+   print("PSQL_CONN_OK\n")
+
 
 RED: _cp.SectionProxy = WEBUI_INI[REDIS_SEC]
 RED_CORE: _cp.SectionProxy = WEBUI_INI["REDIS_CORE"]
