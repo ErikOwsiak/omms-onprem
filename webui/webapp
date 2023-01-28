@@ -93,8 +93,8 @@ def apiget_meters(args):
 
 @app.route("/dbedit/<path:action>", methods=["GET", "POST"])
 def dbedit(action):
+   hdrs = {"AppServer": "dbEdit ver.: 0.0.3"}
    try:
-      hdrs = {"AppServer": "dbEdit ver.: 0.0.3"}
       _dbedit: dbEdit = dbEdit(conn=PSQL_CONN, action=action, req=req)
       act_run_rval = _dbedit.run_action()
       if act_run_rval == 0:
@@ -107,7 +107,8 @@ def dbedit(action):
       hdrs["content-type"] = _ctype
       return _bout, _err, hdrs
    except Exception as e:
-      return str(e), 555, "text/plain"
+      hdrs["content-type"] = "text/plain"
+      return str(e), 555, hdrs
 
 
 @app.route("/api/post", methods=["POST"])
