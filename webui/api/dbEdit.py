@@ -26,6 +26,7 @@ class dbEdit(object):
       if has_method:
          _method = getattr(self, method_name)
          method_error: int = _method()
+         print(f"buffout: {self.buffout}")
          if method_error != 0:
             pass
          else:
