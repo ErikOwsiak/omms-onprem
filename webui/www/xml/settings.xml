@@ -37,22 +37,6 @@
                </div>
             </navbtn>
          </fieldset>
-         <!-- <navbtn id="settingsMeters" tbl="meters" class="nav-btn">
-            <div class="nav-btn-lbl">
-               <span>meter(s)</span>
-            </div>
-            <div class="nav-sub-btns">
-               <div></div>
-            </div>
-         </navbtn> -->
-         <!-- <navbtn id="settingsClientSpaceCircuits" tbl="client_space_circuits" class="nav-btn">
-            <div class="nav-btn-lbl">
-               <span>client::space::circuits</span>
-            </div>
-            <div class="nav-sub-btns">
-               <div></div>
-            </div>
-         </navbtn> -->
       </div>
    </div>
    __script

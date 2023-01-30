@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import configparser as _cp, redis, setproctitle
+import json
+
 from psycopg2.extensions import connection as _psql_conn
 from flask import Flask, render_template, request as req, make_response
 from api.apiOps import apiOps
@@ -23,10 +25,12 @@ if debug.is_dev_box():
    PSQL_CONN_SEC = "PSQL_DEV"
    REDIS_SEC = "REDIS_DEV"
 # -- -- -- --
+PSQL_CONN_CLOSED: bool = False
 PSQL_CONN_STR = WEBUI_INI.get(PSQL_CONN_SEC, "CONN_STR")
 print(f"\nPSQL_CONN_STR: {PSQL_CONN_STR}")
 PSQL_CONN: _psql_conn = dbConnServer.getConnection(PSQL_CONN_STR)
 if PSQL_CONN.closed:
+   PSQL_CONN_CLOSED = True
    print("PSQL_CONN is closed!\n")
    exit(1)
 else:
@@ -107,7 +111,7 @@ def dbedit(action):
       hdrs["content-type"] = _ctype
       return _bout, _err, hdrs
    except Exception as e:
-      hdrs["content-type"] = "text/plain"
+      hdrs["content-type"] = "text/exception"
       print(e)
       return str(e), 555, hdrs
 
@@ -115,6 +119,19 @@ def dbedit(action):
 @app.route("/api/post", methods=["POST"])
 def apipost():
    pass
+
+
+@app.route("/state-info")
+def state_info():
+   hdrs = {"AppServer": "dbEdit ver.: 0.0.3", "content-type": "text/json"}
+   try:
+      redis_ping: bool = REDIS.ping()
+      d: {} = {"PSQL_CONN_STR": PSQL_CONN_STR
+         , "REDIS_PING": redis_ping, "PSQL_CONN_CLOSED": PSQL_CONN_CLOSED}
+      # -- return --
+      return json.dumps(d), 200, hdrs
+   except Exception as e:
+      print(e)
 
 
 # == == == == == == == == == == == == == == == == == == == == == == == == == ==

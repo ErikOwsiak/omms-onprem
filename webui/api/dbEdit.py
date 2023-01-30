@@ -1,5 +1,7 @@
 
 import json
+
+import psycopg2
 from psycopg2.extensions import connection as _psql_conn
 from psycopg2.extensions import cursor
 from flask import request
@@ -26,7 +28,6 @@ class dbEdit(object):
       if has_method:
          _method = getattr(self, method_name)
          method_error: int = _method()
-         # print(f"buffout: {self.buffout}")
          if method_error != 0:
             pass
          else:
@@ -52,40 +53,16 @@ class dbEdit(object):
       return 0
 
    def _get_clients(self):
-      cur: cursor = self.conn.cursor()
-      cur.execute(dbEditSql.get_clients())
-      rows = cur.fetchall()
-      if rows is None:
-         self.buffout = ""
-         self.buffout_error = 404
-      else:
-         self.buffout = json.dumps(rows)
-         self.buffout_error = 200
-      return 0
+      qry = dbEditSql.get_clients()
+      return self.__select_qry_rows(qry)
 
    def _get_client_meter_circuits(self):
-      cur: cursor = self.conn.cursor()
-      cur.execute(dbEditSql.clt_met_cirs_rows())
-      rows = cur.fetchall()
-      if rows is None:
-         self.buffout = ""
-         self.buffout_error = 404
-      else:
-         self.buffout = json.dumps(rows)
-         self.buffout_error = 200
-      return 0
+      qry = dbEditSql.clt_met_cirs_rows()
+      return self.__select_qry_rows(qry)
 
    def _get_elec_meter_circuits(self):
-      cur: cursor = self.conn.cursor()
-      cur.execute(dbEditSql.elec_meter_circuits())
-      rows = cur.fetchall()
-      if rows is None:
-         self.buffout = ""
-         self.buffout_error = 404
-      else:
-         self.buffout = json.dumps(rows)
-         self.buffout_error = 200
-      return 0
+      qry = dbEditSql.elec_meter_circuits()
+      return self.__select_qry_rows(qry)
 
    def _upsert(self) -> int:
       # -- upsert table --
@@ -152,4 +129,24 @@ class dbEdit(object):
          print(e)
       finally:
          self.conn.commit()
+         cur.close()
+
+   def __select_qry_rows(self, qry):
+      cur: cursor = self.conn.cursor()
+      try:
+         iso_level = psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED
+         self.conn.set_session(isolation_level=iso_level, readonly=True, autocommit=True)
+         cur.execute(qry)
+         rows = cur.fetchall()
+         if rows is None:
+            self.buffout = json.dumps({"Rows": 0})
+            self.buffout_error = 404
+         else:
+            self.buffout = json.dumps(rows)
+            self.buffout_error = 200
+         return 0
+      except Exception as e:
+         self.buffout = json.dumps({"Exception": str(e)})
+         self.buffout_error = 556
+      finally:
          cur.close()
