@@ -132,10 +132,15 @@ class dbEdit(object):
          cur.close()
 
    def __select_qry_rows(self, qry):
+      # -- -- -- -- -- -- -- --
       cur: cursor = self.conn.cursor()
       try:
          iso_level = psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED
          self.conn.set_session(isolation_level=iso_level, readonly=True, autocommit=True)
+      except Exception as e:
+         print(e)
+      # -- -- -- -- -- -- -- --
+      try:
          cur.execute(qry)
          rows = cur.fetchall()
          if rows is None:
