@@ -144,7 +144,7 @@
 .input_ln input {
    width: 100%;
    margin: 0 !important;
-   font-size: 2.2vh;
+   font-size: 2vh;
 }
 
 div.lbl {
@@ -196,4 +196,37 @@ bb {
    color: darkblue;
    font-style: italic;
    font-size: 2vh;
+}
+
+div.new-dbitem-from {
+   width: 96%;
+   height: 76%;
+   margin: auto;
+   overflow-y: scroll;
+   border: 1px solid darkgray;
+   border-radius: 4px;
+}
+
+div.crud-frame {
+   margin: 2vh auto;
+   text-align: center;
+}
+
+div.crud-btn {
+   display: inline-block;
+   width: 18%;
+   height: 4vh;
+   line-height: 4vh;
+   margin: 1vh 2%;
+   border: 1px solid darkgray;
+   border-radius: 4px;
+}
+
+div.crud-btn:hover {
+   cursor: pointer;
+   background-color: #628fb94b;
+}
+
+#txtValidate {
+   width: 10%;
 }

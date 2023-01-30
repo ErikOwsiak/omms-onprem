@@ -26,7 +26,7 @@ class dbEdit(object):
       if has_method:
          _method = getattr(self, method_name)
          method_error: int = _method()
-         print(f"buffout: {self.buffout}")
+         # print(f"buffout: {self.buffout}")
          if method_error != 0:
             pass
          else:
@@ -86,3 +86,70 @@ class dbEdit(object):
          self.buffout = json.dumps(rows)
          self.buffout_error = 200
       return 0
+
+   def _upsert(self) -> int:
+      # -- upsert table --
+      d: {} = {"EditorAction": "Upsert"}
+      tblname: str = self.req.args["tbl"]
+      if tblname == "clients":
+         qry = dbEditSql.upsert_clients(self.req.values)
+      elif tblname == "client_meter_circuits":
+         qry = dbEditSql.upsert_client_meter_circuits(self.req.values)
+      else:
+         d["Error"] = "BadTableName"
+         self.buffout = json.dumps(d)
+         self.buffout_error = 588
+         return 1
+      # -- -- -- --
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         row, = cur.fetchone()
+         if row is None:
+            d["ErrorMsg"] = "RowIsNone"
+            self.buffout = json.dumps(d)
+            self.buffout_error = 404
+            self.conn.rollback()
+         else:
+            d["ErrorMsg"] = "OK"; d["ReturnedRowID"] = row
+            self.buffout = json.dumps(d)
+            self.buffout_error = 200
+         return 0
+      except Exception as e:
+         print(e)
+      finally:
+         self.conn.commit()
+         cur.close()
+
+   def _delete(self):
+      # -- upsert table --
+      d: {} = {"EditorAction": "Delete"}
+      tblname: str = self.req.args["tbl"]
+      rowid = self.req.values["rowid"]
+      if tblname == "clients":
+         qry = f"delete from config.clients where clt_rowid = {rowid};"
+      elif tblname == "client_meter_circuits":
+         qry = f"delete from config.clients where clt_rowid = {rowid};"
+      else:
+         d["ErrorMsg"] = "BadTableName"
+         self.buffout = json.dumps(d)
+         self.buffout_error = 588
+         return 1
+      # -- -- -- --
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         if cur.rowcount == 1:
+            d["ErrorMsg"] = "OK"
+            self.buffout = json.dumps(d)
+            self.buffout_error = 200
+         else:
+            self.buffout = ""
+            self.buffout_error = 404
+            self.conn.rollback()
+         return 0
+      except Exception as e:
+         print(e)
+      finally:
+         self.conn.commit()
+         cur.close()

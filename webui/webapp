@@ -108,6 +108,7 @@ def dbedit(action):
       return _bout, _err, hdrs
    except Exception as e:
       hdrs["content-type"] = "text/plain"
+      print(e)
       return str(e), 555, hdrs
 
 

@@ -299,3 +299,8 @@ div.spinner-msg {
    vertical-align: bottom;
    color: rgb(77, 10, 94);
 }
+
+fieldset.settings-btns {
+   border-radius: 0.8vh;
+   padding-bottom: 4vh;
+}
