@@ -1,26 +1,36 @@
 
 import json
-
 import psycopg2
 from psycopg2.extensions import connection as _psql_conn
 from psycopg2.extensions import cursor
 from flask import request
 from webui.api.dbEditSql import dbEditSql
+from psql.dbConnServer import dbConnServer
 
 
 class dbEdit(object):
 
-   def __init__(self, conn: _psql_conn, action: str, req: request):
-      self.conn = conn
+   def __init__(self, conn_str: str, action: str, req: request):
+      self.conn_str = conn_str
       self.action: str = action
       self.req: request = req
+      self.conn = None
       # -- data out --
       self.buffout_ctype: str = "text/json"
       self.buffout_error: int = 200
       self.buffout: str = ""
 
+   def __del__(self):
+      try:
+         if self.conn is not None:
+            self.conn.close()
+            self.conn = None
+      finally:
+         pass
+
    def run_action(self) -> int:
       # -- -- -- --
+      self.conn = dbConnServer.getConnection(self.conn_str)
       act: str = self.action.replace("/", "_")
       method_name = f"_{act}"
       has_method = hasattr(self, method_name)
@@ -137,10 +147,6 @@ class dbEdit(object):
       try:
          iso_level = psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED
          self.conn.set_session(isolation_level=iso_level, readonly=True, autocommit=True)
-      except Exception as e:
-         print(e)
-      # -- -- -- -- -- -- -- --
-      try:
          cur.execute(qry)
          rows = cur.fetchall()
          if rows is None:

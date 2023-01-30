@@ -99,7 +99,7 @@ def apiget_meters(args):
 def dbedit(action):
    hdrs = {"AppServer": "dbEdit ver.: 0.0.3"}
    try:
-      _dbedit: dbEdit = dbEdit(conn=PSQL_CONN, action=action, req=req)
+      _dbedit: dbEdit = dbEdit(conn_str=PSQL_CONN_STR, action=action, req=req)
       act_run_rval = _dbedit.run_action()
       if act_run_rval == 0:
          _ctype = "text/json"
