@@ -14,34 +14,34 @@ class orgNavigator {
 
    init() {
       orgNavigator.__this__ = this;
-      this.loadOrgData();
+      //this.loadOrgData();
    }
 
-   loadOrgData() {
-      let api = new restAPI();
-      api.getOrg(this.__loadOrgData__);
-   }
+   // loadOrgData() {
+   //    let api = new restAPI();
+   //    api.getOrg(this.__loadOrgData__);
+   // }
 
-   __loadOrgData__(jarr) {
-      /* - - - - */
-      if (jarr.length == 0)
-         throw "NoOrgNavDataFound";
-      /* - - - - */
-      orgNavigator.__orgjarr__ = jarr;
-      orgNavigator.__lastfetch__ = Date.now();
-      /* - - - - */
-      let root = orgNavigator.__this__.findEntity(1, 0);
-      /* render root */
-      let buff = `<div class="et_${root.entity_type}">${root.entity_desc}</div>`;
-      $("#orgNavHead").html(buff);
-      let subarr = orgNavigator.__this__.findEntities("*", root.entity_dbid);
-      /* render business root */
-      let targetSelector = "#orgNavBody", 
-         clickSelector = "div.et_geoloc div.et_head"; 
-      orgNavigator.__this__.renderClickable(subarr, targetSelector
-         , clickSelector, orgNavigator.__this__.geoLocOnClick);
-      /* - - */
-   }
+   // __loadOrgData__(jarr) {
+   //    /* - - - - */
+   //    if (jarr.length == 0)
+   //       throw "NoOrgNavDataFound";
+   //    /* - - - - */
+   //    orgNavigator.__orgjarr__ = jarr;
+   //    orgNavigator.__lastfetch__ = Date.now();
+   //    /* - - - - */
+   //    let root = orgNavigator.__this__.findEntity(1, 0);
+   //    /* render root */
+   //    let buff = `<div class="et_${root.entity_type}">${root.entity_desc}</div>`;
+   //    $("#orgNavHead").html(buff);
+   //    let subarr = orgNavigator.__this__.findEntities("*", root.entity_dbid);
+   //    /* render business root */
+   //    let targetSelector = "#orgNavBody", 
+   //       clickSelector = "div.et_geoloc div.et_head"; 
+   //    orgNavigator.__this__.renderClickable(subarr, targetSelector
+   //       , clickSelector, orgNavigator.__this__.geoLocOnClick);
+   //    /* - - */
+   // }
 
    findEntity(dbid, pdbid) {
       return orgNavigator.__orgjarr__.find(e => (parseInt(e.entity_dbid) == dbid) 
