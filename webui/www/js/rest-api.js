@@ -85,6 +85,7 @@ class restAPI {
 
    getClients(__cb__) {
       $.get(this.getClientsUrl, (jarr) => {
+            console.log(jarr);
             if (jarr) {
                _omms.app.clients = {};
                _omms.app.clients.dts = Date();

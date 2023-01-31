@@ -29,14 +29,7 @@
       </div>
    </div>
    __script
-      
-      /* 1. pull clients
-         2. let user select a client
-         3. pull clients meters   
-         init stream graph */
-
-      _omms.gui.clearViewport();
-      _omms.liveView.init();
-      $("#btnRunCltView").off().on("click", _omms.app.onViewCltMeterData);
+      _omms.xmlsecs.clientView();
+      console.log("##script: xmlClientView :script##");
    script__
 </div>

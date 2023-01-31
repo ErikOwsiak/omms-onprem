@@ -10,7 +10,12 @@ _omms.xmlsecs = {
          _omms.dbedit = new dbEdit();
       /* -- init -- */
       _omms.dbedit.init();
+   },
+
+   clientView() {
+      _omms.gui.clearViewport();
+      _omms.liveView.init();
+      $("#btnRunCltView").off().on("click", _omms.app.onViewCltMeterData);
    }
-
-
+   
 };

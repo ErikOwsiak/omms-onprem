@@ -1,5 +1,6 @@
 
 import redis
+import psycopg2.extensions
 from psycopg2.extensions import connection, cursor
 # -- system --
 from core.logProxy import logProxy
@@ -126,10 +127,12 @@ class dbOps(object):
          cur.close()
 
    def get_active_clients(self) -> []:
+      iso_level = psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED
+      self.conn.set_session(isolation_level=iso_level, readonly=True, autocommit=True)
       cur: cursor = self.conn.cursor()
       try:
-         qry = "select t.clt_rowid as dbid, t.clt_tag as tag, t.clt_name as clt_name" \
-            " from config.clients t where t.is_deleted = false;"
+         qry = "select t.clt_rowid rowid, t.clt_tag as tag, t.clt_name as clt_name" \
+            " from config.clients t where t.dt_del is null;"
          cur.execute(qry)
          return cur.fetchall()
       except Exception as e:
