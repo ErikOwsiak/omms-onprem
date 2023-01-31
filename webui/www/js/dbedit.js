@@ -104,8 +104,9 @@ class dbEdit {
       });
    }
 
-   getTblData_client_meter_circuits(tblname) {
+   getTblData_client_circuits(tblname) {
       let _this = this;
+      this.loadDatalists();
       $.get(`/dbedit/get/${tblname}`, function (jsarr) {
          _this.sessCache.dbObjs[tblname] = {};
          jsarr.forEach((i) => {
@@ -113,11 +114,12 @@ class dbEdit {
                _this.sessCache.dbObjs[tblname][itemObj.rowid] = itemObj;
                $("#dbObjSelector").append(itemObj.toHtml());
             });
-         /* -- */
+         /* -- onclick -- */
          $("div.lst-item-clt").off().on("click", function () {
                let ROWID = $(this).attr("rowid");
-               _this.onDatabaseItemObjectClick(ROWID, tblname)
+               _this.onDatabaseItemObjectClick(ROWID, tblname);
             });
+         /* -- -- */
       });
    }
 
@@ -145,6 +147,8 @@ class dbEdit {
          let _html = dbhtml.itemHtml(i);
          $(`#${dbItemList}`).append(_html);
       });
+      /* -- */
+      this.loadDatalists();
    }
 
    onDatabaseItemObjectClick(ITEM_INDEX, tblname) {
@@ -165,9 +169,9 @@ class dbEdit {
                $(`${ns} #COL_clt_access_pin`).val(itemObj.pin);
             }
             break;
-         case "client_meter_circuits":
+         case "client_circuits":
             {
-               $(`${ns} #COL_elec_met_cir_rowid`).val(itemObj.rowid);
+               $(`${ns} #COL_row_sid`).val(itemObj.rowid);
                $(`${ns} #COL_bitflags`).val(itemObj.bitflags);
                $(`${ns} #COL_dt_link`).val(itemObj.dt_lnk);
                $(`${ns} #COL_dt_unlink`).val(itemObj.dt_ulnk);
@@ -232,4 +236,70 @@ class dbEdit {
          });
    }
 
+   loadDatalists() {
+      let url = "/dbedit/get_datalists",
+         _this = this;
+      /* -- */
+      $.get(url, function(jsobj) {
+            _this.datalists = null;
+            _this.datalists = jsobj;
+            _this.createDatalists();
+            _this.attachDatalists();
+         });
+      /* -- */
+   }
+
+   createDatalists() {
+      /* -- */
+      let createlst = function(key, items) {
+            let dlid = `dl_${key}`;
+            $("div#datalists").append(`<datalist id="${dlid}" />`);
+            items.forEach((item) => {
+                  switch (key) {
+                     case "clts":
+                        {
+                           let [rowid, clttag, cltname] = item;
+                           let val = `${rowid} :: ${clttag} :: ${cltname}`;
+                           $(`#${dlid}`).append(`<option value="${val}">`);
+                        }
+                        break;
+                     case "cirs":
+                        {
+                           let [rowid, cirtag] = item;
+                           let val = `${rowid} :: ${cirtag}`;
+                           $(`#${dlid}`).append(`<option value="${val}">`);
+                        }
+                        break;
+                     case "locs":
+                        {
+                           let [rowid, bldtag, loctag] = item;
+                           let val = `${rowid} :: ${bldtag} :: ${loctag}`;
+                           $(`#${dlid}`).append(`<option value="${val}">`);
+                        }
+                        break;
+                     default:
+                        break;
+                  }
+               });
+         };
+      /* -- */
+      if ($("div#datalists").length > 0)
+         $("div#datalists").remove();
+      /* -- */
+      $("body").append(`<div id="datalists" />`);
+      /* -- */
+      for (let key in this.datalists)
+         createlst(key, this.datalists[key]);
+      /* -- */
+   }
+
+   attachDatalists() {
+      let d = {"COL_clt_tag": "dl_clts"
+         , "COL_locl_tag": "dl_locs", "COL_cir_tag": "dl_cirs"};
+      /* -- */
+      for (let key in d) {
+         console.log([key, d[key]]);
+         $(`#${key}`).attr("list", d[key]);
+      }
+   }
 };

@@ -1,8 +1,6 @@
 
-import json
-import psycopg2
-from psycopg2.extensions import connection as _psql_conn
-from psycopg2.extensions import cursor
+import psycopg2, json
+from psycopg2.extensions import cursor, connection as _psql_conn
 from flask import request
 from webui.api.dbEditSql import dbEditSql
 from psql.dbConnServer import dbConnServer
@@ -30,7 +28,7 @@ class dbEdit(object):
 
    def run_action(self) -> int:
       # -- -- -- --
-      self.conn = dbConnServer.getConnection(self.conn_str)
+      self.conn: _psql_conn = dbConnServer.getConnection(self.conn_str)
       act: str = self.action.replace("/", "_")
       method_name = f"_{act}"
       has_method = hasattr(self, method_name)
@@ -63,16 +61,42 @@ class dbEdit(object):
       return 0
 
    def _get_clients(self):
-      qry = dbEditSql.get_clients()
+      qry = dbEditSql.all_clients()
       return self.__select_qry_rows(qry)
 
-   def _get_client_meter_circuits(self):
-      qry = dbEditSql.clt_met_cirs_rows()
+   def _get_client_circuits(self):
+      qry = dbEditSql.client_circuits()
       return self.__select_qry_rows(qry)
 
    def _get_elec_meter_circuits(self):
       qry = dbEditSql.elec_meter_circuits()
       return self.__select_qry_rows(qry)
+
+   def _get_datalists(self):
+      cur: cursor = self.conn.cursor()
+      try:
+         iso_level = psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED
+         self.conn.set_session(isolation_level=iso_level, readonly=True, autocommit=True)
+         # -- clients --
+         qry_clts = "select t.clt_rowid, t.clt_tag, t.clt_name from config.clients t;"
+         cur.execute(qry_clts)
+         clts_rows = cur.fetchall()
+         # -- meter circuits --
+         qry_cirs = "select t.met_cir_rowid, t.cir_tag from core.elec_meter_circuits t;"
+         cur.execute(qry_cirs)
+         cirs_rows = cur.fetchall()
+         # -- building locales --
+         qry_locls = "select t.locl_rowid, t.bld_tag, t.locl_tag from core.bld_locales t;"
+         cur.execute(qry_locls)
+         locls_rows = cur.fetchall()
+         d: {} = {"clts": clts_rows, "cirs": cirs_rows, "locs": locls_rows}
+         self.buffout = json.dumps(d)
+         self.buffout_error = 200
+         return 0
+      except Exception as e:
+         print(e)
+      finally:
+         cur.close()
 
    def _upsert(self) -> int:
       # -- upsert table --
@@ -80,8 +104,8 @@ class dbEdit(object):
       tblname: str = self.req.args["tbl"]
       if tblname == "clients":
          qry = dbEditSql.upsert_clients(self.req.values)
-      elif tblname == "client_meter_circuits":
-         qry = dbEditSql.upsert_client_meter_circuits(self.req.values)
+      elif tblname == "client_circuits":
+         qry = dbEditSql.upsert_client_circuits(self.req.values)
       else:
          d["Error"] = "BadTableName"
          self.buffout = json.dumps(d)
@@ -141,8 +165,27 @@ class dbEdit(object):
          self.conn.commit()
          cur.close()
 
+   def __qry_rows(self, qry: str):
+      cur: cursor = self.conn.cursor()
+      try:
+         iso_level = psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED
+         self.conn.set_session(isolation_level=iso_level, readonly=True, autocommit=True)
+         cur.execute(qry)
+         rows = cur.fetchall()
+         if rows is None:
+            self.buffout = json.dumps({"Rows": 0})
+            self.buffout_error = 404
+         else:
+            self.buffout = json.dumps(rows)
+            self.buffout_error = 200
+         return 0
+      except Exception as e:
+         self.buffout = json.dumps({"Exception": str(e)})
+         self.buffout_error = 556
+      finally:
+         cur.close()
+
    def __select_qry_rows(self, qry):
-      # -- -- -- -- -- -- -- --
       cur: cursor = self.conn.cursor()
       try:
          iso_level = psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED

@@ -1,5 +1,4 @@
 
-
 class SystemOverview {
 
    static __this__ = null;
@@ -17,7 +16,7 @@ class SystemOverview {
          return;
       }
       /* -- else -- */
-      let url = "/api/v1/get/overview"
+      let url = "/api/v1/get/overview";
       $.get(url, SystemOverview.__this__.tack);
    }
 

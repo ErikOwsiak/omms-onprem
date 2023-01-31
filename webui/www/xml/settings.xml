@@ -16,9 +16,9 @@
                   <div></div>
                </div>
             </navbtn>
-            <navbtn id="settingsClientMeterCircuits" tbl="client_meter_circuits" class="nav-btn">
+            <navbtn id="settingsClientMeterCircuits" tbl="client_circuits" class="nav-btn">
                <div class="nav-btn-lbl">
-                  <span>ClientMeterCircuits</span>
+                  <span>Client Circuits</span>
                </div>
                <div class="nav-sub-btns">
                   <div></div>
@@ -30,7 +30,7 @@
             <legend>Viewable Only</legend>
             <navbtn id="settingsElecMeterCircuits" tbl="elec_meter_circuits" class="nav-btn">
                <div class="nav-btn-lbl">
-                  <span>ElecMeterCircuits</span>
+                  <span>Elec. Meter Circuits</span>
                </div>
                <div class="nav-sub-btns">
                   <div></div>

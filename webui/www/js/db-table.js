@@ -249,7 +249,7 @@ class databaseTable {
 
    dbObjSelectorFilter() {
       let val = this.value.trim().toUpperCase(),
-         selector = "#dbObjSelector .clt-sel-item";
+         selector = "#dbObjSelector .lst-item-clt";
       /* - - */
       $(selector).each((_, item) => {
             let txt = $(item).text().toUpperCase();

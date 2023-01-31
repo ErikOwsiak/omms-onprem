@@ -3,24 +3,38 @@ class dbEditSql(object):
 
    @staticmethod
    def elec_meter_circuits():
-      # , cmc.locl_tag as met_locl_tag
       return """select t.met_cir_rowid
-         , t.met_syspath
-         , mm.model_string as met_model_rowid
-         , t.met_note 
-         , cast(t.met_dt_crd as varchar) as met_dt_crd
-         , t.cir_tag
-         , t.cir_amps
-         , t.cir_volts
-         , t.cir_locl_tag
-         , t.cir_note
-         , cast(t.cir_dt_crd as varchar) as cir_dt_crd 
-      from core.elec_meter_circuits t 
-         join core.meter_models mm on t.met_model_rowid = mm.mm_rowid
-         join config.client_meter_circuits cmc on cmc.cir_tag = t.cir_tag;"""
+            , t.met_syspath
+            , mm.model_string as met_model_rowid
+            , t.met_note
+            , t.elec_room_locl_tag as met_loc_rm
+            , cast(t.met_dt_crd as varchar) as met_dt_crd
+            , t.cir_tag
+            , t.cir_amps
+            , t.cir_volts
+            , t.cir_locl_tag
+            , t.cir_note
+            , cast(t.cir_dt_crd as varchar) as cir_dt_crd 
+         from core.elec_meter_circuits t 
+            join core.meter_models mm on t.met_model_rowid = mm.mm_rowid
+            join config.client_circuits cmc on cmc.cir_tag = t.cir_tag;"""
+      # return """select t.met_cir_rowid
+      #    , t.met_syspath
+      #    , mm.model_string as met_model_rowid
+      #    , t.met_note
+      #    , cast(t.met_dt_crd as varchar) as met_dt_crd
+      #    , t.cir_tag
+      #    , t.cir_amps
+      #    , t.cir_volts
+      #    , t.cir_locl_tag
+      #    , t.cir_note
+      #    , cast(t.cir_dt_crd as varchar) as cir_dt_crd
+      # from core.elec_meter_circuits t
+      #    join core.meter_models mm on t.met_model_rowid = mm.mm_rowid
+      #    join config.client_circuits cmc on cmc.cir_tag = t.cir_tag;"""
 
    @staticmethod
-   def get_clients():
+   def all_clients():
       return """select t.clt_rowid
             , t.clt_tag, t.clt_name
             , t.clt_access_pin, t.clt_phone
@@ -44,8 +58,8 @@ class dbEditSql(object):
       return qry
 
    @staticmethod
-   def clt_met_cirs_rows():
-      return """select t.elec_met_cir_rowid
+   def client_circuits():
+      return """select t.row_sid 
             , t.clt_tag
             , c.clt_name
             , emc.met_syspath
@@ -55,7 +69,7 @@ class dbEditSql(object):
             , t.bitflags
             , cast(t.dt_link as varchar) as dt_link
             , cast(t.dt_unlink as varchar) as dt_unlink 
-         from config.client_meter_circuits t join config.clients c on t.clt_tag = c.clt_tag 
+         from config.client_circuits t join config.clients c on t.clt_tag = c.clt_tag 
             left join core.elec_meter_circuits emc on t.cir_tag = emc.cir_tag;"""
 
    @staticmethod
@@ -89,19 +103,30 @@ class dbEditSql(object):
       return qry
 
    @staticmethod
-   def upsert_client_meter_circuits(d: []) -> str:
-      """
-         ('COL_elec_met_cir_rowid', '2006'), ('COL_clt_tag', '1234567890'), ('COL_locl_tag', 'A3.3_A3.4'),
-         ('COL_cir_tag', '1R7.04'), ('COL_code', ''), ('COL_bitflags', '0'), ('COL_dt_link', '2023-01-26'),
-         ('COL_dt_unlink', '')
-      """
-      print(d)
+   def upsert_client_circuits(d: []) -> str:
+      """ ('COL_elec_met_cir_rowid', 'auto'), ('COL_clt_tag', '10 :: 5732922397 :: Express Heroes'),
+         ('COL_locl_tag', '44 :: ck :: A3.4'), ('COL_cir_tag', '2070 :: 1R7.23'), ('COL_code', ''),
+         ('COL_bitflags', ''), ('COL_dt_link', ''), ('COL_dt_unlink', '')
+         dt_link = d["COL_dt_link"]
+         dt_unlink = d["COL_dt_unlink"] """
+      # -- -- -- --
       rowid: str = d["COL_elec_met_cir_rowid"]
-      clt_tag = d["COL_clt_tag"]
-      locl_tag = d["COL_locl_tag"]
-      cir_tag = d["COL_cir_tag"]
+      clt_tag: str = d["COL_clt_tag"]
+      clt_tag = clt_tag.strip().split("::")[1].strip()
+      locl_tag: str = d["COL_locl_tag"]
+      locl_tag = locl_tag.strip().split("::")[2].strip()
+      cir_tag: str = d["COL_cir_tag"]
+      cir_tag = cir_tag.strip().split("::")[1].strip()
       code = d["COL_code"]
       bitflags = d["COL_bitflags"]
-      dt_link = d["COL_dt_link"]
-      dt_unlink = d["COL_dt_unlink"]
-      return ""
+      bitflags: int = 0 if bitflags == "" else int(bitflags)
+      # -- auto --
+      if rowid == "auto":
+         qry = f"insert into config.client_circuits values('{clt_tag}'" \
+            f", '{locl_tag}', '{cir_tag}', '{code}', {bitflags}, now(), null)" \
+            f" returning elec_met_cir_rowid;"
+      else:
+         rowid: int = int(rowid)
+         qry = "update config.client_circuits set "
+      # -- -- -- --
+      return qry

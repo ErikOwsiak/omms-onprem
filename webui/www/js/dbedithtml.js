@@ -3,13 +3,11 @@ class dbeditHtml {
 
    constructor() {
       this.disables = {"clients": ["dt_crd", "dt_del", "bitflags", "clt_rowid"]
-         , "client_meter_circuits": ["dt_link", "dt_unlink", "bitflags", "elec_met_cir_rowid"]
+         , "client_circuits": ["row_sid", "dt_link", "dt_unlink", "bitflags", "elec_met_cir_rowid"]
          , "elec_meter_circuits": ["*"]};
    }
 
    itemHtml(colinfo) {
-      /* -- */
-      console.log([_omms.dbedit.current_table, _omms.dblbls]);
       /* -- build item html -- */
       let chartypes = ["character varying", "character"]
          , numtypes = ["smallint", "integer"]
