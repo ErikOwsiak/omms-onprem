@@ -108,9 +108,9 @@ _omms.dblbls = {
       // console.log([lng, tbl]);
       if (lng.includes("en")) {
          this.lng = "en";
-      } else if (lng.contains("pl")) {
+      } else if (lng.includes("pl")) {
          this.lng = "pl";
-      } else if (lng.contains("de")) {
+      } else if (lng.includes("de")) {
          this.lng = "de";
       } else {
          this.lng = "en";
