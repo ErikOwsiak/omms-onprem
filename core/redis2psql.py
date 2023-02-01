@@ -18,13 +18,19 @@ NULL = "null"
 
 class redis2psql(object):
 
-   PROC_NAME = "redis2psql"
+   PROC_NAME = "omms-red2psql"
 
-   def __init__(self, INI: _cp.ConfigParser, red: redis.Redis, psqlConn: _psql_conn):
+   def __init__(self, INI: _cp.ConfigParser
+         , red: redis.Redis
+         , psqlConn: _psql_conn = None
+         , psqlConnStr: str = None):
+      # -- -- -- --
       self.ini: _cp.ConfigParser = INI
       self.red: redis.Redis = red
       self.psql_conn: _psql_conn = psqlConn
-      self.dbops = dbOps(self.psql_conn)
+      self.conn_str: str = psqlConnStr
+      # -- db ops object --
+      self.dbops = dbOps(self.conn_str)
       self.syspath_dbids: {} = {}
       self.pubsub_thread: threading.Thread = None
       # -- -- channels -- --

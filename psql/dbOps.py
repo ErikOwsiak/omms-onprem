@@ -3,6 +3,7 @@ import redis
 import psycopg2.extensions
 from psycopg2.extensions import connection, cursor
 # -- system --
+from psql.dbConnServer import dbConnServer
 from core.logProxy import logProxy
 
 
@@ -13,8 +14,9 @@ class dbOps(object):
    METER_MODEL_INFO_REDIS_KEY = "MODEL_INFO"
    DB_IDX_READS: int = 2
 
-   def __init__(self, conn: connection, red: redis.Redis = None):
-      self.conn: connection = conn
+   def __init__(self, conn_str: str, red: redis.Redis = None):
+      self.conn_str = conn_str
+      self.conn: connection = dbConnServer.getConnection(self.conn_str)
       self.red: redis.Redis = red
 
    def get_meter_syspath_dbid(self, syspath: str) -> int:
@@ -127,9 +129,8 @@ class dbOps(object):
          cur.close()
 
    def get_active_clients(self) -> []:
-      iso_level = psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED
-      self.conn.set_session(isolation_level=iso_level, readonly=True, autocommit=True)
-      cur: cursor = self.conn.cursor()
+      conn: connection = dbConnServer.getConnection(self.conn_str, readonly=True)
+      cur: cursor = conn.cursor()
       try:
          qry = "select t.clt_rowid rowid, t.clt_tag as tag, t.clt_name as clt_name" \
             " from config.clients t where t.dt_del is null;"
@@ -139,6 +140,28 @@ class dbOps(object):
          logProxy.log_exp(e)
       finally:
          cur.close()
+         conn.close()
+
+   def get_client_circuits(self, clt_tag: str):
+      conn: connection = dbConnServer.getConnection(self.conn_str, readonly=True)
+      cur: cursor = conn.cursor()
+      try:
+         qry = f"""select t.row_sid
+            , t.locl_tag
+            , t.cir_tag
+            , m.met_rowid 
+            , emc.met_syspath
+            , t.code 
+         from config.client_circuits t join core.elec_meter_circuits emc on t.cir_tag = emc.cir_tag 
+               join core.meters m on m.syspath = emc.met_syspath 
+            where t.clt_tag = '{clt_tag}' and t.dt_unlink is null;"""
+         cur.execute(qry)
+         return cur.fetchall()
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+         conn.close()
 
    def get_client_meters(self, clt_dbid: int) -> []:
       cur: cursor = self.conn.cursor()

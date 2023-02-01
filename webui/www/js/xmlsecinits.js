@@ -1,6 +1,8 @@
 
 _omms.xmlsecs = {
 
+   LOADED_XML: null,
+
    settings() {
       _omms.gui.clearViewport();
       _omms.app.subNav = new submenuNav("settingsMenuBody");
@@ -16,6 +18,7 @@ _omms.xmlsecs = {
       _omms.gui.clearViewport();
       _omms.liveView.init();
       $("#btnRunCltView").off().on("click", _omms.app.onViewCltMeterData);
+      $("#selCltSelector").off().on("change", _omms.liveView.onClientSelected);
    }
-   
+
 };

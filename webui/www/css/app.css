@@ -304,3 +304,33 @@ fieldset.settings-btns {
    border-radius: 0.8vh;
    padding-bottom: 4vh;
 }
+
+div.view-port-body {
+   width: 94%;
+   margin: 2% auto;
+   height: 94%;
+   overflow-y: scroll;
+   border: 1px solid darkgray;
+   border-radius: 8px;
+}
+
+div.kwhrs-view {
+   width: 98%;
+   margin: 1vh auto;
+   padding: 4px 0;
+   border: 2px solid darkgray;
+   border-radius: 8px;
+}
+
+div.kwhrs-view:nth-child(even) {
+   background-color: rgba(97, 84, 218, 0.11);
+   border: 2px solid rgb(122, 119, 119);
+}
+
+div.kwhrs-reading, div.kwhrs-cg, div.dtsutc {
+   width: 98%;
+   margin: 0.4vh auto;
+   padding: 8px;
+   border: 1px solid rgb(92, 87, 129);
+   border-radius: 6px;
+}

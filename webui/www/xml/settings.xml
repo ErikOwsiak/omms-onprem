@@ -40,9 +40,8 @@
       </div>
    </div>
    __script
-      if (_omms.xmlsecs)
-         _omms.xmlsecs.settings();
-      else
-         console.log("_omms.xmlsecs is false");
+      _omms.xmlsecs.settings();
+      _omms.xmlsecs.LOADED_XML = "xmlSettings";
+      console.log(`##script: ${_omms.xmlsecs.LOADED_XML} :script##`);
    script__
 </div>

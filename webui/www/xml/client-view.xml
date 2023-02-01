@@ -8,6 +8,7 @@
    <div id="settingsMenuBody" class="settings-menu-body">
       <div class="submenu-buttons">
          <navbtn id="clientView" class="nav-btn">
+            
             <div class="nav-btn-lbl">
                <select id="selCltSelector">
                </select>
@@ -30,6 +31,7 @@
    </div>
    __script
       _omms.xmlsecs.clientView();
-      console.log("##script: xmlClientView :script##");
+      _omms.xmlsecs.LOADED_XML = "xmlClientView";
+      console.log(`##script: ${_omms.xmlsecs.LOADED_XML} :script##`);
    script__
 </div>
