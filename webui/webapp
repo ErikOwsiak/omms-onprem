@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-import json
+# import datetime
+import json, time
 import configparser as _cp, redis, setproctitle
 from psycopg2.extensions import connection as _psql_conn
 from flask import Flask, render_template, request as req, make_response
@@ -94,6 +95,11 @@ def apiget(item):
          buffout = apiops.read_redis(dbidx, tmp.split("|"))
          buffout = json.dumps(buffout)
          CTYPE = CTYPE_JSON
+   elif item == "utcnow_time":
+      utcnow_time = int(time.time())
+      buffout = {"utcnow_time": utcnow_time}
+      buffout = json.dumps(buffout)
+      CTYPE = CTYPE_JSON
    else:
       buffout = ""; errcode = 404
    # -- -- return data -- --

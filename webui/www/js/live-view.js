@@ -4,6 +4,7 @@ _omms.liveView = {
    restapi: null,
    client_tag: null,
    clinet_circuits: null,
+   server_utcnow: 0,
 
    init() {
       _omms.liveView.restapi = new restAPI();
@@ -62,6 +63,12 @@ _omms.liveView = {
    },
 
    getRedisData() {
+      let update_utcnow = (jsobj) => {
+            $.get("/api/get/utcnow_time", function(resp) {
+                  _omms.liveView.server_utcnow = resp.utcnow_time;
+                  _this.processKWhrs(jsobj);
+               });
+         };
       /* make remove call */
       let out = [];
       _omms.liveView.clinet_circuits.forEach((item) => {
@@ -72,72 +79,82 @@ _omms.liveView = {
          sp = out.join("|"), 
          url = `/api/get/redis_data?dbidx=2&keys=[${sp}]`; 
       $.get(url, function(jsobj) {
-            _this.processKWhrs(jsobj);     
+            update_utcnow(jsobj);     
          });
       /* -- */
    },
 
    processKWhrs(jsobj) {
-      $("#appViewport").html(`<div id="vpBody" class="view-port-body" />`);
+      let html = `<div id="vpBodyHdr" class="vp-bdy-hdr"></div>` + 
+         `<div id="vpBody" class="view-port-body" />`;
+      $("#appViewport").html(html);
       for (let key in jsobj) {
          let _jsobj = jsobj[key];
          this.displayKWhrs(key, _jsobj);
       }
    },
 
-   /* const regex = /\|(tl_kwh:\d*\.?\d*)\|/gm;
-      // Alternative syntax using RegExp constructor
-      // const regex = new RegExp('\\|(tl_kwh:\\d*\\.?\\d*)\\|', 'gm')
-
-      const str = `[ModbusAddr:50|tl_kwh:3068.52|l1_kwh:1619.71|l2_kwh:318.74|l3_kwh:1130.07]`;
-      let m;
-
-      while ((m = regex.exec(str)) !== null) {
-         // This is necessary to avoid infinite loops with zero-width matches
-         if (m.index === regex.lastIndex) {
-            regex.lastIndex++;
-         }
-         
-         // The result can be accessed through the `m`-variable.
-         m.forEach((match, groupIndex) => {
-            console.log(`Found match, group ${groupIndex}: ${match}`);
+   reading2Dict(buff) {
+      if (!(buff[0] == "[" && buff.substr(-1) == "]"))
+         throw "BadReadingBuffer";
+      buff = buff.replace("[", "").replace("]", "");
+      let d = {};
+      buff.split("|").forEach(function(e) {
+            let [k, v] = e.split(":");
+            d[k.trim()] = v.trim();
          });
-      } */
+      return d;
+   },
+
    displayKWhrs(syspath, jsobj) {
-      /* -- */
-      let fix_rval = (val) => {
-            const rgx = /\|(tl_kwh:\d*\.?\d*)\|/gm;
-            /* get total kwh part */
-            let rx = /\|tl_kwh:[0-9]{1,16} \|/;
-            val = val.replaceAll("|", "<b>&nbsp;|&nbsp;</b>")
-               .replace("tl_kwh:", "<b>TOTAL_kwh:&nbsp;</b>")
-               .replace("kWh:", "<b>TOTAL_kwh:&nbsp;</b>");
-            val = val.replace("[", "<b>[</b>&nbsp;")
-               .replace("]", "<b>&nbsp;]</b>");
-            return val;
-         };
       /* -- */
       let find_cirtag = (sp) => {
             return _omms.liveView.clinet_circuits.find(i => i.syspath == sp);
          };
       /* -- */
       let rkey = "#RPT_kWhrs", rval = "";
-      if (rkey in jsobj)
-         rval = fix_rval(jsobj[rkey]);
+      if (!(rkey in jsobj))
+         throw `KeyNotFound: ${rkey}`;
+      rval = jsobj[rkey];
       /* -- */
-      let tkey = "#RPT_kWhrs_dts_utc", tval = "";
-      if (tkey in jsobj)
-         tval = jsobj[tkey];
+      let tkey = "#RPT_kWhrs_dtsutc_epoch", tval = "";
+      if (!(tkey in jsobj))
+         throw `KeyNotFound: ${tkey}`; 
+      tval = jsobj[tkey];
+      /* -- */
+      let data = this.reading2Dict(rval);
+      if (data["#RPT"] != "kWhrs")
+         throw "BadReport";
+      let tkhs = data["tl_kwh"];
+      if (tkhs == undefined)
+         tkhs = data["kWh"];
+      /* -- */
+      let [dts, epoch] = tval.split("|");
+      dts = dts.trim();
+      epoch = parseInt(epoch.trim());
+      let diff_m = Math.round((_omms.liveView.server_utcnow - epoch) / 60);
+      let bcls = "";
+      if (diff_m <= 30) {
+         bcls = "color:darkgreen;";
+      } else if (diff_m >= 31 && diff_m <= 120) {
+         bcls = "color:rgb(145, 96, 6);";
+      } else {
+         bcls = "color:rgb(179, 8, 8);";
+      }
       /* -- */
       let ctag = find_cirtag(syspath).cirtag, 
-         cg = `Circuit: <b>${ctag}</b>`, 
-         sp = `SYSPATH: ${syspath}`, 
-         dtsutc = `DTS_UTC: ${tval}`,
-         html = `<div class="kwhrs-view"><div class="kwhrs-cg">${cg} | ${sp}</div>` + 
-            `<div class="dtsutc">${dtsutc}</div>` + 
-            `<div class="kwhrs-reading">READING: ${rval}</div></div>`;
+         cg = `<b0>Circuit:&nbsp;${ctag}</b0>`,
+         kwhs = `<b1>Total&nbsp;kWhrs:&nbsp;${tkhs}</b1>`,  
+         dtsutc = `<b style="${bcls}">DTS_UTC:&nbsp;${dts}</b>`,
+         sp = `SYSPATH:&nbsp;${syspath}`,
+         html = `<div class="kwhrs-view">` + 
+            `<div class="kwhrs-cg">${cg}&nbsp;|&nbsp;${kwhs}&nbsp;|` +
+               `&nbsp;${dtsutc}&nbsp;<small><i>&nbsp;[${diff_m}m]</i></small></div>` + 
+            `<div class="msyspath">${sp}</div>` + 
+            `<div class="kwhrs-reading">READING:&nbsp;${rval}</div></div>`;
       /* -- -- -- -- */
-      $("#vpBody").append(html);   
+      $("#vpBodyHdr").html(`last refresh: ${new Date().toLocaleString("pl")}`);
+      $("#vpBody").append(html);
    }
 
 };

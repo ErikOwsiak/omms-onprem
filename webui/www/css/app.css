@@ -307,11 +307,21 @@ fieldset.settings-btns {
 
 div.view-port-body {
    width: 94%;
-   margin: 2% auto;
-   height: 94%;
+   margin: auto;
+   height: 78vh;
    overflow-y: scroll;
-   border: 1px solid darkgray;
+   border: 2px solid rgb(50, 44, 90);
    border-radius: 8px;
+}
+
+div.vp-bdy-hdr {
+   width: 94%;
+   height: 4.8vh;
+   line-height: 4.8vh;
+   margin: auto;
+   text-align: right;
+   border: 0px dotted lightgrey;
+   padding-right: 1vw;
 }
 
 div.kwhrs-view {
@@ -327,10 +337,24 @@ div.kwhrs-view:nth-child(even) {
    border: 2px solid rgb(122, 119, 119);
 }
 
-div.kwhrs-reading, div.kwhrs-cg, div.dtsutc {
+div.kwhrs-reading, div.kwhrs-cg, div.dtsutc, div.msyspath {
    width: 98%;
    margin: 0.4vh auto;
    padding: 8px;
    border: 1px solid rgb(92, 87, 129);
    border-radius: 6px;
+}
+
+b0 {
+   font-weight: bold;
+   color: #352a77;
+}
+
+b1 {
+   font-weight: bold;
+   color: rgb(78, 6, 78);
+}
+
+xtxt {
+   color: rgb(145, 96, 6);
 }
