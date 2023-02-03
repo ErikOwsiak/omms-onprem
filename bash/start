@@ -11,5 +11,5 @@ fi
 sleep 4
 
 # start redis2psql
-chmod +x redis2psql
-./redis2psql
+chmod +x redis2psql_bot
+./redis2psql_bot
