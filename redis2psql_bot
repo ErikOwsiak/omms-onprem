@@ -37,7 +37,8 @@ if not RED.ping():
 
 # -- redis to psql object --
 PSQL_CONN = dbConnServer.getConnection(PSQL_CONN_STR)
-__redis2psql: redis2psql = redis2psql(INI=INI, red=RED, psqlConn=PSQL_CONN)
+__redis2psql: redis2psql = \
+   redis2psql(INI=INI, red=RED, psqlConn=PSQL_CONN, psqlConnStr=PSQL_CONN_STR)
 __redis2psql.int()
 # -- redis object thread --
 __redis2psqlTh: th.Thread = th.Thread(target=__redis2psql.run, args=())
