@@ -1,0 +1,10 @@
+<div id="clientCircuitHistory" class="clt-cir-history">
+   <h2>Client Circuit History</h2>
+   <div id="cltCirHistory" class="clt-cir-body">
+   </div>
+   __script
+      _omms.xmlsecs.cltCirHistory();
+      _omms.xmlsecs.LOADED_XML = "clientCircuitHistory";
+      console.log(`##script: ${_omms.xmlsecs.LOADED_XML} :script##`);
+   script__
+</div>
