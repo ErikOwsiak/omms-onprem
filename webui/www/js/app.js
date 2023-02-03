@@ -17,11 +17,11 @@ _omms.app = {
    /* - - */
    init() {
       _omms.clickRouter.init();
-      _omms.gui.loadDataBlockXml("orgNav", "subMenuCol");
-      _omms.gui.loadDataBlockXml("systemOverview", "appViewport")
-      setTimeout(_omms.app.readOmmsUser, 200);
-      _omms.app.setAcl();
-      _omms.app.applyAcl();
+      /* _omms.gui.loadDataBlockXml("orgNav", "subMenuCol");
+         _omms.gui.loadDataBlockXml("systemOverview", "appViewport") */
+      // setTimeout(_omms.app.readOmmsUser, 200);
+      // _omms.app.setAcl();
+      // _omms.app.applyAcl();
    },
 
    setAcl() {
@@ -296,14 +296,48 @@ _omms.app = {
       let [dbid, tag] = arr;
       dbid = dbid.replace("dbid:", "").trim();
       tag = tag.replace("tag:", "").trim();
-      _omms.restapi = new restAPI();
-      _omms.restapi.getClientMeters(dbid, (jsarr) => {
-            console.log(jsarr);
+      /* -- */
+      let restapi = new restAPI();
+      restapi.getClientCircuitsV1(tag, function(jsarr) {
+            let lst = [];
+            jsarr.forEach(function(i) {
+                  lst.push(i[2]);
+               });
+            /* -- */
+            let cirs = lst.join("|"), dts = $("#txtCltViewDate").val();
+            if (dts == undefined || dts == "") {
+               alert("Select Date");
+               return;
+            }
+            /* -- */
+            restapi.getClinetKWhrs(dts, cirs, function(jsarr) {
+                  _omms.app.displayClientMeterData(dts, jsarr);
+               });
          });
       /* -- */
+   },
+
+   displayClientMeterData(dts, jsarr) {
+      /* -- */
+      let lng = window.navigator.language,
+         dt = new Date().toLocaleString(lng), 
+         right_div = `<div id="hdrTKWH" class="hdr-tkwh"></div>` +
+         `<div id="hdrLastDTS">last refresh: ${dt}</div>`;
+      $("#vpBodyHdr").html(right_div);
+      $("#vpBody").html("");
+      /* -- */
+      let tkwh = 0.0;
+      jsarr.forEach((i) => {
+            let ck = new ClientKWhrs(dts, i);
+            $("#vpBody").append(ck.toHtmlStr());
+            tkwh += ck.total_kwh;
+         });
+      /* -- */
+      $(`#hdrTKWH`).html(`Total kWh: ${tkwh}`);
    }
 
 };
+
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /* attach page loaded event */

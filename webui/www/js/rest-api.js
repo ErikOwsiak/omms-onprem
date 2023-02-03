@@ -39,6 +39,9 @@ class restAPI {
       this.getLisReportstUrl = "/api/get/list-reports";
       // /api/get/meters
       this.getClientMetersUrl = "/api/get/meters";
+      this.getClientCircuitHistoryUrl = "/api/get/clt-cir-history";
+      this.getCltCircuitsUrlv1 = "/api/get/client_circuits";
+      this.getClinetKWhrsUrl = "/api/get/client_kwhrs";
    }
 
    getOrg(callback = undefined) {
@@ -190,7 +193,8 @@ class restAPI {
    }
 
    getClientMeters(dbid, __cb__) {
-      let url = `${this.getClientMetersUrl}/clt_dbid:${dbid}`;
+      /* -- */
+      let url = `${this.getClientMetersUrl}?cltrowid=${dbid}`;
       $.get(url, (res) => {
             if (__cb__) {
                __cb__(res);
@@ -198,5 +202,36 @@ class restAPI {
                console.log(res);
             }   
          });
+      /* -- */
+   }
+
+   getClientCircuitHistory(__cb__) {
+      let _this = this;
+      $.get(this.getClientCircuitHistoryUrl, (res) => {
+            _this.tryCallCallback(res, __cb__);
+         });   
+   }
+
+   getClientCircuitsV1(clttag, __cb__) {
+      let _this = this, 
+         url = `${this.getCltCircuitsUrlv1}?clttag=${clttag}`;
+      $.get(url, function(jsarr) {
+            _this.tryCallCallback(jsarr, __cb__);
+         });
+   }
+
+   getClinetKWhrs(dts, cirs, __cb__) {
+      let _this = this, 
+         url = `${this.getClinetKWhrsUrl}?dts=${dts}&cirs=${cirs}`;
+      $.get(url, function(jsarr) {
+            _this.tryCallCallback(jsarr, __cb__);
+         });
+   }
+
+   tryCallCallback(resp, __cb__) {
+      if (__cb__)
+         __cb__(resp);
+      else
+         console.log(resp);
    }
 };

@@ -18,32 +18,20 @@ class dbEditSql(object):
          from core.elec_meter_circuits t 
             join core.meter_models mm on t.met_model_rowid = mm.mm_rowid
             join config.client_circuits cmc on cmc.cir_tag = t.cir_tag;"""
-      # return """select t.met_cir_rowid
-      #    , t.met_syspath
-      #    , mm.model_string as met_model_rowid
-      #    , t.met_note
-      #    , cast(t.met_dt_crd as varchar) as met_dt_crd
-      #    , t.cir_tag
-      #    , t.cir_amps
-      #    , t.cir_volts
-      #    , t.cir_locl_tag
-      #    , t.cir_note
-      #    , cast(t.cir_dt_crd as varchar) as cir_dt_crd
-      # from core.elec_meter_circuits t
-      #    join core.meter_models mm on t.met_model_rowid = mm.mm_rowid
-      #    join config.client_circuits cmc on cmc.cir_tag = t.cir_tag;"""
 
    @staticmethod
    def all_clients():
       return """select t.clt_rowid
-            , t.clt_tag, t.clt_name
-            , t.clt_access_pin, t.clt_phone
+            , t.clt_tag
+            , t.clt_name
+            , t.clt_access_pin
+            , t.clt_phone
             , t.clt_email
             , t.note
             , t.bitflags
             , cast(t.dt_crd as varchar) as dt_crd
             , cast(t.dt_del as varchar) as dt_del 
-         from config.clients t;"""
+         from config.clients t where t.dt_del is null;"""
 
    @staticmethod
    def table_info(tblname):
@@ -70,7 +58,8 @@ class dbEditSql(object):
             , cast(t.dt_link as varchar) as dt_link
             , cast(t.dt_unlink as varchar) as dt_unlink 
          from config.client_circuits t join config.clients c on t.clt_tag = c.clt_tag 
-            left join core.elec_meter_circuits emc on t.cir_tag = emc.cir_tag;"""
+            left join core.elec_meter_circuits emc on t.cir_tag = emc.cir_tag
+            where t.dt_unlink is null;"""
 
    @staticmethod
    def upsert_clients(d: []) -> str:
@@ -88,8 +77,8 @@ class dbEditSql(object):
       note = d["COL_note"]
       tmp = d["COL_bitflags"]
       bitflags = int(tmp) if tmp != "" else 0
-      dt_crd = d["COL_dt_crd"]
-      dt_del = d["COL_dt_del"]
+      # dt_crd = d["COL_dt_crd"]
+      # dt_del = d["COL_dt_del"]
       if rowid == "auto":
          qry = f"insert into config.clients values(default, '{clt_tag}', '{clt_name}'" \
             f", '{clt_access_pin}', '{clt_phone}', '{clt_email}', '{note}', {bitflags}"\
@@ -104,13 +93,13 @@ class dbEditSql(object):
 
    @staticmethod
    def upsert_client_circuits(d: []) -> str:
-      """ ('COL_elec_met_cir_rowid', 'auto'), ('COL_clt_tag', '10 :: 5732922397 :: Express Heroes'),
+      """ ('COL_row_sid', 'auto'), ('COL_clt_tag', '10 :: 5732922397 :: Express Heroes'),
          ('COL_locl_tag', '44 :: ck :: A3.4'), ('COL_cir_tag', '2070 :: 1R7.23'), ('COL_code', ''),
          ('COL_bitflags', ''), ('COL_dt_link', ''), ('COL_dt_unlink', '')
          dt_link = d["COL_dt_link"]
          dt_unlink = d["COL_dt_unlink"] """
       # -- -- -- --
-      rowid: str = d["COL_elec_met_cir_rowid"]
+      rowid: str = d["COL_row_sid"]
       clt_tag: str = d["COL_clt_tag"]
       clt_tag = clt_tag.strip().split("::")[1].strip()
       locl_tag: str = d["COL_locl_tag"]
@@ -122,9 +111,9 @@ class dbEditSql(object):
       bitflags: int = 0 if bitflags == "" else int(bitflags)
       # -- auto --
       if rowid == "auto":
-         qry = f"insert into config.client_circuits values('{clt_tag}'" \
+         qry = f"insert into config.client_circuits values(default, '{clt_tag}'" \
             f", '{locl_tag}', '{cir_tag}', '{code}', {bitflags}, now(), null)" \
-            f" returning elec_met_cir_rowid;"
+            f" returning row_sid;"
       else:
          rowid: int = int(rowid)
          qry = "update config.client_circuits set "

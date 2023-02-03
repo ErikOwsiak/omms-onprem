@@ -7,8 +7,8 @@
    
    <div id="settingsMenuBody" class="settings-menu-body">
       <div class="submenu-buttons">
+         <!-- <div>Set Client</div> -->
          <navbtn id="clientView" class="nav-btn">
-            
             <div class="nav-btn-lbl">
                <select id="selCltSelector">
                </select>

@@ -42,6 +42,14 @@ class apiOps(object):
       arr = self.dbops.get_client_meters(clt_dbid)
       return json.dumps(arr)
 
+   def clt_cir_history(self):
+      arr: [] = self.dbops.get_client_circuit_history()
+      return json.dumps(arr)
+
+   def clt_kwhrs(self, dts, cirs) -> []:
+      arr: [] = self.dbops.get_client_kwhrs(dts, cirs)
+      return json.dumps(arr)
+
    def read_redis(self, dbidx: int, keys: []) -> {}:
       def _strdic(d: {}) -> {}:
          x: {} = {}

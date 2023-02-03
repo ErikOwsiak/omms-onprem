@@ -17,8 +17,7 @@ _omms.liveView = {
    onGetClients(jsarr) {
       let selector = "#selCltSelector"
       $(selector).html("");
-      /* for each clt */
-      let opt = `<option value="" selected>-- select client --</option>`;
+      let opt = `<option value="" selected> -- set client --</option>`;
       $(selector).append(opt);
       jsarr.forEach((v, _x, _y) => {
             let [dbid, tag, cltname] = v;

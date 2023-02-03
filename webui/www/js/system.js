@@ -15,16 +15,82 @@ class ClientCircuit {
       this.syspath = syspath;
       this.code = code;
    }
-}
+};
+
+class CltCirHistory {
+   /*cc.locl_tag
+      , cc.cir_tag
+      , cc.bitflags
+      , cast(cc.dt_link as varchar)
+      , cast(cc.dt_unlink as varchar)
+      , c.clt_name
+      , cast(c.dt_crd as varchar)
+      , cast(c.dt_del as varchar)*/
+   constructor([ltag, ctag, fbits, dtlnk, dtunlk, cltname, dtcrd, dtdel]) {
+      this.ltag = ltag;
+      this.ctag = ctag;
+      this.fbits = fbits;
+      this.dtlnk = dtlnk;
+      this.dtunlk = dtunlk;
+      this.cltname = cltname;
+      this.dtcrd = dtcrd;
+      this.dtdel = dtdel;
+   }
+
+   toHtmlStr() {
+      let ln0 = `<div><b>CLT:</b>&nbsp;${this.cltname} | ${this.dtcrd} | ${this.dtdel}</div>`,
+         ln1 = `<div><b>CIR:</b>&nbsp;${this.ltag} | ${this.ctag} | ${this.fbits} | ${this.dtlnk}` + 
+            `| ${this.dtunlk}</div>`;
+      return `<div class="del-item">${ln0}${ln1}</div>`;
+   }
+
+};
+
+/* 
+   select t.met_dbid
+   , '{ct}'
+   , cast(t.dts_utc::timestamp(0) as varchar)
+   , t.total_kwhs
+   , t.l1_kwhs
+   , t.l2_kwhs
+   , t.l3_kwhs 
+*/
+class ClientKWhrs {
+
+   constructor(dts, arr) {
+      this.dts = dts;
+      this.arr = arr;
+      this.total_kwh = 0.0;
+   }
+
+   toHtmlStr() {
+      if (this.arr.length == 3) {
+         /* -- */
+         let [mrowid, cirtag, _] = this.arr;
+         let hdr = `<div class="kwhs-hdr">Search DTS: ${this.dts}</div>`,
+            bdy = `<div>Meter RowID: ${mrowid} | Circuit: ${cirtag} | NoDataFound</div>`;
+         /* -- */
+         return `<div class="kwhs-reading">${hdr}${bdy}</div>`;
+      } else if (this.arr.length == 7) {
+         /* -- */
+         let [mrowid, cirtag, rdts, tkhws, l1khws, l2khws, l3khws] = this.arr;
+         let hdr = `<div class="kwhs-hdr">Search DTS: <bbl>${this.dts}</bbl></div>`,
+            bdy = `<div>Meter RowID: ${mrowid} | <b>Circuit: ${cirtag}</b> | ReadDTS: <bbl>${rdts}</bbl></div>` +
+               `<div><b>Total kWh: ${tkhws}</b> | L1_kWh: ${l1khws} | L2_kWh: ${l2khws} | L3_kWh: ${l3khws}`;
+         /* -- */
+         this.total_kwh = (tkhws == undefined) ? 0.0 : parseFloat(tkhws);
+         return `<div class="kwhs-reading">${hdr}${bdy}</div>`;
+      }
+   }
+
+};
 
 
 _omms.system = {
-
    handleException(e) {
       console.log(e);
       alert(e);
    }
-
 };
 
 class queryStringKeyVal {

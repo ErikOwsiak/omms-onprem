@@ -187,6 +187,66 @@ class dbOps(object):
       tg = tg.replace("tag:", "").strip()
       return ty, b, m, tg
 
+   def get_client_kwhrs(self, dts, cirs: str) -> []:
+      # -- get meter rowids from cirs --
+      cur: cursor = self.conn.cursor()
+      qry = f"""select t.met_cir_rowid
+            , t.cir_tag 
+         from core.elec_meter_circuits t
+            where position(t.cir_tag in '{cirs}') > 0;"""
+      try:
+         cur.execute(qry)
+         rows = cur.fetchall()
+         readings: [] = []
+         for rowid, ct in rows:
+            qry = f"""select t.met_dbid
+                  , '{ct}'
+                  , cast(t.dts_utc::timestamp(0) as varchar)
+                  , t.total_kwhs
+                  , t.l1_kwhs
+                  , t.l2_kwhs
+                  , t.l3_kwhs 
+               from streams.kwhs_raw t
+               where cast(t.dts_utc as date) = cast('{dts}' as date)
+                  and met_dbid = {rowid} order by t.dts_utc desc limit 1;"""
+            cur.execute(qry)
+            row = cur.fetchone()
+            if row is not None:
+               readings.append(row)
+            else:
+               readings.append((rowid, ct, None))
+         # -- -- -- --
+         return readings
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def get_client_circuit_history(self) -> []:
+      qry = """select cc.locl_tag
+            , cc.cir_tag
+            , cc.bitflags
+            , cast(cc.dt_link as varchar)
+            , cast(cc.dt_unlink as varchar)
+            , c.clt_name
+            , cast(c.dt_crd as varchar)
+            , cast(c.dt_del as varchar)
+         from config.client_circuits cc 
+            join config.clients c on cc.clt_tag = c.clt_tag 
+         where cc.dt_unlink is not null order by c.clt_name, cc.dt_link;"""
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         rows = cur.fetchall()
+         if rows is None:
+            return []
+         else:
+            return rows
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
    def get_meter_info(self, met_syspath: str) -> (int, int):
       # -- -- -- -- -- -- -- --
       # for now; todo: try to reconnect

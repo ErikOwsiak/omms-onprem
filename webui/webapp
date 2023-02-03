@@ -100,6 +100,16 @@ def apiget(item):
       buffout = {"utcnow_time": utcnow_time}
       buffout = json.dumps(buffout)
       CTYPE = CTYPE_JSON
+   elif item == "clt-cir-history":
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+      buffout = apiops.clt_cir_history()
+      CTYPE = CTYPE_JSON
+   elif item == "client_kwhrs":
+      dts = req.args["dts"]
+      cirs = req.args["cirs"]
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+      buffout = apiops.clt_kwhrs(dts, cirs)
+      CTYPE = CTYPE_JSON
    else:
       buffout = ""; errcode = 404
    # -- -- return data -- --
@@ -118,7 +128,7 @@ def apiget_meters(args):
       logProxy.log_exp(e)
       return str(e)
 
-@app.route("/dbedit/<path:action>", methods=["GET", "POST"])
+@app.route("/dbedit/<path:action>", methods=["GET", "POST", "DELETE"])
 def dbedit(action):
    hdrs = {"AppServer": "dbEdit ver.: 0.0.3"}
    try:

@@ -1,9 +1,14 @@
+import enum
 
 import psycopg2, json
 from psycopg2.extensions import cursor, connection as _psql_conn
 from flask import request
 from webui.api.dbEditSql import dbEditSql
 from psql.dbConnServer import dbConnServer
+
+
+class bitflags(enum.Enum):
+   DEL = 0xff
 
 
 class dbEdit(object):
@@ -81,8 +86,10 @@ class dbEdit(object):
          qry_clts = "select t.clt_rowid, t.clt_tag, t.clt_name from config.clients t;"
          cur.execute(qry_clts)
          clts_rows = cur.fetchall()
-         # -- meter circuits --
-         qry_cirs = "select t.met_cir_rowid, t.cir_tag from core.elec_meter_circuits t;"
+         # -- meter circuits; only those not linked to clients; --
+         qry_cirs = """select t.met_cir_rowid, t.cir_tag
+            from core.elec_meter_circuits t where t.cir_tag in
+            (select cc.cir_tag from config.client_circuits cc where cc.clt_tag is null);"""
          cur.execute(qry_cirs)
          cirs_rows = cur.fetchall()
          # -- building locales --
@@ -133,19 +140,26 @@ class dbEdit(object):
          cur.close()
 
    def _delete(self):
-      # -- upsert table --
+      # -- -- -- --
+      qry = ""
       d: {} = {"EditorAction": "Delete"}
-      tblname: str = self.req.args["tbl"]
-      rowid = self.req.values["rowid"]
-      if tblname == "clients":
-         qry = f"delete from config.clients where clt_rowid = {rowid};"
-      elif tblname == "client_meter_circuits":
-         qry = f"delete from config.clients where clt_rowid = {rowid};"
-      else:
-         d["ErrorMsg"] = "BadTableName"
-         self.buffout = json.dumps(d)
-         self.buffout_error = 588
-         return 1
+      # -- -- -- --
+      try:
+         tblname: str = self.req.args["tbl"]
+         rowid = self.req.values["rowid"]
+         if tblname == "clients":
+            self._del_client(rowid)
+         elif tblname == "client_circuits":
+            bitflag = bitflags.DEL.value
+            qry = f"update config.client_circuits set bitflags = (bitflags + {bitflag})" \
+               f", dt_unlink = now() where row_sid = {rowid};"
+         else:
+            d["ErrorMsg"] = "BadTableName"
+            self.buffout = json.dumps(d)
+            self.buffout_error = 588
+            return 1
+      except Exception as e:
+         print(e)
       # -- -- -- --
       cur: cursor = self.conn.cursor()
       try:
@@ -164,6 +178,17 @@ class dbEdit(object):
       finally:
          self.conn.commit()
          cur.close()
+
+   def _del_client(self, rowid: int):
+      try:
+         qry = f"update config.clients set bitflags = (bitflags + {bitflags.DEL})" \
+            f", dt_del = now() where clt_rowid = {rowid};"
+         cur: cursor = self.conn.cursor()
+         cur.execute(qry)
+         if cur.rowcount == 1:
+            pass
+      except Exception as e:
+         print(e)
 
    def __qry_rows(self, qry: str):
       cur: cursor = self.conn.cursor()

@@ -36,6 +36,15 @@
                   <div></div>
                </div>
             </navbtn>
+            <!-- deleted client history view -->
+            <navbtn id="clientCircuitsHistory" tbl="client_circuits_history" class="nav-btn">
+               <div class="nav-btn-lbl">
+                  <span>Client Circuits Hist.</span>
+               </div>
+               <div class="nav-sub-btns">
+                  <div></div>
+               </div>
+            </navbtn>
          </fieldset>
       </div>
    </div>

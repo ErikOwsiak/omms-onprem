@@ -100,10 +100,15 @@ _omms.gui = {
       try {
          targetID = (targetID == null) ? _omms.gui.viewport : `#${targetID}`;
          /* zero elmt is a pure html obj; no jq wrapper */
-         let obj = $(`#dataBlock #${blockID}`)[0],
-            buff = _omms.gui.fixScriptTag(obj.outerHTML),
-            buffNewID = targetID;
-         // console.log(buff);
+         let selector = `#dataBlock #${blockID}`;
+         let obj = $(selector)[0];
+         if (obj == undefined) {
+            alert(`SelectorNotFound: ${selector}`);
+            return;
+         }
+         /* -- */
+         let buff = _omms.gui.fixScriptTag(obj.outerHTML),
+          buffNewID = targetID;
          /* -- */
          if (newID) {
             let ts = Date.now();

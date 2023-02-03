@@ -13,7 +13,7 @@ class dbEdit {
    }
 
    init() {
-      $("#systemSettings").off().on("click", this.getTableInfo);
+      //$("#systemSettings").off().on("click", this.getTableInfo);
    }
 
    tblOnClick(tblname) {
@@ -207,9 +207,10 @@ class dbEdit {
    }
 
    deleteDBItem() {
-      let rowid = $("#newDBItemForm #COL_clt_rowid").val(), 
-         url = `/dbedit/delete?tbl=${this.current_table}`;
-      $.post(url, {"rowid": rowid}, function(res) {
+      let rowid = $("#newDBItemForm #COL_row_sid").val(), 
+         url = `/dbedit/delete?tbl=${this.current_table}&rowid=${rowid}`;
+      let data = {"rowid": rowid};
+      $.delete(url, data, function(res) {
             if (res.ErrorMsg == "OK")
                alert(`Record Deleted OK`);
             else
@@ -226,7 +227,7 @@ class dbEdit {
          });
       /* -- */
       let url = `/dbedit/upsert?tbl=${this.current_table}`;
-      $.post(url, data=data, function(res) {
+      $.post(url, data, function(res) {
             if (res.ErrorMsg == "OK")
                alert(`Record Upsert OK`);
             else

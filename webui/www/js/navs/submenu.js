@@ -84,23 +84,23 @@ class submenuNav {
       /* - - */
    }
 
-   settingsMetersClick(__this) {
-      /* load xml */
-      _omms.gui.loadDataBlockXml("databaseEditorFrame");
-      let api = new restAPI(),
-         tbl = $(__this).attr("tbl");
-      /* - - */
-      let showUpsert = true, showNew = false, showDel = false;
-      api.getTableInfo(tbl, function(jarr, tbl) {
-            submenuNav.createTable(jarr, tbl, showUpsert, showNew, showDel);
-         });
-      /* - - */
-      api.getMeters(2, function(jarr) {
-            submenuNav.createSelectorListItem(jarr
-               , dbTableHtml.getMeterSelectorItem);
-         });
-      /* - - */
-   }
+   // settingsMetersClick(__this) {
+   //    /* load xml */
+   //    _omms.gui.loadDataBlockXml("databaseEditorFrame");
+   //    let api = new restAPI(),
+   //       tbl = $(__this).attr("tbl");
+   //    /* - - */
+   //    let showUpsert = true, showNew = false, showDel = false;
+   //    api.getTableInfo(tbl, function(jarr, tbl) {
+   //          submenuNav.createTable(jarr, tbl, showUpsert, showNew, showDel);
+   //       });
+   //    /* - - */
+   //    api.getMeters(2, function(jarr) {
+   //          submenuNav.createSelectorListItem(jarr
+   //             , dbTableHtml.getMeterSelectorItem);
+   //       });
+   //    /* - - */
+   // }
 
    settingsSpacesClick(__this) {
       /* - - */
@@ -144,6 +144,10 @@ class submenuNav {
                dbTableHtml.getCltCircuitSelectorItem);
          });
       /* - - */
+   }
+
+   clientCircuitsHistoryClick(__this) {
+      _omms.gui.loadDataBlockXml("clientCircuitHistory");
    }
 
 };

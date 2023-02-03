@@ -308,7 +308,7 @@ fieldset.settings-btns {
 div.view-port-body {
    width: 94%;
    margin: auto;
-   height: 78vh;
+   height: 76vh;
    overflow-y: scroll;
    border: 2px solid rgb(50, 44, 90);
    border-radius: 8px;
@@ -316,12 +316,11 @@ div.view-port-body {
 
 div.vp-bdy-hdr {
    width: 94%;
-   height: 4.8vh;
-   line-height: 4.8vh;
+   height: 6vh;
+   line-height: 6vh;
    margin: auto;
    text-align: right;
    border: 0px dotted lightgrey;
-   padding-right: 1vw;
 }
 
 div.kwhrs-view {
@@ -355,6 +354,81 @@ b1 {
    color: rgb(78, 6, 78);
 }
 
-xtxt {
-   color: rgb(145, 96, 6);
+bbl {
+   color: #352a77;
+   font-weight: bold;
+   font-style: italic;
+}
+
+/*
+   client circuit history
+*/
+
+/* .clt-cir-history {
+
+} */
+
+.clt-cir-history h2 {
+   height: 4vh;
+   text-indent: 2vw;
+   color: darkblue;
+}
+
+.clt-cir-body {
+   width: 98%;
+   height: 72vh;
+   margin: auto;
+   overflow-y: scroll;
+   border: 2px solid rgb(50, 44, 90);
+   border-radius: 8px;
+}
+
+.del-item {
+   width: 96%;
+   margin: 1vh auto;
+   padding: 8px;
+   border: 1px solid rgb(50, 44, 90);
+   border-radius: 4px;
+}
+
+.del-item:nth-child(even) {
+   background-color: rgba(141, 124, 219, 0.185);
+}
+
+.del-item div {
+   padding: 4px;
+}
+
+div.kwhs-reading {
+   width: 98%;
+   height: auto;
+   margin: 1vh auto;
+   padding: 8px;
+   border: 1px solid rgb(50, 44, 90);
+   border-radius: 4px;
+}
+
+div.kwhs-reading > div {
+   height: 2.8vh;
+   line-height: 2.8vh;
+   font-size: 2.4vh;
+}
+
+div.kwhs-reading:nth-child(even) {
+   background-color: rgba(104, 70, 136, 0.171);
+}
+
+#hdrTKWH {
+   display: inline-block;
+   text-align: left;
+   font-size: 2.2vh;
+   padding-left: 1vh;
+   float: left;
+}
+
+#hdrLastDTS {
+   display: inline-block;
+   text-align: right;
+   padding-right: 1vh;
+   float: right;
 }
