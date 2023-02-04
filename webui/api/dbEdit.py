@@ -78,6 +78,11 @@ class dbEdit(object):
       return self.__select_qry_rows(qry)
 
    def _get_datalists(self):
+      """
+         1. locate available circuits
+            a. look for cir_tags in core.elec_meter_circuits that are not in config.client_circuits
+            2. look for cir_tags in config.client_circuits where dt_link & dt_unlink not null
+      """
       cur: cursor = self.conn.cursor()
       try:
          iso_level = psycopg2.extensions.ISOLATION_LEVEL_READ_COMMITTED
@@ -87,9 +92,10 @@ class dbEdit(object):
          cur.execute(qry_clts)
          clts_rows = cur.fetchall()
          # -- meter circuits; only those not linked to clients; --
-         qry_cirs = """select t.met_cir_rowid, t.cir_tag
-            from core.elec_meter_circuits t where t.cir_tag in
-            (select cc.cir_tag from config.client_circuits cc where cc.clt_tag is null);"""
+         # qry_cirs = """select t.met_cir_rowid, t.cir_tag
+         #    from core.elec_meter_circuits t where t.cir_tag in
+         #    (select cc.cir_tag from config.client_circuits cc where cc.clt_tag is null);"""
+         qry_cirs = dbEditSql.available_circuits()
          cur.execute(qry_cirs)
          cirs_rows = cur.fetchall()
          # -- building locales --

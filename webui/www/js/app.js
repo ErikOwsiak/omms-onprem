@@ -333,7 +333,7 @@ _omms.app = {
             tkwh += ck.total_kwh;
          });
       /* -- */
-      $(`#hdrTKWH`).html(`Total kWh: ${tkwh}`);
+      $(`#hdrTKWH`).html(`Total kWh: ${tkwh.toFixed(2)}`);
    }
 
 };

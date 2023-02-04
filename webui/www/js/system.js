@@ -20,15 +20,17 @@ class ClientCircuit {
 class CltCirHistory {
    /*cc.locl_tag
       , cc.cir_tag
+      , emc.met_syspath
       , cc.bitflags
       , cast(cc.dt_link as varchar)
       , cast(cc.dt_unlink as varchar)
       , c.clt_name
       , cast(c.dt_crd as varchar)
       , cast(c.dt_del as varchar)*/
-   constructor([ltag, ctag, fbits, dtlnk, dtunlk, cltname, dtcrd, dtdel]) {
+   constructor([ltag, ctag, syspath, fbits, dtlnk, dtunlk, cltname, dtcrd, dtdel]) {
       this.ltag = ltag;
       this.ctag = ctag;
+      this.syspath = syspath;
       this.fbits = fbits;
       this.dtlnk = dtlnk;
       this.dtunlk = dtunlk;
@@ -38,10 +40,11 @@ class CltCirHistory {
    }
 
    toHtmlStr() {
-      let ln0 = `<div><b>CLT:</b>&nbsp;${this.cltname} | ${this.dtcrd} | ${this.dtdel}</div>`,
-         ln1 = `<div><b>CIR:</b>&nbsp;${this.ltag} | ${this.ctag} | ${this.fbits} | ${this.dtlnk}` + 
-            `| ${this.dtunlk}</div>`;
-      return `<div class="del-item">${ln0}${ln1}</div>`;
+      let ln0 = `<div><b>CLIENT:</b>&nbsp;${this.cltname} | ${this.dtcrd} | ${this.dtdel}</div>`,
+         ln1 = `<div><b>CIRCUIT:</b>&nbsp;${this.ltag} | ${this.ctag} | ${this.fbits}` + 
+            `| ${this.dtlnk} | ${this.dtunlk}</div>`,
+         ln2 = `<div><b>SYSPATH:</b>&nbsp;${this.syspath}</div>`;
+      return `<div class="del-item">${ln0}${ln1}${ln2}</div>`;
    }
 
 };
@@ -79,7 +82,11 @@ class ClientKWhrs {
                `<div><b>Total kWh: ${tkhws}</b> | L1_kWh: ${l1khws} | L2_kWh: ${l2khws} | L3_kWh: ${l3khws}`;
          /* -- */
          this.total_kwh = (tkhws == undefined) ? 0.0 : parseFloat(tkhws);
-         return `<div class="kwhs-reading">${hdr}${bdy}</div>`;
+         let nullsty = "";
+         if (tkhws == undefined)
+            nullsty = "border-color: red !important; border-width: 2px;";
+         /* -- */
+         return `<div class="kwhs-reading" style="${nullsty}">${hdr}${bdy}</div>`;
       }
    }
 

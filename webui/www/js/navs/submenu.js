@@ -150,4 +150,8 @@ class submenuNav {
       _omms.gui.loadDataBlockXml("clientCircuitHistory");
    }
 
+   syspathsViewClick(__this) {
+      /* load dynamic view */
+      alert("NotImplemented");
+   }
 };

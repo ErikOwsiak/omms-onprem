@@ -391,6 +391,12 @@ bbl {
    border-radius: 4px;
 }
 
+.del-item div {
+   border: 1px dotted grey;
+   border-radius: 4px;
+   margin: 4px auto;
+}
+
 .del-item:nth-child(even) {
    background-color: rgba(141, 124, 219, 0.185);
 }

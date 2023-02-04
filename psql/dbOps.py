@@ -2,6 +2,7 @@
 import redis
 import psycopg2.extensions
 from psycopg2.extensions import connection, cursor
+from lib.utils import utils
 # -- system --
 from psql.dbConnServer import dbConnServer
 from core.logProxy import logProxy
@@ -117,7 +118,10 @@ class dbOps(object):
          ins = f"insert into {dbOps.PWR_STATS_TBL} values(default, {dbid}, now(), {ghz}," \
             f" {lnv}, {l1v}, {l2v}, {l3v}, {tla}, {l1a}, {l2a}, {l3a}," \
             f" {tlw}, {l1w}, {l2w}, {l3w}, {tlpf}, {l1pf}, {l2pf}, {l3pf}) returning row_dbid;"
-         print(ins)
+         # -- print text block --
+         lns: [] = utils.txt_block_formatted(ins)
+         [print(ln) for ln in lns]
+         print("\n")
          # -- insert --
          cur: cursor = self.conn.cursor()
          cur.execute(ins)
@@ -225,6 +229,7 @@ class dbOps(object):
    def get_client_circuit_history(self) -> []:
       qry = """select cc.locl_tag
             , cc.cir_tag
+            , emc.met_syspath
             , cc.bitflags
             , cast(cc.dt_link as varchar)
             , cast(cc.dt_unlink as varchar)
@@ -232,7 +237,8 @@ class dbOps(object):
             , cast(c.dt_crd as varchar)
             , cast(c.dt_del as varchar)
          from config.client_circuits cc 
-            join config.clients c on cc.clt_tag = c.clt_tag 
+            join config.clients c on cc.clt_tag = c.clt_tag
+            join core.elec_meter_circuits emc on cc.cir_tag = emc.cir_tag
          where cc.dt_unlink is not null order by c.clt_name, cc.dt_link;"""
       cur: cursor = self.conn.cursor()
       try:

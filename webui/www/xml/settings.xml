@@ -45,6 +45,15 @@
                   <div></div>
                </div>
             </navbtn>
+            <!-- core table -->
+            <navbtn id="syspathsView" tbl="syspaths_view" class="nav-btn">
+               <div class="nav-btn-lbl">
+                  <span>SYSPATHs View</span>
+               </div>
+               <div class="nav-sub-btns">
+                  <div></div>
+               </div>
+            </navbtn>
          </fieldset>
       </div>
    </div>

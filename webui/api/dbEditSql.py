@@ -119,3 +119,16 @@ class dbEditSql(object):
          qry = "update config.client_circuits set "
       # -- -- -- --
       return qry
+
+   @staticmethod
+   def available_circuits() -> str:
+      """
+         1. locate available circuits
+            a. look for cir_tags in core.elec_meter_circuits that are not in config.client_circuits
+            2. look for cir_tags in config.client_circuits where dt_link & dt_unlink not null
+      """
+      qry = """select t.met_cir_rowid
+            , t.cir_tag from core.elec_meter_circuits t 
+         where t.cir_tag not in (select cc.cir_tag from config.client_circuits cc 
+         where cc.dt_link is not null and cc.dt_unlink is null);"""
+      return qry
