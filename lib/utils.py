@@ -25,12 +25,12 @@ class utils(object):
       """
       tabs = 2
       if "tabs" in kwargs.keys():
-         pass
+         tabs = kwargs["tabs"]
       chars = 76
       if "chars" in kwargs.keys():
-         pass
+         chars = kwargs["chars"]
       color = "green"
       if "color" in kwargs.keys():
-         pass
+         color = kwargs["color"]
       lns = wrap(msg, chars)
       return [colored(f"\t{ln}", color) for ln in lns]
