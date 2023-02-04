@@ -79,7 +79,13 @@ class dbOps(object):
          l2_kwh = _dict["l2_kwh"] if "l2_kwh" in _dict.keys() else dbOps.NULL
          l3_kwh = _dict["l3_kwh"] if "l3_kwh" in _dict.keys() else dbOps.NULL
          ins = f"insert into streams.kwhs_raw" \
-            f" values(default, {dbid}, now(), {tl_kwh}, {l1_kwh}, {l2_kwh}, {l3_kwh}) returning row_dbid;"
+            f" values(default, {dbid}, now(), {tl_kwh}, {l1_kwh}, {l2_kwh}, {l3_kwh})" \
+            f" returning row_dbid;"
+         # -- print text block --
+         lns: [] = utils.txt_block_formatted(ins, color="blue")
+         [print(ln) for ln in lns]
+         print("\n")
+         # -- -- -- --
          cur = self.conn.cursor()
          cur.execute(ins)
          self.conn.commit()
