@@ -74,19 +74,20 @@ class ClientKWhrs {
             bdy = `<div>Meter RowID: ${mrowid} | Circuit: ${cirtag} | NoDataFound</div>`;
          /* -- */
          return `<div class="kwhs-reading">${hdr}${bdy}</div>`;
-      } else if (this.arr.length == 7) {
+      } else if (this.arr.length == 8) {
          /* -- */
-         let [mrowid, cirtag, rdts, tkhws, l1khws, l2khws, l3khws] = this.arr;
+         let [mrowid, cirtag, rdts, tkhws, l1khws, l2khws, l3khws, sp] = this.arr;
          let hdr = `<div class="kwhs-hdr">Search DTS: <bbl>${this.dts}</bbl></div>`,
             bdy = `<div>Meter RowID: ${mrowid} | <b>Circuit: ${cirtag}</b> | ReadDTS: <bbl>${rdts}</bbl></div>` +
-               `<div><b>Total kWh: ${tkhws}</b> | L1_kWh: ${l1khws} | L2_kWh: ${l2khws} | L3_kWh: ${l3khws}`;
+               `<div><b>Total kWh: ${tkhws}</b> | L1_kWh: ${l1khws} | L2_kWh: ${l2khws} | L3_kWh: ${l3khws}</div>`,
+            spdiv = `<div class="sp-div">SYSPATH: ${sp}</div>`;
          /* -- */
          this.total_kwh = (tkhws == undefined) ? 0.0 : parseFloat(tkhws);
          let nullsty = "";
          if (tkhws == undefined)
             nullsty = "border-color: red !important; border-width: 2px;";
          /* -- */
-         return `<div class="kwhs-reading" style="${nullsty}">${hdr}${bdy}</div>`;
+         return `<div class="kwhs-reading" style="${nullsty}">${hdr}${bdy}${spdiv}</div>`;
       }
    }
 

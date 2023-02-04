@@ -74,7 +74,13 @@ class dbOps(object):
    def insert_elect_kwhrs_dict(self, dbid: int, _dict: {}) -> bool:
       cur: cursor = None
       try:
-         tl_kwh = _dict["tl_kwh"] if "tl_kwh" in _dict.keys() else dbOps.NULL
+         # -- this needs to be fixed --
+         syspath = _dict["PATH"]
+         if "pzem" in syspath:
+            tl_kwh = _dict["kWh"] if "kWh" in _dict.keys() else dbOps.NULL
+         else:
+            tl_kwh = _dict["tl_kwh"] if "tl_kwh" in _dict.keys() else dbOps.NULL
+         # -- -- -- --
          l1_kwh = _dict["l1_kwh"] if "l1_kwh" in _dict.keys() else dbOps.NULL
          l2_kwh = _dict["l2_kwh"] if "l2_kwh" in _dict.keys() else dbOps.NULL
          l3_kwh = _dict["l3_kwh"] if "l3_kwh" in _dict.keys() else dbOps.NULL
@@ -208,23 +214,28 @@ class dbOps(object):
          cur.execute(qry)
          rows = cur.fetchall()
          readings: [] = []
-         for rowid, ct in rows:
-            qry = f"""select t.met_dbid
-                  , '{ct}'
-                  , cast(t.dts_utc::timestamp(0) as varchar)
-                  , t.total_kwhs
-                  , t.l1_kwhs
-                  , t.l2_kwhs
-                  , t.l3_kwhs 
-               from streams.kwhs_raw t
-               where cast(t.dts_utc as date) = cast('{dts}' as date)
-                  and met_dbid = {rowid} order by t.dts_utc desc limit 1;"""
-            cur.execute(qry)
+         # -- -- -- --
+         def qry(rid, ct):
+            return f"""select t.met_dbid
+               , '{ct}' as x
+               , cast(t.dts_utc::timestamp(0) as varchar)
+               , t.total_kwhs
+               , t.l1_kwhs
+               , t.l2_kwhs
+               , t.l3_kwhs
+               , emc.met_syspath
+            from streams.kwhs_raw t
+               join core.elec_meter_circuits emc on emc.met_cir_rowid = t.met_dbid
+            where cast(t.dts_utc as date) = cast(now() as date)
+               and met_dbid = {rid} order by t.dts_utc desc limit 1;"""
+         # -- -- -- --
+         for rowid, _ct in rows:
+            cur.execute(qry(rowid, _ct))
             row = cur.fetchone()
             if row is not None:
                readings.append(row)
             else:
-               readings.append((rowid, ct, None))
+               readings.append((rowid, _ct, None))
          # -- -- -- --
          return readings
       except Exception as e:

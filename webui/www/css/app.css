@@ -406,11 +406,11 @@ bbl {
 }
 
 div.kwhs-reading {
-   width: 98%;
+   width: 96%;
    height: auto;
    margin: 1vh auto;
    padding: 8px;
-   border: 1px solid rgb(50, 44, 90);
+   border: 2px solid rgb(50, 44, 90);
    border-radius: 4px;
 }
 
@@ -418,11 +418,21 @@ div.kwhs-reading > div {
    height: 2.8vh;
    line-height: 2.8vh;
    font-size: 2.4vh;
+   margin: 4px auto;
+   padding: 4px 8px;
+   border: 1px solid rgba(124, 115, 187, 0.651);
+   border-radius: 4px;
+}
+
+div.sp-div {
+   color: darkblue;
+   font-style: italic;
 }
 
 div.kwhs-reading:nth-child(even) {
    background-color: rgba(104, 70, 136, 0.171);
 }
+
 
 #hdrTKWH {
    display: inline-block;
