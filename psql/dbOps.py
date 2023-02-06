@@ -3,6 +3,7 @@ import redis
 # import psycopg2.extensions
 from psycopg2.extensions import connection, cursor
 from lib.utils import utils
+from termcolor import colored
 # -- system --
 from psql.dbConnServer import dbConnServer
 from core.logProxy import logProxy
@@ -89,7 +90,8 @@ class dbOps(object):
             f" values({dbid}, now(), {tl_kwh}, {l1_kwh}, {l2_kwh}, {l3_kwh})" \
             f" returning row_dbid;"
          # -- print text block --
-         lns: [] = utils.txt_block_formatted(ins, color="blue")
+         color = "blue"
+         lns: [] = utils.txt_block_formatted(ins, color=color)
          [print(ln) for ln in lns]
          # -- -- -- --
          cur = self.conn.cursor()
@@ -97,10 +99,10 @@ class dbOps(object):
          self.conn.commit()
          if cur.rowcount == 1:
             row_dbid = cur.fetchone()
-            print(f"\t\tGOOD INSERT: {row_dbid}\n")
+            print(colored(f"\t\tGOOD INSERT: {row_dbid}\n", color))
             return True
          else:
-            print(f"\t\tINSERT ERROR!\n")
+            print(colored(f"\t\tINSERT ERROR!\n", color))
             return False
       except Exception as e:
          logProxy.log_exp(e)
@@ -137,7 +139,8 @@ class dbOps(object):
             f" {lnv}, {l1v}, {l2v}, {l3v}, {tla}, {l1a}, {l2a}, {l3a}," \
             f" {tlw}, {l1w}, {l2w}, {l3w}, {tlpf}, {l1pf}, {l2pf}, {l3pf}) returning row_dbid;"
          # -- print text block --
-         lns: [] = utils.txt_block_formatted(ins)
+         color = "green"
+         lns: [] = utils.txt_block_formatted(ins, color=color)
          [print(ln) for ln in lns]
          # -- insert --
          cur: cursor = self.conn.cursor()
@@ -145,10 +148,10 @@ class dbOps(object):
          self.conn.commit()
          if cur.rowcount == 1:
             row_dbid = cur.fetchone()
-            print(f"\t\tGOOD INSERT: {row_dbid}\n")
+            print(colored(f"\t\tGOOD INSERT: {row_dbid}\n", color))
             return True
          else:
-            print(f"\t\tINSERT ERROR!\n")
+            print(colored(f"\t\tINSERT ERROR!\n", color))
             return False
       except Exception as e:
          logProxy.log_exp(e)
