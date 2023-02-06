@@ -60,16 +60,16 @@ class dbOps(object):
       finally:
          cur.close()
 
-   def insert_elect_kwhrs(self, dbid: int, tkwhs: float, l1kwhs, l2kwhs, l3kwhs) -> bool:
-      # -- -- -- --
-      ins = f"insert into streams.kwhs_raw" \
-         f" values(default, {dbid}, now(), {tkwhs}, {l1kwhs}, {l2kwhs}, {l3kwhs}) returning row_dbid;"
-      cur: cursor = self.conn.cursor()
-      cur.execute(ins)
-      self.conn.commit()
-      rowcount = cur.rowcount
-      cur.close()
-      return rowcount == 1
+   # def insert_elect_kwhrs(self, dbid: int, tkwhs: float, l1kwhs, l2kwhs, l3kwhs) -> bool:
+   #    # -- -- -- --
+   #    ins = f"insert into streams.kwhs_raw" \
+   #       f" values(default, {dbid}, now(), {tkwhs}, {l1kwhs}, {l2kwhs}, {l3kwhs}) returning row_dbid;"
+   #    cur: cursor = self.conn.cursor()
+   #    cur.execute(ins)
+   #    self.conn.commit()
+   #    rowcount = cur.rowcount
+   #    cur.close()
+   #    return rowcount == 1
 
    def insert_elect_kwhrs_dict(self, dbid: int, _dict: {}) -> bool:
       cur: cursor = None
@@ -91,17 +91,16 @@ class dbOps(object):
          # -- print text block --
          lns: [] = utils.txt_block_formatted(ins, color="blue")
          [print(ln) for ln in lns]
-         print("\n")
          # -- -- -- --
          cur = self.conn.cursor()
          cur.execute(ins)
          self.conn.commit()
-         row_dbid = cur.fetchone()
          if cur.rowcount == 1:
-            print(f"\t\tGOOD INSERT: {row_dbid}")
+            row_dbid = cur.fetchone()
+            print(f"\t\tGOOD INSERT: {row_dbid}\n")
             return True
          else:
-            print(f"\t\tINSERT ERROR!")
+            print(f"\t\tINSERT ERROR!\n")
             return False
       except Exception as e:
          logProxy.log_exp(e)
@@ -145,7 +144,13 @@ class dbOps(object):
          cur: cursor = self.conn.cursor()
          cur.execute(ins)
          self.conn.commit()
-         return cur.rowcount == 1
+         if cur.rowcount == 1:
+            row_dbid = cur.fetchone()
+            print(f"\t\tGOOD INSERT: {row_dbid}\n")
+            return True
+         else:
+            print(f"\t\tINSERT ERROR!\n")
+            return False
       except Exception as e:
          logProxy.log_exp(e)
       finally:
