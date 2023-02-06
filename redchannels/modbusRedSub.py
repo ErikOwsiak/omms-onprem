@@ -53,7 +53,7 @@ class modbusRedSub(redSubChannel):
       try:
          _dict: {} = utils.arr_dict(arr, ":")
          syspath: str = _dict["PATH"]
-         meter_rowid, _ = self.dbops.get_meter_info(syspath)
+         meter_rowid, _ = self.dbops.get_met_circ_info(syspath)
          self.dbops.insert_elect_pwr_stats(meter_rowid, _dict)
       except Exception as e:
          print(e)
@@ -61,20 +61,20 @@ class modbusRedSub(redSubChannel):
    def __save_kwhrs_v1(self, arr: []):
       _dict: {} = utils.arr_dict(arr, ":")
       syspath: str = _dict["PATH"]
-      meter_rowid, _ = self.dbops.get_meter_info(syspath)
+      meter_rowid, _ = self.dbops.get_met_circ_info(syspath)
       self.dbops.insert_elect_kwhrs_dict(meter_rowid, _dict)
 
-   def __save_power_stats(self, arr: []):
-      try:
-         _dict: {} = utils.arr_dict(arr, ":")
-         syspath: str = _dict["PATH"]
-         dbid: int = self.dbops.get_meter_syspath_dbid(syspath.lower())
-         self.dbops.insert_elect_pwr_stats(dbid, _dict)
-      except Exception as e:
-         print(e)
-
-   def __save_kwhrs(self, arr: []):
-      _dict: {} = utils.arr_dict(arr, ":")
-      syspath: str = _dict["PATH"]
-      dbid: int = self.dbops.get_meter_syspath_dbid(syspath.lower())
-      self.dbops.insert_elect_kwhrs_dict(dbid, _dict)
+   # def __save_power_stats(self, arr: []):
+   #    try:
+   #       _dict: {} = utils.arr_dict(arr, ":")
+   #       syspath: str = _dict["PATH"]
+   #       dbid: int = self.dbops.get_meter_syspath_dbid(syspath.lower())
+   #       self.dbops.insert_elect_pwr_stats(dbid, _dict)
+   #    except Exception as e:
+   #       print(e)
+   #
+   # def __save_kwhrs(self, arr: []):
+   #    _dict: {} = utils.arr_dict(arr, ":")
+   #    syspath: str = _dict["PATH"]
+   #    dbid: int = self.dbops.get_meter_syspath_dbid(syspath.lower())
+   #    self.dbops.insert_elect_kwhrs_dict(dbid, _dict)

@@ -1,6 +1,6 @@
 
 import redis
-import psycopg2.extensions
+# import psycopg2.extensions
 from psycopg2.extensions import connection, cursor
 from lib.utils import utils
 # -- system --
@@ -85,6 +85,7 @@ class dbOps(object):
          l2_kwh = _dict["l2_kwh"] if "l2_kwh" in _dict.keys() else dbOps.NULL
          l3_kwh = _dict["l3_kwh"] if "l3_kwh" in _dict.keys() else dbOps.NULL
          ins = f"insert into streams.kwhs_raw" \
+            f" (met_circ_dbid, dts_utc, total_kwhs, l1_kwh, l2_kwh, l3_kwh)" \
             f" values(default, {dbid}, now(), {tl_kwh}, {l1_kwh}, {l2_kwh}, {l3_kwh})" \
             f" returning row_dbid;"
          # -- print text block --
@@ -95,7 +96,13 @@ class dbOps(object):
          cur = self.conn.cursor()
          cur.execute(ins)
          self.conn.commit()
-         return cur.rowcount == 1
+         row_dbid = cur.fetchone()
+         if cur.rowcount == 1:
+            print(f"\t\tGOOD INSERT: {row_dbid}")
+            return True
+         else:
+            print(f"\t\tINSERT ERROR!")
+            return False
       except Exception as e:
          logProxy.log_exp(e)
       finally:
@@ -178,6 +185,20 @@ class dbOps(object):
       finally:
          cur.close()
          conn.close()
+
+   def get_system_circuits(self) -> []:
+      qry = """select t.met_cir_rowid rowid
+         , t.met_syspath spath
+         , t.elec_room_locl_tag ltag from core.elec_meter_circuits t;"""
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         rows = cur.fetchall()
+         return rows
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
 
    def get_client_meters(self, clt_dbid: int) -> []:
       cur: cursor = self.conn.cursor()
@@ -270,7 +291,7 @@ class dbOps(object):
       finally:
          cur.close()
 
-   def get_meter_info(self, met_syspath: str) -> (int, int):
+   def get_met_circ_info(self, met_syspath: str) -> (int, int):
       # -- -- -- -- -- -- -- --
       # for now; todo: try to reconnect
       if self.conn is None:
@@ -335,6 +356,28 @@ class dbOps(object):
             else:
                pass
          return row
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def get_fst_lst_circuit_reading(self, cirdbid: int
+         , year: int
+         , month: int) -> []:
+      qry = f"""(select * from streams.kwhs_raw t where t.met_dbid = {cirdbid} 
+         and extract(year from cast(t.dts_utc as date))::int = {year}
+         and extract(month from cast(t.dts_utc as date))::int = {month}
+         order by t.dts_utc asc limit 1) 
+            union
+         (select * from streams.kwhs_raw t where t.met_dbid = {cirdbid}
+         and extract(year from cast(t.dts_utc as date))::int = {year}
+         and extract(month from cast(t.dts_utc as date))::int = {month}
+         order by t.dts_utc desc limit 1);"""
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         rows = cur.fetchall()
+         return rows
       except Exception as e:
          logProxy.log_exp(e)
       finally:

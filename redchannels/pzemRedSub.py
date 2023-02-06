@@ -50,7 +50,7 @@ class pzemRedSub(redSubChannel):
       try:
          _dict: {} = utils.arr_dict(arr, ":")
          syspath: str = _dict["PATH"]
-         meter_rowid, _ = self.dbops.get_meter_info(syspath)
+         meter_rowid, _ = self.dbops.get_met_circ_info(syspath)
          self.dbops.insert_elect_pwr_stats(meter_rowid, _dict)
       except Exception as e:
          print(e)
@@ -58,7 +58,7 @@ class pzemRedSub(redSubChannel):
    def __save_kwhrs_v1(self, arr: []):
       _dict: {} = utils.arr_dict(arr, ":")
       syspath: str = _dict["PATH"]
-      meter_rowid, _ = self.dbops.get_meter_info(syspath)
+      meter_rowid, _ = self.dbops.get_met_circ_info(syspath)
       self.dbops.insert_elect_kwhrs_dict(meter_rowid, _dict)
 
    def __save_power_stats(self, arr: []):

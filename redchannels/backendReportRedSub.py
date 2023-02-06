@@ -1,11 +1,16 @@
 
 import configparser as _cp, redis
 import threading
-
+# -- core --
 from core.datatypes import redSubMsg
 from core.redSubChannel import redSubChannel
 from psql.dbOps import dbOps
 from lib.utils import utils
+from core.logProxy import logProxy
+# -- reports --
+from core.reports.backFiller import backFiller
+from core.reports.circuitMonthly import circuitMonthly
+from core.reports.clientMonthly import clientMonthly
 
 
 INI_SEC_NAME = "BACKEND"
@@ -48,3 +53,12 @@ class backendReportRedSub(redSubChannel):
       arr: [] = args.split(";")
       d = utils.arr_dict(arr, ":")
       self.dbops.update_report_data(rowid, 10, F"GOT_ARGS: {args}\n")
+      try:
+         backfiller: backFiller = backFiller(self.dbops)
+         y: int = int(d["year"])
+         m: int = int(d["month"])
+         data: ([], []) = backfiller.validate_data_dates(year=y, month=m)
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         pass
