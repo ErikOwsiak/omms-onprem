@@ -44,9 +44,10 @@ class submenuNav {
    };
 
    constructor(xmlFormName) {
-      this.xmlFormName = xmlFormName;
       console.log("submenuNav:c-tor");
-      let selector = `#${this.xmlFormName} navbtn:not(.greyout)`;
+      this.xmlFormName = xmlFormName;
+      let ns = `#subMenuCol #${this.xmlFormName}`, 
+         selector = `${ns} navbtn:not(.greyout)`;
       $(selector).off().on("click", this.onSubmenuItemClick);
    }
 
@@ -77,11 +78,14 @@ class submenuNav {
    }
 
    settingsElecMeterCircuitsClick(__this) {
-      /* - - */
       _omms.gui.loadDataBlockXml("databaseEditorFrame");
-      let tbl = $(__this).attr("tbl"), api = new restAPI();
+      let tbl = $(__this).attr("tbl")
+         , api = new restAPI();
       _omms.dbedit.getTableInfo(tbl);
-      /* - - */
+   }
+
+   monthPickerClick() {
+      _omms.app.startMonthyReport();
    }
 
    // settingsMetersClick(__this) {

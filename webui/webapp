@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-# import datetime
 import json, time
 import configparser as _cp, redis, setproctitle
 from psycopg2.extensions import connection as _psql_conn
@@ -115,6 +114,25 @@ def apiget(item):
    # -- -- return data -- --
    return buffout, errcode, {"content-type": CTYPE}
 
+@app.route("/api/post/<item>", methods=["POST"])
+def apipost(item):
+   try:
+      CTYPE = "text/plain"
+      buffout = ""; errcode = 200
+      if item == "monthly-report":
+         y: str = req.values["year"]
+         m: str = req.values["month"]
+         apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+         report_id = apiops.set_report_job(item, y, m)
+         buffout = json.dumps({"REPORT_ID": report_id})
+         CTYPE = CTYPE_JSON
+      else:
+         pass
+      # -- -- return data -- --
+      return buffout, errcode, {"content-type": CTYPE}
+   except Exception as e:
+      logProxy.log_exp(e)
+
 @app.route("/api/get/meters/<args>", methods=["GET"])
 def apiget_meters(args):
    try:
@@ -148,12 +166,6 @@ def dbedit(action):
       print(e)
       return str(e), 555, hdrs
 
-
-@app.route("/api/post", methods=["POST"])
-def apipost():
-   pass
-
-
 @app.route("/state-info")
 def state_info():
    hdrs = {"AppServer": "dbEdit ver.: 0.0.3", "content-type": "text/json"}
@@ -168,7 +180,7 @@ def state_info():
 
 
 # == == == == == == == == == == == == == == == == == == == == == == == == == ==
-# -- -- start app here -- --
+# -- -- [ start app here ] -- --
 if __name__ == "__main__":
    setproctitle.setproctitle(APP_NAME)
    app.run(host="0.0.0.0", port=WEBUI_PORT)

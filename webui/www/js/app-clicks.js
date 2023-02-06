@@ -41,6 +41,7 @@ class appClicks {
 
    ogpioClick() {
       try {
+         $("#subMenuCol").html("");
          _omms.app.gpio = new OpenGPIO("appViewport");
          _omms.app.gpio.init();
       } catch (e) {
@@ -69,10 +70,9 @@ class appClicks {
    }
 
    laodSubmenu(xmlID) {
-      let elmt = $(`#${xmlID}`)[0];
-      let buff = elmt.outerHTML.replace("__script", "<script>");
+      let elmt = $(`#${xmlID}`)[0],
+         buff = elmt.outerHTML.replace("__script", "<script>");
       buff = buff.replace("script__", "</script>");
-      /* load into the DOM */
       $("#submenuColBody").html(buff);
    }
 

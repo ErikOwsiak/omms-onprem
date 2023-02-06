@@ -15,14 +15,18 @@ _omms.liveView = {
    },
 
    onGetClients(jsarr) {
+      /* -- */
       let selector = "#selCltSelector"
-      $(selector).html("");
-      let opt = `<option value="" selected> -- set client --</option>`;
-      $(selector).append(opt);
+         , _opt = `<option value="" selected> -- set client --</option>`;
+      /* -- */
+      $(selector).html("")
+      $(selector).append(_opt);
+      /* -- */
       jsarr.forEach((v, _x, _y) => {
-            let [dbid, tag, cltname] = v;
-            let val = `dbid:${dbid}|tag:${tag}`;
-            $(selector).append(`<option value="${val}">${cltname}</option>`);
+            let [dbid, tag, cltname] = v,
+               val = `dbid:${dbid}|tag:${tag}`,
+               opt = `<option value="${val}">${cltname}</option>`;
+            $(selector).append(opt);
          });
       /* -- */
    },

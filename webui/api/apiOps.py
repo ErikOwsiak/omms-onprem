@@ -1,7 +1,5 @@
 
 import os, json, configparser as _cp, redis
-# from psycopg2.extensions import connection as _psql_conn
-# from psql.dbConnServer import dbConnServer
 from psql.dbOps import dbOps
 
 
@@ -51,10 +49,10 @@ class apiOps(object):
       return json.dumps(arr)
 
    def read_redis(self, dbidx: int, keys: []) -> {}:
-      def _strdic(d: {}) -> {}:
+      def _strdic(dd: {}) -> {}:
          x: {} = {}
-         for k in d.keys():
-            x[k.decode("utf-8")] = d[k].decode("utf-8")
+         for k in dd.keys():
+            x[k.decode("utf-8")] = dd[k].decode("utf-8")
          return x
       # -- -- --
       self.red.select(dbidx)
@@ -64,3 +62,11 @@ class apiOps(object):
          d[k] = _strdic(_dd)
       # -- -- -- --
       return d
+
+   def set_report_job(self, item, y, m) -> int:
+      # -- insert into database --
+      rowid = self.dbops.insert_report_job(item, y, m)
+      # -- push to redis channel --
+      pub_chanl = self.ini.get("REDIS_CORE", "WEBUI_BACKEND_CHNL")
+      self.red.publish(pub_chanl, f"NEW_REPORT_JOB: {rowid}")
+      return rowid

@@ -217,7 +217,7 @@ class dbOps(object):
          # -- -- -- --
          def qry(rid, ct):
             return f"""select t.met_dbid
-               , '{ct}' as x
+               , '{ct}' cirtag
                , cast(t.dts_utc::timestamp(0) as varchar)
                , t.total_kwhs
                , t.l1_kwhs
@@ -226,7 +226,7 @@ class dbOps(object):
                , emc.met_syspath
             from streams.kwhs_raw t
                join core.elec_meter_circuits emc on emc.met_cir_rowid = t.met_dbid
-            where cast(t.dts_utc as date) = cast(now() as date)
+            where cast(t.dts_utc as date) = cast('{dts}' as date)
                and met_dbid = {rid} order by t.dts_utc desc limit 1;"""
          # -- -- -- --
          for rowid, _ct in rows:
@@ -284,7 +284,6 @@ class dbOps(object):
          cur.execute(qry)
          read_row = cur.fetchone()
          if read_row:
-            # return int(row[0]), int(row[1])
             return (int(x) for x in read_row)
          else:
             # -- insert model string in --
@@ -317,6 +316,59 @@ class dbOps(object):
                met_cir_rowid = int(write_row[0])
             # -- -- -- --
             return met_cir_rowid, model_rowid
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def get_report_data(self, rowid: int) -> []:
+      cur: cursor = self.conn.cursor()
+      try:
+         tbl = "reports.report_jobs"
+         qry = f"select * from {tbl} t where t.row_serid = {rowid} limit 1;"
+         cur.execute(qry)
+         row = cur.fetchone()
+         if row is not None:
+            cur.execute(f"update {tbl} set dts_start = now() where row_serid = {rowid};")
+            if cur.rowcount == 1:
+               self.conn.commit()
+            else:
+               pass
+         return row
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def update_report_data(self, rowid: int, err: int, buff: str) -> bool:
+      # -- do --
+      tbl = "reports.report_jobs"
+      qry = f"update {tbl} set error_code = {err}," \
+         f" output_buff = concat(output_buff, '{buff}\n')," \
+         f" dts_error_code = now() where row_serid = {rowid};"
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         if cur.rowcount != 1:
+            return False
+         self.conn.commit()
+         return True
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def insert_report_job(self, rtype, y, m) -> int:
+      cur: cursor = self.conn.cursor()
+      try:
+         args = f"year: {y}; month: {m};"
+         ins = f"""insert into reports.report_jobs 
+            values(default, '{rtype}', now(), '{args}', null, 0, null, null) 
+            returning row_serid;"""
+         cur.execute(ins)
+         self.conn.commit()
+         row = cur.fetchone()
+         return row[0]
       except Exception as e:
          logProxy.log_exp(e)
       finally:

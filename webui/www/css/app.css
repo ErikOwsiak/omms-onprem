@@ -314,6 +314,18 @@ div.view-port-body {
    border-radius: 8px;
 }
 
+div.rpt-feedback-div {
+   width: 80%;
+   height: 16vh;
+   margin: 2vh auto;
+   text-align: center;
+   padding: 8px;
+   border: 1px solid darkblue;
+   border-right-width: 4px;
+   border-left-width: 4px;
+   border-radius: 8px;
+}
+
 div.vp-bdy-hdr {
    width: 94%;
    height: 6vh;

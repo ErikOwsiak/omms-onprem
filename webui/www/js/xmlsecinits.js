@@ -32,6 +32,20 @@ _omms.xmlsecs = {
          };
       let restapi = new restAPI();
       restapi.getClientCircuitHistory(callback);
+   },
+
+   initReports() {
+      /* -- */
+      let d = new Date(),
+         this_y = d.getFullYear(), 
+         selector = "#monthPicker #yearSel";
+      /* -- */
+      $(selector).html("");
+      for (let sy = (this_y - 3); sy <= this_y; sy++)
+         $(selector).append(`<option value="${sy}">${sy}</option>`);
+      /* -- */
+      $("#monthPicker").off();
+      $("#btnRunRpt").off().on("click", _omms.app.startMonthyReport);
    }
 
 };

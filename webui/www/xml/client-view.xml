@@ -21,7 +21,7 @@
             <div class="nav-btn-lbl" style="text-align: center;">
                <input type="date" id="txtCltViewDate" />
                &nbsp;&nbsp;
-               <input type="button" id="btnRunCltView" value="[&nbsp;View&nbsp;&nbsp;Meters&nbsp;]"/>
+               <input type="button" id="btnRunCltView" value="&nbsp;View&nbsp;&nbsp;Meters&nbsp;"/>
             </div>
             <div class="">
                <div></div>

@@ -334,6 +334,29 @@ _omms.app = {
          });
       /* -- */
       $(`#hdrTKWH`).html(`Total kWh: ${tkwh.toFixed(2)}`);
+   },
+
+   startMonthyReport() {
+      let y = $("#yearSel").val(),
+         m = $("#monthSel").val();
+      let url = "/api/post/monthly-report";
+      /* -- */
+      $.post(url, {"year": y, "month": m}, function(jsobj) {
+            let msg = "";
+            if (jsobj.REPORT_ID) {
+               let rid = parseInt(jsobj.REPORT_ID),
+                  d = new Date();
+               d.setMinutes(d.getMinutes() + 5);
+               let t = d.toLocaleTimeString(); 
+               msg = `New Report JobID: ${rid}<br/>For Date: ${y}/${m}<br/>` + 
+                  `Click [Show Reports] In:<br/>5 Minutes<br/>around: ${t}`;
+            } else {
+               msg = "NewRerpotJobError";
+            }
+            /* -- */
+            $("#rptFeedbackDiv").html(msg);
+         });
+      /* -- */
    }
 
 };

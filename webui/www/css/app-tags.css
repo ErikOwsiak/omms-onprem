@@ -62,8 +62,7 @@ xb {
 }
 
 navbtn {
-   /* - - */
-   display: inline-block;
+   display: block;
    width: 80%;
    height: 4.2vh;
    line-height: 4.2vh;
@@ -74,8 +73,8 @@ navbtn {
    border-right-width: 4px;
    border-left-width: 4px;
    border-radius: 1vh;
-   margin: 2vh 0 0 10%;
-   vertical-align: top;
+   margin: 2vh auto 0 auto;
+   /*vertical-align: top;*/
 }
 
 navbtn:hover {
@@ -99,6 +98,16 @@ navbtn.greyout:hover {
    background-color: #ffffff;
 }
 
+navbtn.mn-picker {
+   height: 6.4vh !important;
+   line-height: 6.4vh !important;
+   text-indent: 0 !important;
+}
+
+navbtn select {
+   text-indent: 0 !important;
+}
+
 #clientView, #datePickerA {
    width: 94% !important;
    height: auto !important;
@@ -117,6 +126,7 @@ navbtn.greyout:hover {
    font-size: 1.8vh;
    margin: 2vh auto;
 }
+
 
 /* lightbox */
 lightbox {
