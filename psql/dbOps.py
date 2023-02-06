@@ -139,7 +139,6 @@ class dbOps(object):
          # -- print text block --
          lns: [] = utils.txt_block_formatted(ins)
          [print(ln) for ln in lns]
-         print("\n")
          # -- insert --
          cur: cursor = self.conn.cursor()
          cur.execute(ins)
