@@ -1,29 +1,50 @@
 
 import datetime, calendar as cal
 from psql.dbOps import dbOps
+from core.reports.kwhReading import kwhReading
+from core.reports.metCircConsumption import metCircConsumption
 
 
 class backFiller(object):
 
-   def __init__(self, dbops: dbOps
+   def __init__(self, report_job_id: int
+         , dbops: dbOps
          , tbl: str = "streams.kwhs_raw"):
       # -- -- -- --
+      self.report_job_id: int = report_job_id
       self.dbops: dbOps = dbops
       self.tbl = tbl
 
    def run(self):
       pass
 
-   def validate_data_dates(self, year: int, month: int) -> ([], []):
+   def load_circuits_data(self, year: int, month: int) -> [metCircConsumption]:
       sys_circuits: [] = self.dbops.get_system_circuits()
+      arr: [metCircConsumption] = []
       for sys_circuit in sys_circuits:
-         cirid, spath, elecrm = sys_circuit
-         self.__valiate_circuit_data(cirid, year, month)
+         met_cir_id, cir_tag, spath, elecrm = sys_circuit
+         item: metCircConsumption = self.__load_circuit_data(self.report_job_id, met_cir_id, cir_tag, year, month)
+         item.update_monthly_consumption()
+         arr.append(item)
+      return arr
 
-   def __valiate_circuit_data(self, cirdbid: int, year: int, month: int):
+   def __load_circuit_data(self, report_job_id
+         , met_cir_id: int
+         , cir_tag: str
+         , year: int
+         , month: int) -> [metCircConsumption, None]:
       try:
-         rows = self.dbops.get_fst_lst_circuit_reading(cirdbid, year, month)
-         print(rows)
+         rows = self.dbops.get_fst_lst_circuit_reading(met_cir_id, year, month)
+         row_count = len(rows)
+         if row_count == 0:
+            return None
+         elif row_count == 1:
+            return None
+         elif row_count == 2:
+            fst_read, lst_read = [kwhReading(cir_tag, year, month, i) for i in rows]
+            return metCircConsumption(report_job_id, year, month, fst_read, lst_read)
+         else:
+            raise Exception("UnexpectedNumberOfRows")
       except Exception as e:
          print(e)
       finally:

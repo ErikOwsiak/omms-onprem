@@ -1,12 +1,12 @@
 
 import redis
-# import psycopg2.extensions
 from psycopg2.extensions import connection, cursor
 from lib.utils import utils
 from termcolor import colored
 # -- system --
 from psql.dbConnServer import dbConnServer
 from core.logProxy import logProxy
+from core.reports.metCircConsumption import metCircConsumption
 
 
 class dbOps(object):
@@ -60,17 +60,6 @@ class dbOps(object):
          print(e)
       finally:
          cur.close()
-
-   # def insert_elect_kwhrs(self, dbid: int, tkwhs: float, l1kwhs, l2kwhs, l3kwhs) -> bool:
-   #    # -- -- -- --
-   #    ins = f"insert into streams.kwhs_raw" \
-   #       f" values(default, {dbid}, now(), {tkwhs}, {l1kwhs}, {l2kwhs}, {l3kwhs}) returning row_dbid;"
-   #    cur: cursor = self.conn.cursor()
-   #    cur.execute(ins)
-   #    self.conn.commit()
-   #    rowcount = cur.rowcount
-   #    cur.close()
-   #    return rowcount == 1
 
    def insert_elect_kwhrs_dict(self, dbid: int, _dict: {}) -> bool:
       cur: cursor = None
@@ -195,6 +184,7 @@ class dbOps(object):
 
    def get_system_circuits(self) -> []:
       qry = """select t.met_cir_rowid rowid
+         , t.cir_tag
          , t.met_syspath spath
          , t.elec_room_locl_tag ltag from core.elec_meter_circuits t;"""
       cur: cursor = self.conn.cursor()
@@ -244,7 +234,7 @@ class dbOps(object):
          readings: [] = []
          # -- -- -- --
          def qry(rid, ct):
-            return f"""select t.met_dbid
+            return f"""select t.met_circ_dbid
                , '{ct}' cirtag
                , cast(t.dts_utc::timestamp(0) as varchar)
                , t.total_kwhs
@@ -253,12 +243,13 @@ class dbOps(object):
                , t.l3_kwhs
                , emc.met_syspath
             from streams.kwhs_raw t
-               join core.elec_meter_circuits emc on emc.met_cir_rowid = t.met_dbid
+               join core.elec_meter_circuits emc on emc.met_cir_rowid = t.met_circ_dbid
             where cast(t.dts_utc as date) = cast('{dts}' as date)
-               and met_dbid = {rid} order by t.dts_utc desc limit 1;"""
+               and t.met_circ_dbid = {rid} order by t.dts_utc desc limit 1;"""
          # -- -- -- --
          for rowid, _ct in rows:
-            cur.execute(qry(rowid, _ct))
+            _qry = qry(rowid, _ct)
+            cur.execute(_qry)
             row = cur.fetchone()
             if row is not None:
                readings.append(row)
@@ -371,15 +362,15 @@ class dbOps(object):
    def get_fst_lst_circuit_reading(self, cirdbid: int
          , year: int
          , month: int) -> []:
-      qry = f"""(select * from streams.kwhs_raw t where t.met_dbid = {cirdbid} 
+      qry = f"""(select * from streams.kwhs_raw t where t.met_circ_dbid = {cirdbid} 
          and extract(year from cast(t.dts_utc as date))::int = {year}
          and extract(month from cast(t.dts_utc as date))::int = {month}
          order by t.dts_utc asc limit 1) 
             union
-         (select * from streams.kwhs_raw t where t.met_dbid = {cirdbid}
+         (select * from streams.kwhs_raw t where t.met_circ_dbid = {cirdbid}
          and extract(year from cast(t.dts_utc as date))::int = {year}
          and extract(month from cast(t.dts_utc as date))::int = {month}
-         order by t.dts_utc desc limit 1);"""
+         order by t.dts_utc desc limit 1) order by dts_utc asc;"""
       cur: cursor = self.conn.cursor()
       try:
          cur.execute(qry)
@@ -390,7 +381,9 @@ class dbOps(object):
       finally:
          cur.close()
 
-   def update_report_data(self, rowid: int, err: int, buff: str) -> bool:
+   def update_report_data(self, rowid: int
+         , err: int
+         , buff: str) -> bool:
       # -- do --
       tbl = "reports.report_jobs"
       qry = f"update {tbl} set error_code = {err}," \
@@ -434,3 +427,27 @@ class dbOps(object):
          msg = f"METER_INFO_NOT_FOUND: {meter_info}"
          logProxy.log_warning(msg)
          return 1, msg
+
+   def insert_elec_met_circ_consumption(self, i: metCircConsumption) -> bool:
+      # -- -- -- --
+      ins = f"""insert into reports.elec_met_circ_monthly
+         (met_circ_dbid, cir_tag, report_jobid, error, error_msg, _year, _month
+         , fst_input, lst_input, consumed_kwh) values 
+         ({i.met_circ_dbid}, '{i.cir_tag}', {i.rep_jobid}, {i.error_code}, '{i.error_msg}'
+         , {i.rep_y}, {i.rep_m}, '{i.fst.info()}', '{i.lst.info()}', {round(i.monthly_kWhrs, 2)})
+         returning row_serid;"""
+      # -- -- -- --
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(ins)
+         rval: bool = (cur.rowcount == 1)
+         if rval:
+            self.conn.commit()
+            row = cur.fetchone()
+         else:
+            pass
+         return rval
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
