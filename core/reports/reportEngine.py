@@ -27,6 +27,9 @@ class reportEngine(object):
       for sys_circuit in sys_circuits:
          item: metCircConsumption = \
             self.__load_circuit_data(self.report_job_id, sys_circuit, year, month)
+         if item is None:
+            continue
+         # -- -- -- --
          item.update_monthly_consumption()
          arr.append(item)
       return arr
