@@ -146,7 +146,7 @@ class xlsOut(object):
          wsh.set_column(0, 0, col0_w)
          wsh.write(row_idx, 0, tagclt)
          col1_w = col1_w if col1_w > len(ltag) else (len(ltag) + 10)
-         wsh.set_column(1, 1, col0_w)
+         wsh.set_column(1, 1, col1_w)
          wsh.write(row_idx, 1, ltag)
          wsh.write(row_idx, 2, ctag)
       return True
