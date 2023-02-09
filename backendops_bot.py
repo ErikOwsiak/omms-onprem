@@ -50,6 +50,7 @@ BACKEND_OPS.init()
 BACKEND_OPS.run_main_thread()
 
 def main():
+   setproctitle.setproctitle(PROC_NAME)
    while True:
       time.sleep(8.0)
       print("backendops_bot_main")
