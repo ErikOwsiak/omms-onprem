@@ -144,7 +144,7 @@ class xlsOut(object):
          tagclt = f"{nip} | {clt}"
          wsh.write(row_idx, 0, tagclt)
          col0_w = col0_w if col0_w > len(tagclt) else (len(tagclt) + 10)
-         wsh.set_column(1, 1, col0_w)
+         wsh.set_column(0, 0, col0_w)
          wsh.write(row_idx, 1, ltag)
          wsh.write(row_idx, 2, ctag)
       return True

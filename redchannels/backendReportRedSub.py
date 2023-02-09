@@ -81,6 +81,7 @@ class backendReportRedSub(redSubChannel):
          if xlsout.init() != 0:
             pass
          xlsout.create()
+         print("\n\t-- [ the end ] --")
       except Exception as e:
          logProxy.log_exp(e)
       finally:
