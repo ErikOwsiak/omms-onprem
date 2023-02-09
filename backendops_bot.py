@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import time, psutil
+import time, psutil, os
 import threading as th
 import configparser as _cp
 import setproctitle, redis
@@ -30,11 +30,18 @@ REDIS_PORT: int = int(RED_CONN_SEC_INI["PORT"])
 PSQL_CONN_STR: str = PSQL_CONN_SEC_INI["CONN_STR"]
 
 
+# -- check reports path --
+path: str = INI.get("BACKEND", "REPORTS_PATH")
+if not os.path.exists(path):
+   print(f"PathNotFound: {path}")
+   exit(1)
+
+
 # -- dev box --
 RED: redis.Redis = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PWD)
 if not RED.ping():
    print(f"Can't Ping Redis Server: {REDIS_HOST}:{REDIS_PORT}")
-   exit(1)
+   exit(2)
 
 # -- redis to psql object --
 PSQL_CONN = dbConnServer.getConnection(PSQL_CONN_STR)

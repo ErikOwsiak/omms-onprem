@@ -45,15 +45,22 @@ _omms.liveView = {
       /* -- */
       let url = `/api/get/client_circuits?clttag=${tag}`;
       $.get(url, function(jsarr) {
-         _omms.liveView.clinet_circuits = [];
+            console.log(["jsarr", jsarr]);
+            if (jsarr.length == 0) {
+               alert(`NoDataFound: [ ${_omms.liveView.client_tag} ]`);
+               _omms.gui.clearViewport();
+               return;
+            }
+            /* -- */
+            _omms.liveView.clinet_circuits = [];
             jsarr.forEach((i) => {
-                  let cc = new ClientCircuit(i);
-                  _omms.liveView.clinet_circuits.push(cc);
-               }); 
-            console.log(_omms.liveView.clinet_circuits);
-            _omms.liveView.monitorRedisKeys();
+                     let cc = new ClientCircuit(i);
+                     _omms.liveView.clinet_circuits.push(cc);
+                  }); 
+               console.log(_omms.liveView.clinet_circuits);
+               _omms.liveView.monitorRedisKeys();
+            /* -- */
          });
-      /* -- */
    },
 
    monitorRedisKeys() {
@@ -100,12 +107,23 @@ _omms.liveView = {
    reading2Dict(buff) {
       if (!(buff[0] == "[" && buff.substr(-1) == "]"))
          throw "BadReadingBuffer";
+      /* -- */
       buff = buff.replace("[", "").replace("]", "");
-      let d = {};
-      buff.split("|").forEach(function(e) {
-            let [k, v] = e.split(":");
-            d[k.trim()] = v.trim();
-         });
+      let d = {}, del = ":";
+      /* -- */
+      let oneach = function(e) {
+            if (e.includes(del)) {
+               let [k, v] = e.split(del);
+               d[k.trim()] = v.trim();
+            } else {
+               console.log(`NoDelimiter - ${del}`);
+            }
+         };
+      /* -- */
+      let buffarr = buff.split("|");
+      console.log(buffarr);
+      buffarr.forEach(oneach);
+      /* -- */
       return d;
    },
 
@@ -116,13 +134,17 @@ _omms.liveView = {
          };
       /* -- */
       let rkey = "#RPT_kWhrs", rval = "";
-      if (!(rkey in jsobj))
+      if (!(rkey in jsobj)) {
+         console.log(jsobj);
          throw `KeyNotFound: ${rkey}`;
+      }
       rval = jsobj[rkey];
       /* -- */
       let tkey = "#RPT_kWhrs_dtsutc_epoch", tval = "";
-      if (!(tkey in jsobj))
-         throw `KeyNotFound: ${tkey}`; 
+      if (!(tkey in jsobj)) {
+         console.log(jsobj);
+         throw `KeyNotFound: ${tkey}`;
+      }
       tval = jsobj[tkey];
       /* -- */
       let data = this.reading2Dict(rval);

@@ -35,7 +35,8 @@ class backendOps(object):
       else:
          pass
       # -- -- -- --
-      self.reportSub = backendReportRedSub(self.ini, self.dbops, self.red)
+      self.reportSub = backendReportRedSub(ini=self.ini, dbops=None
+         , dbConnStr=self.conn_str, red=self.red)
 
    def run_main_thread(self):
       self.main_thread = threading.Thread(target=self.__main_thread)

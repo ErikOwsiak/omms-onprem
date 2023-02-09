@@ -191,7 +191,6 @@ class dbEdit {
                $(`${ns} #COL_cir_volts`).val(itemObj.cir_vol);
                $(`${ns} #COL_cir_dt_crd`).val(itemObj.cir_dt_crd);
                $(`${ns} #COL_cir_tag`).val(itemObj.cir_tag);
-               
                $(`${ns} #COL_met_note`).val(itemObj.m_note);
                $(`${ns} #COL_cir_note`).val("cirnote");
             }

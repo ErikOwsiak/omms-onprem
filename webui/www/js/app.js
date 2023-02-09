@@ -251,25 +251,26 @@ _omms.app = {
       /* -- */
       let onfiles = function(y, arr) {
             for (let i = 1; i <= 12; i++) {
-               let stri = `${i}`.padStart(2, 0),
-                  patt = `_${y}_${stri}.xlsx`, 
-                  ln = arr.find(i => i.endsWith(patt));
+               let mn = `${i}`.padStart(2, 0),
+                  patt = `_${y}_${mn}_`, 
+                  ln = arr.find(i => i.includes(patt));
                /* -- */
                if (ln) {
-                  let p = `/reports/${y}/${ln}`, 
-                     d = `${y}_${stri}`,  
-                     m = `<div xls="${p}" class="gd_xl"><div></div><div>${d}</div></div>`;
+                  let p = `/reports/${y}/${ln}`, d = `${y}_${mn}`,
+                     m = `<div title="${ln}" xls="${p}" class="gd_xl">` + 
+                        `<div></div><div>${d}</div></div>`;
                   $(`#YR_${y}`).append(m);
                } else {
-                  let m = 
-                     `<div class="no_xl"><div></div>NoFile<div></div></div>`;
+                  let m = `<div class="no_xl"><div></div>NoFile<div></div></div>`;
                   $(`#YR_${y}`).append(m);
                }
             }
          };
       /* -- */
-      for (let y in jsdata)
-         onyear(y, jsdata[y]);
+      for (let y in jsdata) {
+         if (y != "backup")
+            onyear(y, jsdata[y]);
+      }
       /* -- */
    },
 

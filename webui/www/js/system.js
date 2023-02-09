@@ -1,17 +1,15 @@
 
 /* global data types */
 class ClientCircuit {
-   /* select t.row_sid
+   /*select t.row_sid
       , t.locl_tag
-      , t.cir_tag
-      , m.met_rowid 
+      , t.cir_tag 
       , emc.met_syspath
       , t.code */
-   constructor([ccid, locltag, cirtag, metrowid, syspath, code]) {
+   constructor([ccid, locltag, cirtag, syspath, code]) {
       this.ccrid = ccid;
       this.locltag = locltag;
       this.cirtag = cirtag;
-      this.metrowid = metrowid;
       this.syspath = syspath;
       this.code = code;
    }
@@ -69,16 +67,17 @@ class ClientKWhrs {
    toHtmlStr() {
       if (this.arr.length == 3) {
          /* -- */
-         let [mrowid, cirtag, _] = this.arr;
-         let hdr = `<div class="kwhs-hdr">Search DTS: ${this.dts}</div>`,
-            bdy = `<div>Meter RowID: ${mrowid} | Circuit: ${cirtag} | NoDataFound</div>`;
+         let [mrowid, cirtag, sp] = this.arr;
+         let hdr = `<div class="kwhs-hdr">Search Date ${this.dts}</div>`,
+            bdy = `<div>MeterCircuit RowID: ${mrowid} | Circuit: ${cirtag} | NoDataFound</div>`,
+            spdiv = `<div class="sp-div">SYSPATH: ${sp}</div>`;
          /* -- */
-         return `<div class="kwhs-reading">${hdr}${bdy}</div>`;
+         return `<div class="kwhs-reading">${hdr}${bdy}${spdiv}</div>`;
       } else if (this.arr.length == 8) {
          /* -- */
          let [mrowid, cirtag, rdts, tkhws, l1khws, l2khws, l3khws, sp] = this.arr;
-         let hdr = `<div class="kwhs-hdr">Search DTS: <bbl>${this.dts}</bbl></div>`,
-            bdy = `<div>Meter RowID: ${mrowid} | <b>Circuit: ${cirtag}</b> | ReadDTS: <bbl>${rdts}</bbl></div>` +
+         let hdr = `<div class="kwhs-hdr">Search Date: <bbl>${this.dts}</bbl></div>`,
+            bdy = `<div>MeterCircuit RowID: ${mrowid} | <b>Circuit: ${cirtag}</b> | ReadDTS UTC: <bbl>${rdts}</bbl></div>` +
                `<div><b>Total kWh: ${tkhws}</b> | L1_kWh: ${l1khws} | L2_kWh: ${l2khws} | L3_kWh: ${l3khws}</div>`,
             spdiv = `<div class="sp-div">SYSPATH: ${sp}</div>`;
          /* -- */

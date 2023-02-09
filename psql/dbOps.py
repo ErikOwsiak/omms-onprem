@@ -6,7 +6,11 @@ from termcolor import colored
 # -- system --
 from psql.dbConnServer import dbConnServer
 from core.logProxy import logProxy
+from core.reports.reportsSQL import reportsSQL
+from core.reports.kwhReading import kwhReading
+from core.reports.reportsDatatypes import clientReport
 from core.reports.metCircConsumption import metCircConsumption
+from core.reports.reportsDatatypes import sysCircuitInfo
 
 
 class dbOps(object):
@@ -61,7 +65,12 @@ class dbOps(object):
       finally:
          cur.close()
 
-   def insert_elect_kwhrs_dict(self, dbid: int, _dict: {}) -> bool:
+   def insert_elect_kwhrs_dict(self, dbid: int
+         , _dict: {}
+         , dtsutc: str = "now()"
+         , is_backfill: bool = False
+         , note: str = None) -> bool:
+      # -- -- -- -- -- -- -- --
       cur: cursor = None
       try:
          # -- this needs to be fixed --
@@ -74,10 +83,13 @@ class dbOps(object):
          l1_kwh = _dict["l1_kwh"] if "l1_kwh" in _dict.keys() else dbOps.NULL
          l2_kwh = _dict["l2_kwh"] if "l2_kwh" in _dict.keys() else dbOps.NULL
          l3_kwh = _dict["l3_kwh"] if "l3_kwh" in _dict.keys() else dbOps.NULL
-         ins = f"insert into streams.kwhs_raw" \
-            f" (met_circ_dbid, dts_utc, total_kwhs, l1_kwhs, l2_kwhs, l3_kwhs)" \
-            f" values({dbid}, now(), {tl_kwh}, {l1_kwh}, {l2_kwh}, {l3_kwh})" \
-            f" returning row_dbid;"
+         note = f"'{note}'" if note is not None else dbOps.NULL
+         ins = f"""insert into streams.kwhs_raw
+            (met_circ_dbid, dts_utc, is_backfilled, total_kwhs, l1_kwhs
+               , l2_kwhs, l3_kwhs, backfill_notes)
+            values({dbid}, {dtsutc}, {is_backfill}, {tl_kwh}, {l1_kwh}, {l2_kwh}
+               , {l3_kwh}, {note})
+            returning row_dbid;"""
          # -- print text block --
          color = "blue"
          lns: [] = utils.txt_block_formatted(ins, color=color)
@@ -151,8 +163,10 @@ class dbOps(object):
       conn: connection = dbConnServer.getConnection(self.conn_str, readonly=True)
       cur: cursor = conn.cursor()
       try:
-         qry = "select t.clt_rowid rowid, t.clt_tag as tag, t.clt_name as clt_name" \
-            " from config.clients t where t.dt_del is null;"
+         qry = """select t.clt_rowid rowid
+            , t.clt_tag as tag
+            , t.clt_name as clt_name
+         from config.clients t where t.dt_del is null;"""
          cur.execute(qry)
          return cur.fetchall()
       except Exception as e:
@@ -167,12 +181,11 @@ class dbOps(object):
       try:
          qry = f"""select t.row_sid
             , t.locl_tag
-            , t.cir_tag
-            , m.met_rowid 
+            , t.cir_tag 
             , emc.met_syspath
             , t.code 
-         from config.client_circuits t join core.elec_meter_circuits emc on t.cir_tag = emc.cir_tag 
-               join core.meters m on m.syspath = emc.met_syspath 
+         from config.client_circuits t 
+               join core.elec_meter_circuits emc on t.cir_tag = emc.cir_tag  
             where t.clt_tag = '{clt_tag}' and t.dt_unlink is null;"""
          cur.execute(qry)
          return cur.fetchall()
@@ -182,11 +195,38 @@ class dbOps(object):
          cur.close()
          conn.close()
 
+   def get_circuit_report(self, cir_tag: str, rpt_jobid:int, y: int, m: int) -> []:
+      qry = f"""select * from reports.elec_met_circ_monthly t
+         where t.cir_tag = '{cir_tag}' and t.report_jobid = {rpt_jobid}
+         and t._year = {y} and t._month = {m} limit 1;"""
+      row = self.__qry_row(qry)
+      return row
+
    def get_system_circuits(self) -> []:
       qry = """select t.met_cir_rowid rowid
          , t.cir_tag
          , t.met_syspath spath
-         , t.elec_room_locl_tag ltag from core.elec_meter_circuits t;"""
+         , t.elec_room_locl_tag ltag 
+         , t.met_dt_crd 
+      from core.elec_meter_circuits t;"""
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         rows = cur.fetchall()
+         return rows
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def get_clients_circuits(self) -> []:
+      qry = """select c.clt_name
+         , t.clt_tag
+         , t.locl_tag
+         , t.cir_tag from config.client_circuits t 
+      join config.clients c on t.clt_tag = c.clt_tag 
+         where t.dt_unlink is null 
+      and t.clt_tag is not null order by c.clt_name asc;"""
       cur: cursor = self.conn.cursor()
       try:
          cur.execute(qry)
@@ -210,22 +250,12 @@ class dbOps(object):
       finally:
          cur.close()
 
-   def __parse_meter_info_str(self, buff: str, dlm: str = "|") -> (str, str, str, str):
-      """
-         # type: e3; brand: orno; model: orno516; tag: n/s
-      """
-      ty, b, m, tg = buff.split(dlm)
-      ty = ty.replace("type:", "").strip()
-      b = b.replace("brand:", "").strip()
-      m = m.replace("model:", "").strip()
-      tg = tg.replace("tag:", "").strip()
-      return ty, b, m, tg
-
    def get_client_kwhrs(self, dts, cirs: str) -> []:
       # -- get meter rowids from cirs --
       cur: cursor = self.conn.cursor()
       qry = f"""select t.met_cir_rowid
-            , t.cir_tag 
+            , t.cir_tag
+            , t.met_syspath 
          from core.elec_meter_circuits t
             where position(t.cir_tag in '{cirs}') > 0;"""
       try:
@@ -233,7 +263,7 @@ class dbOps(object):
          rows = cur.fetchall()
          readings: [] = []
          # -- -- -- --
-         def qry(rid, ct):
+         def __qry(rid, ct):
             return f"""select t.met_circ_dbid
                , '{ct}' cirtag
                , cast(t.dts_utc::timestamp(0) as varchar)
@@ -247,14 +277,14 @@ class dbOps(object):
             where cast(t.dts_utc as date) = cast('{dts}' as date)
                and t.met_circ_dbid = {rid} order by t.dts_utc desc limit 1;"""
          # -- -- -- --
-         for rowid, _ct in rows:
-            _qry = qry(rowid, _ct)
+         for rowid, _ct, _sp in rows:
+            _qry = __qry(rowid, _ct)
             cur.execute(_qry)
             row = cur.fetchone()
             if row is not None:
                readings.append(row)
             else:
-               readings.append((rowid, _ct, None))
+               readings.append((rowid, _ct, _sp))
          # -- -- -- --
          return readings
       except Exception as e:
@@ -359,6 +389,16 @@ class dbOps(object):
       finally:
          cur.close()
 
+   def get_rpt_job_data(self, rpt_jobid: int) -> []:
+      qry = f"""select * from reports.client_monthly t 
+         where t.report_jobid = {rpt_jobid};"""
+      return self.__qry_rows(qry)
+
+   def get_info(self):
+      qry = f"select t.client_tag, t.space_tag, t.circuit_tag from" \
+         f" reports.client_space_circuits t;"
+      return self.__qry_rows(qry)
+
    def get_fst_lst_circuit_reading(self, cirdbid: int
          , year: int
          , month: int) -> []:
@@ -417,6 +457,77 @@ class dbOps(object):
       finally:
          cur.close()
 
+   def insert_elec_met_circ_consumption(self, i: metCircConsumption) -> bool:
+      # -- -- -- --
+      ins = f"""insert into reports.elec_met_circ_monthly
+         (met_circ_dbid, cir_tag, report_jobid, error, error_msg, _year, _month
+         , fst_input, lst_input, consumed_kwh) values 
+         ({i.met_circ_dbid}, '{i.sys_circ.cir_tag}', {i.rep_jobid}, {i.error_code}, '{i.error_msg}'
+         , {i.rep_y}, {i.rep_m}, '{i.fst.info()}', '{i.lst.info()}', {round(i.monthly_kWhrs, 2)})
+         returning row_serid;"""
+      # -- -- -- --
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(ins)
+         rval: bool = (cur.rowcount == 1)
+         if rval:
+            self.conn.commit()
+            row = cur.fetchone()
+            print(f"InsertOK: {row}")
+         else:
+            pass
+         return rval
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def insert_client_kwhrs_consumption(self, r: clientReport) -> int:
+      qry = f"""insert into reports.client_monthly 
+         values(default, 'kwhrs', '{r.rpt_jobid}', {r.clt_dbid}, '{r.clt_tag}'
+         , '{r.clt_name}', {r.year}, {r.month}, {r.kwh}, '{r.note}', now())
+         returning row_dbid;"""
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         row = cur.fetchone()
+         if row is None:
+            return 0
+         else:
+            self.conn.commit()
+            return int(row[0])
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def get_neighbourhood_reads(self, read: kwhReading) -> []:
+      qry = reportsSQL.neighbourhood_reads(read)
+      rows: [] = self.__qry_rows(qry)
+      return rows
+
+   def __qry_rows(self, qry) -> []:
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         rows = cur.fetchall()
+         return rows
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def __qry_row(self, qry) -> []:
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         row = cur.fetchone()
+         return row
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
    def __redis_model_info(self, met_syspath: str) -> (int, str):
       self.red.select(dbOps.DB_IDX_READS)
       meter_info = self.red.hget(met_syspath, dbOps.METER_MODEL_INFO_REDIS_KEY)
@@ -428,26 +539,13 @@ class dbOps(object):
          logProxy.log_warning(msg)
          return 1, msg
 
-   def insert_elec_met_circ_consumption(self, i: metCircConsumption) -> bool:
-      # -- -- -- --
-      ins = f"""insert into reports.elec_met_circ_monthly
-         (met_circ_dbid, cir_tag, report_jobid, error, error_msg, _year, _month
-         , fst_input, lst_input, consumed_kwh) values 
-         ({i.met_circ_dbid}, '{i.cir_tag}', {i.rep_jobid}, {i.error_code}, '{i.error_msg}'
-         , {i.rep_y}, {i.rep_m}, '{i.fst.info()}', '{i.lst.info()}', {round(i.monthly_kWhrs, 2)})
-         returning row_serid;"""
-      # -- -- -- --
-      cur: cursor = self.conn.cursor()
-      try:
-         cur.execute(ins)
-         rval: bool = (cur.rowcount == 1)
-         if rval:
-            self.conn.commit()
-            row = cur.fetchone()
-         else:
-            pass
-         return rval
-      except Exception as e:
-         logProxy.log_exp(e)
-      finally:
-         cur.close()
+   def __parse_meter_info_str(self, buff: str, dlm: str = "|") -> (str, str, str, str):
+      """
+         # type: e3; brand: orno; model: orno516; tag: n/s
+      """
+      ty, b, m, tg = buff.split(dlm)
+      ty = ty.replace("type:", "").strip()
+      b = b.replace("brand:", "").strip()
+      m = m.replace("model:", "").strip()
+      tg = tg.replace("tag:", "").strip()
+      return ty, b, m, tg

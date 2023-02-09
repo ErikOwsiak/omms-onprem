@@ -1,3 +1,4 @@
+
 fabric==3.0.0
 invoke==2.0.0
 paramiko==2.6.0
@@ -6,6 +7,9 @@ redis==4.3.4
 requests==2.22.0
 termcolor==2.2.0
 typing~=3.7.4.3
-setproctitle
+setproctitle~=1.2.2
 psycopg2-binary~=2.9.5
 Flask~=2.2.2
+XlsxWriter~=3.0.3
+psycopg2~=2.9.5
+psutil~=5.9.4

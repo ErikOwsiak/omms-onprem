@@ -1,6 +1,6 @@
 
 import datetime, calendar as cal
-from core.reports.backFiller import backFiller
+from core.reports.reportEngine import reportEngine
 # from core.ommsdb import ommsDB
 from core.utils import sysUtils as utils
 
@@ -22,7 +22,7 @@ class circuitMonthly(object):
       pass
 
    def run(self, **kwargs):
-      self.runid = kwargs["runid"]
+      self.runid = kwargs["rpt_jobid"]
       for m in self.months:
          rval = self.__for_month(self.year, m)
          print(f"\n\t-- [ METER Monthly: {self.meter_dbid} | {self.cirtag} | {self.year}/{m} | rval: {rval} ]")
@@ -31,13 +31,13 @@ class circuitMonthly(object):
 
    def __for_month(self, y: int, m: int) -> str:
       try:
-         # get month's 1st reading & try backfill on missing
+         # get mn's 1st reading & try backfill on missing
          if self.meter_dbid == 1013:
             print("got trap")
          s_tup_out = self.__fst_reading(y, m)
          if s_tup_out is None:
             return f"{circuitMonthly.ERR_BACK_FILL}_FST"
-         # get month's last reading & try backfill on missing
+         # get mn's last reading & try backfill on missing
          e_tup_out = self.__lst_reading(y, m)
          if e_tup_out is None:
             return f"{circuitMonthly.ERR_BACK_FILL}_LST"
