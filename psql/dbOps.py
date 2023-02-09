@@ -457,6 +457,21 @@ class dbOps(object):
       finally:
          cur.close()
 
+   def rows_for_report(self, y: int, m: int) -> int:
+      qry = f"""select count(*) from streams.kwhs_raw t 
+         where extract(year from t.dts_utc) = {y} 
+         and extract(month from t.dts_utc) = {m};"""
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         rowid,  = cur.fetchone()
+         return rowid
+      except Exception as e:
+         logProxy.log_exp(e)
+         return 0
+      finally:
+         cur.close()
+
    def insert_elec_met_circ_consumption(self, i: metCircConsumption) -> bool:
       # -- -- -- --
       ins = f"""insert into reports.elec_met_circ_monthly

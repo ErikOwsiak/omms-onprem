@@ -206,7 +206,7 @@ class dbEdit {
    }
 
    deleteDBItem() {
-      let rowid = $("#newDBItemForm #COL_row_sid").val(), 
+      let rowid = $("#newDBItemForm #COL_clt_rowid").val(), 
          url = `/dbedit/delete?tbl=${this.current_table}&rowid=${rowid}`;
       let data = {"rowid": rowid};
       $.delete(url, data, function(res) {

@@ -123,8 +123,11 @@ def apipost(item):
          y: str = req.values["year"]
          m: str = req.values["month"]
          apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
-         report_id = apiops.set_report_job(item, y, m)
-         buffout = json.dumps({"REPORT_ID": report_id})
+         err, val = apiops.set_report_job(item, y, m)
+         if err == 0:
+            buffout = json.dumps({"ERR": 0, "REPORT_ID": val})
+         if err == 1 and val == 0:
+            buffout = json.dumps({"ERR": 1, "VAL": 0})
          CTYPE = CTYPE_JSON
       else:
          pass

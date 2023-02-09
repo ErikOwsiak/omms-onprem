@@ -154,7 +154,8 @@ class dbEdit(object):
          tblname: str = self.req.args["tbl"]
          rowid = self.req.values["rowid"]
          if tblname == "clients":
-            self._del_client(rowid)
+            qry = f"update config.clients set bitflags = (bitflags + {bitflags.DEL.value})" \
+               f", dt_del = now() where clt_rowid = {rowid};"
          elif tblname == "client_circuits":
             bitflag = bitflags.DEL.value
             qry = f"update config.client_circuits set bitflags = (bitflags + {bitflag})" \
@@ -185,16 +186,18 @@ class dbEdit(object):
          self.conn.commit()
          cur.close()
 
-   def _del_client(self, rowid: int):
-      try:
-         qry = f"update config.clients set bitflags = (bitflags + {bitflags.DEL})" \
-            f", dt_del = now() where clt_rowid = {rowid};"
-         cur: cursor = self.conn.cursor()
-         cur.execute(qry)
-         if cur.rowcount == 1:
-            pass
-      except Exception as e:
-         print(e)
+   # def _del_client(self, rowid: int):
+   #    qry = f"update config.clients set bitflags = (bitflags + {bitflags.DEL.value})" \
+   #       f", dt_del = now() where clt_rowid = {rowid};"
+   #    cur: cursor = self.conn.cursor()
+   #    try:
+   #       cur.execute(qry)
+   #       if cur.rowcount == 1:
+   #          self.conn.commit()
+   #    except Exception as e:
+   #       print(e)
+   #    finally:
+   #       cur.close()
 
    def __qry_rows(self, qry: str):
       cur: cursor = self.conn.cursor()

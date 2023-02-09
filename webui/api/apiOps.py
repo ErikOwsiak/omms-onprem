@@ -63,10 +63,14 @@ class apiOps(object):
       # -- -- -- --
       return d
 
-   def set_report_job(self, item, y, m) -> int:
+   def set_report_job(self, item, y, m) -> (int, int):
+      rows: int = self.dbops.rows_for_report(y, m)
+      if rows == 0:
+         return 1, 0
+      # -- -- -- --
       # -- insert into database --
       rowid = self.dbops.insert_report_job(item, y, m)
       # -- push to redis channel --
       pub_chanl = self.ini.get("REDIS_CORE", "WEBUI_BACKEND_CHNL")
       self.red.publish(pub_chanl, f"NEW_REPORT_JOB: {rowid}")
-      return rowid
+      return 0, rowid

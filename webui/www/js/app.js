@@ -338,13 +338,24 @@ _omms.app = {
    },
 
    startMonthyReport() {
+      /* -- */
       let y = $("#yearSel").val(),
          m = $("#monthSel").val();
-      let url = "/api/post/monthly-report";
       /* -- */
+      if (m == "") {
+         alert("You Must Select Month!");
+         return;
+      }
+      /* -- */
+      let url = "/api/post/monthly-report";
       $.post(url, {"year": y, "month": m}, function(jsobj) {
             let msg = "";
-            if (jsobj.REPORT_ID) {
+            if (jsobj.ERR == undefined) {
+               alert("Bad Response Data!");
+               return;
+            }
+            /* -- -- -- -- */
+            if (jsobj.ERR == 0) {
                let rid = parseInt(jsobj.REPORT_ID),
                   d = new Date();
                d.setMinutes(d.getMinutes() + 5);
@@ -352,7 +363,12 @@ _omms.app = {
                msg = `New Report JobID: ${rid}<br/>For Date: ${y}/${m}<br/>` + 
                   `Click [Show Reports] In:<br/>5 Minutes<br/>around: ${t}`;
             } else {
-               msg = "NewRerpotJobError";
+               if (jsobj.ERR == 1 && jsobj.VAL == 0) {
+                  msg = "No Data Found To Run Report!"
+               } else {
+                  msg = "NewRerpotJobError";
+               }
+               alert(msg);
             }
             /* -- */
             $("#rptFeedbackDiv").html(msg);
