@@ -36,19 +36,22 @@ class backendOps(object):
          self.psql_conn = dbConnServer.getConnection(self.conn_str)
       else:
          pass
-      # -- -- -- --
+      # -- -- subs -- --
       self.reportSub = backendReportRedSub(ini=self.ini, dbops=None
          , dbConnStr=self.conn_str, red=self.red)
-      self.reportSub = systemErrorsRedSub(ini=self.ini, dbops=None
+      if self.reportSub is not None:
+         self.subs.append(self.reportSub)
+      # -- -- subs -- --
+      self.errorSub = systemErrorsRedSub(ini=self.ini, dbops=None
          , dbConnStr=self.conn_str, red=self.red)
+      if self.errorSub is not None:
+         self.subs.append(self.errorSub)
 
    def run_main_thread(self):
       self.main_thread = threading.Thread(target=self.__main_thread)
       self.main_thread.start()
 
    def __redis_subscribe(self):
-      # -- add subs --
-      self.subs.append(self.reportSub)
       # -- -- -- --
       for red_sub in self.subs:
          red_sub: redSubChannel = red_sub
