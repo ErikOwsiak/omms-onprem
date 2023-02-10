@@ -58,7 +58,7 @@ class clientMonthly(object):
                row_serid, met_circ_dbid, cir_tag, report_jobid, error, error_msg,\
                   year, month, fst_input, lst_input, consumed_kwh, dts_crd = item
                total_kwh += float(consumed_kwh)
-               reps.append(f"{fst_input} | {lst_input}")
+               reps.append(f"{fst_input} | {lst_input} | {consumed_kwh}")
             else:
                logProxy.log_exp(item)
          except Exception as e:

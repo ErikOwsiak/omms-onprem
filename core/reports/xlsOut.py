@@ -1,6 +1,8 @@
 
+import datetime
 import xlsxwriter as xw
 import os.path, configparser as _cp
+from dateutil.relativedelta import relativedelta as _rdel
 from xlsxwriter.workbook import Worksheet
 from psql.dbOps import dbOps
 from core.utils import sysUtils as utils
@@ -132,10 +134,8 @@ class xlsOut(object):
       wsh.set_column(2, 2, 16)
       wsh.write(row_idx, 2, "circuit_tag")
       # --- fill ---
-      """ c.clt_name
-         , t.clt_tag
-         , t.locl_tag
-         , t.cir_tag"""
+      """ c.clt_name, t.clt_tag
+         , t.locl_tag, t.cir_tag"""
       clt_cirs = self.dbops.get_clients_circuits()
       col0_w: int = 0; col1_w: int = 0
       for tup in clt_cirs:
@@ -171,9 +171,9 @@ class xlsOut(object):
          calcs_rows: [] = [s.strip() for s in buff.split("&&")]
          for c in calcs_rows:
             try:
-               fst, lst = [s.strip() for s in c.strip().split("|")]
+               fst, lst, _kwh = [s.strip() for s in c.strip().split("|")]
                cir, kwh, dts = [s.strip() for s in lst.strip().split(";")]
-               msg: str = f"        {cir} | {kwh} kwh | {dts} UTC"
+               msg: str = f"        {cir} | {_kwh} kwh  | {kwh} kwh @ {dts} UTC"
                row_idx += 1
                wsh.write(row_idx, 0, msg)
             except Exception as e:
@@ -181,37 +181,82 @@ class xlsOut(object):
       # -- the end --
       return True
 
-   def __fill_client_kwhrs(self, arr_arr: []
+   def __fill_client_kwhrs(self, arr_tups: []
          , y: int
          , m: int
-         , wsh_totals: Worksheet) -> bool:
-      # -- col names --
-      row: int = 0
-      wsh_totals.write(row, 0, "NIP")
-      wsh_totals.write(row, 1, "ClientName")
-      wsh_totals.write(row, 2, f"{y}_{m}_kWh")
-      row += 2
+         , wsh: Worksheet) -> bool:
       # -- cell format --
       fnt_color = "#800000"
       dct = {"bold": True, "font_color": f"{fnt_color}", "font_size": 12}
       clt_frmt = self.wb.add_format(dct)
+      # -- col names --
+      row: int = 0
+      wsh.write(row, 0, "NIP")
+      wsh.write(row, 1, "ClientName")
+      wsh.write(row, 2, f"{y}_{m}_kWh")
+      self.__fill_prev_11_headers(row, y, m, wsh)
+      row += 2
       # -- load data --
       col0_w, col1_w = 0, 0
-      for arr in arr_arr:
+      for arr in arr_tups:
          ctag, cname, _, _, kwh = arr[4:9]
          print(f"\txls_write: {ctag} | {cname} | {kwh}")
-         y = int(y); m = int(m); kwh = float(kwh)
-         col0_w = col0_w if col0_w > len(ctag) else (len(ctag) + 10)
-         wsh_totals.set_column(0, 0, col0_w)
-         wsh_totals.write(row, 0, ctag)
-         # -- col width --
-         col1_w = col1_w if col1_w > len(cname) else (len(cname) + 10)
-         wsh_totals.set_column(1, 1, col1_w)
-         wsh_totals.write(row, 1, cname, clt_frmt)
-         # -- -- -- -- -- --
-         # -- date: yr-mn --
-         wsh_totals.set_column(2, 2, 16)
-         wsh_totals.write(row, 2, round(float(kwh), 2))
+         self.__fill_client_line(ctag, cname, kwh, clt_frmt, row, col0_w, col1_w, wsh)
+         self.__fill_last_11_kwhrs(ctag, row, y, m, wsh)
          row += 1
       # -- the end --
       return True
+
+   def __fill_client_line(self, ctag: str
+         , cname: str
+         , kwh: float
+         , clt_frmt
+         , row
+         , col0_w
+         , col1_w
+         , wsh: Worksheet):
+      # -- -- -- --
+      col0_w = col0_w if col0_w > len(ctag) else (len(ctag) + 8)
+      wsh.set_column(0, 0, col0_w)
+      wsh.write(row, 0, ctag)
+      # -- col width --
+      col1_w = col1_w if col1_w > len(cname) else (len(cname) + 8)
+      wsh.set_column(1, 1, col1_w)
+      wsh.write(row, 1, cname, clt_frmt)
+      # -- -- -- -- -- --
+      # -- date: yr-mn --
+      wsh.set_column(2, 2, 16)
+      wsh.write(row, 2, round(float(kwh), 2))
+
+   def __fill_prev_11_headers(self, row: int
+         , rpt_y: int
+         , rpt_m: int
+         , wsh: Worksheet):
+      # -- -- -- --
+      col_idx = 4
+      rpt_d: datetime.datetime = datetime.datetime(year=rpt_y, month=rpt_m, day=1)
+      for idx in range(1, 12):
+         dt: datetime.datetime = (rpt_d - _rdel(months=idx))
+         wsh.set_column(col_idx, col_idx, 14)
+         wsh.write(row, col_idx, f"{dt.year}_{dt.month}_kWh")
+         col_idx += 1
+
+   def __fill_last_11_kwhrs(self, ctag: str
+         , row_idx: int
+         , rpt_y: int
+         , rpt_m: int
+         , wsh: Worksheet):
+      # -- -- -- -- -- --
+      col_idx = 4
+      rpt_d: datetime.datetime = datetime.datetime(year=rpt_y, month=rpt_m, day=1)
+      for idx in range(1, 12):
+         dt: datetime.datetime = (rpt_d - _rdel(months=idx))
+         wsh.set_column(col_idx, col_idx, 14)
+         row: [] = self.dbops.get_last_11_kwhrs(ctag, dt.year, dt.month)
+         if row in [None] or len(row) == 0:
+            kwh = "    n/a"
+         else:
+            _, kwh, _, _ = row
+         # -- -- -- --
+         wsh.write(row_idx, col_idx, kwh)
+         col_idx += 1
