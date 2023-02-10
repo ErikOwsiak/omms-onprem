@@ -10,7 +10,6 @@ from core.reports.reportsSQL import reportsSQL
 from core.reports.kwhReading import kwhReading
 from core.reports.reportsDatatypes import clientReport
 from core.reports.metCircConsumption import metCircConsumption
-from core.reports.reportsDatatypes import sysCircuitInfo
 
 
 class dbOps(object):
@@ -20,10 +19,24 @@ class dbOps(object):
    METER_MODEL_INFO_REDIS_KEY = "MODEL_INFO"
    DB_IDX_READS: int = 2
 
-   def __init__(self, conn_str: str, red: redis.Redis = None):
+   def __init__(self, conn_str: str
+         , red: redis.Redis = None):
+      # -- -- -- --
       self.conn_str = conn_str
       self.conn: connection = dbConnServer.getConnection(self.conn_str)
       self.red: redis.Redis = red
+
+   def __del__(self):
+      try:
+         if self.conn is not None:
+            self.conn.close()
+      finally:
+         pass
+      try:
+         if self.red is not None:
+            self.red.close()
+      finally:
+         pass
 
    def get_meter_syspath_dbid(self, syspath: str) -> int:
       cur: cursor = self.conn.cursor()
@@ -85,11 +98,9 @@ class dbOps(object):
          l3_kwh = _dict["l3_kwh"] if "l3_kwh" in _dict.keys() else dbOps.NULL
          note = f"'{note}'" if note is not None else dbOps.NULL
          ins = f"""insert into streams.kwhs_raw
-            (met_circ_dbid, dts_utc, is_backfilled, total_kwhs, l1_kwhs
-               , l2_kwhs, l3_kwhs, backfill_notes)
+            (met_circ_dbid, dts_utc, is_backfilled, total_kwhs, l1_kwhs, l2_kwhs, l3_kwhs, backfill_notes)
             values({dbid}, {dtsutc}, {is_backfill}, {tl_kwh}, {l1_kwh}, {l2_kwh}
-               , {l3_kwh}, {note})
-            returning row_dbid;"""
+               , {l3_kwh}, {note}) returning row_dbid;"""
          # -- print text block --
          color = "blue"
          lns: [] = utils.txt_block_formatted(ins, color=color)
@@ -323,7 +334,7 @@ class dbOps(object):
       # -- -- -- -- -- -- -- --
       # for now; todo: try to reconnect
       if self.conn is None:
-         pass
+         raise Exception("ConnIsNone")
       # -- -- -- -- -- -- -- --
       cur: cursor = self.conn.cursor()
       try:
@@ -515,6 +526,9 @@ class dbOps(object):
          logProxy.log_exp(e)
       finally:
          cur.close()
+
+   def insert_error(self, obj):
+      pass
 
    def get_neighbourhood_reads(self, read: kwhReading) -> []:
       qry = reportsSQL.neighbourhood_reads(read)

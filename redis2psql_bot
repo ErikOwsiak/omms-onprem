@@ -9,6 +9,7 @@ from core.debug import debug
 from core.redis2psql import redis2psql
 from core.utils import sysUtils as utils
 from psql.dbConnServer import dbConnServer
+from ommslib.shared.core.datatypes import redisDBIdx
 
 
 INI: _cp.ConfigParser = _cp.ConfigParser()
@@ -37,6 +38,8 @@ if not RED.ping():
 
 # -- redis to psql object --
 PSQL_CONN = dbConnServer.getConnection(PSQL_CONN_STR)
+if PSQL_CONN is None:
+   raise Exception("PSQL_CONN_IS_NONE")
 __redis2psql: redis2psql = \
    redis2psql(INI=INI, red=RED, psqlConn=PSQL_CONN, psqlConnStr=PSQL_CONN_STR)
 __redis2psql.int()
@@ -63,15 +66,13 @@ def main():
    # -- -- -- --
    with open("/etc/iotech/systag") as f:
       systag = f.read().strip()
-   diag_key = f"{systag.upper()}_OMMS_ONPREM"
+   diag_key = f"SYS_TAG_{systag.upper()}"
    # -- -- -- --
-   DB_IDX_ONPREM_DIAG: int = INI.getint("REDIS", "DB_IDX_ONPREM_DIAG")
-   # -- -- -- -- -- -- -- --
    _dict = {"boot_dts_utc": utils.dts_utc()
       , "lan_ip": utils.lan_ip(), "hostname": utils.HOST}
-   RED.select(DB_IDX_ONPREM_DIAG)
+   RED.select(redisDBIdx.DB_IDX_ONPREM_DIAG.value)
    RED.hset(diag_key, mapping=_dict)
-   # -- -- -- -- -- -- -- --
+   # -- -- -- --
    while True:
       try:
          print("main_loop")

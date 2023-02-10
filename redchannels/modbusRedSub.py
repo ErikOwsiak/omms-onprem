@@ -10,11 +10,15 @@ from core.redSubChannel import redSubChannel
 INI_SEC_NAME = "MODBUS"
 RPT_PWRS = "#RPT:POWERSTATS"
 RPT_KWHR = "#RPT:KWHRS"
+RPT_ERROR = "#RPT:ERROR"
 
 
 class modbusRedSub(redSubChannel):
 
-   def __init__(self, ini: _cp.ConfigParser, dbops: dbOps, red: redis.Redis):
+   def __init__(self, ini: _cp.ConfigParser
+         , dbops: dbOps
+         , red: redis.Redis):
+      # -- -- -- --
       super().__init__(ini=ini, db=dbops, red=red)
       self.sec_ini = self.ini[INI_SEC_NAME]
       if self.red is not None:
@@ -45,6 +49,8 @@ class modbusRedSub(redSubChannel):
          self.__save_power_stats_v1(arr=tokens)
       elif tokens[0].upper() == RPT_KWHR:
          self.__save_kwhrs_v1(arr=tokens)
+      elif tokens[0].upper() == RPT_ERROR:
+         self.__publish_error(arr=tokens)
       else:
          print(f"BadTokens: {tokens[0]}, {tokens[1]}")
       # -- -- do -- --
@@ -64,17 +70,12 @@ class modbusRedSub(redSubChannel):
       meter_rowid, _ = self.dbops.get_met_circ_info(syspath)
       self.dbops.insert_elect_kwhrs_dict(meter_rowid, _dict)
 
-   # def __save_power_stats(self, arr: []):
-   #    try:
-   #       _dict: {} = utils.arr_dict(arr, ":")
-   #       syspath: str = _dict["PATH"]
-   #       dbid: int = self.dbops.get_meter_syspath_dbid(syspath.lower())
-   #       self.dbops.insert_elect_pwr_stats(dbid, _dict)
-   #    except Exception as e:
-   #       print(e)
-   #
-   # def __save_kwhrs(self, arr: []):
-   #    _dict: {} = utils.arr_dict(arr, ":")
-   #    syspath: str = _dict["PATH"]
-   #    dbid: int = self.dbops.get_meter_syspath_dbid(syspath.lower())
-   #    self.dbops.insert_elect_kwhrs_dict(dbid, _dict)
+   def __publish_error(self, arr: [], msg: str = None):
+      _dict: {} = utils.arr_dict(arr, ":")
+      syspath: str = _dict["PATH"]
+      meter_rowid, _ = self.dbops.get_met_circ_info(syspath)
+      if self.red is None:
+         return
+      if msg is None:
+         msg = f"({'|'.join(arr)})"
+      self.red.publish("SYSTEM_ERRORS", msg)

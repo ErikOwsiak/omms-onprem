@@ -8,6 +8,7 @@ from psql.dbOps import dbOps
 from psql.dbConnServer import dbConnServer
 from core.redSubChannel import redSubChannel
 from redchannels.backendReportRedSub import backendReportRedSub
+from redchannels.systemErrorsRedSub import systemErrorsRedSub
 
 
 class backendOps(object):
@@ -27,6 +28,7 @@ class backendOps(object):
       self.main_thread: threading.Thread = None
       self.pubsub = self.red.pubsub()
       self.reportSub: backendReportRedSub = None
+      self.errorSub: systemErrorsRedSub = None
       self.subs: [redSubChannel] = []
 
    def init(self):
@@ -36,6 +38,8 @@ class backendOps(object):
          pass
       # -- -- -- --
       self.reportSub = backendReportRedSub(ini=self.ini, dbops=None
+         , dbConnStr=self.conn_str, red=self.red)
+      self.reportSub = systemErrorsRedSub(ini=self.ini, dbops=None
          , dbConnStr=self.conn_str, red=self.red)
 
    def run_main_thread(self):
