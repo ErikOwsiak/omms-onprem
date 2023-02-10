@@ -17,5 +17,5 @@ chmod +x redis2psql_bot
 sleep 4
 
 # start backendops_bot
-chmod +x backendops_bot
-./backendops_bot
+#chmod +x backendops_bot
+#./backendops_bot
