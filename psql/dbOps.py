@@ -100,7 +100,7 @@ class dbOps(object):
          ins = f"""insert into streams.kwhs_raw
             (met_circ_dbid, dts_utc, is_backfilled, total_kwhs, l1_kwhs, l2_kwhs, l3_kwhs, backfill_notes)
             values({dbid}, {dtsutc}, {is_backfill}, {tl_kwh}, {l1_kwh}, {l2_kwh}
-               , {l3_kwh}, {note}) returning row_dbid;"""
+            , {l3_kwh}, {note}) returning row_dbid;"""
          # -- print text block --
          color = "blue"
          lns: [] = utils.txt_block_formatted(ins, color=color)

@@ -3,10 +3,13 @@
 import redis
 import configparser as _cp
 from core.debug import debug
+from ommslib.shared.core.datatypes import redisDBIdx
+
 
 # -- -- -- -- mark redis db's with text headers -- -- -- --
 # /00_EDGE_README_00 :: /00_SERVER_README_00 :: /00_READS_README_00
 #
+
 
 INI: _cp.ConfigParser = _cp.ConfigParser()
 INI.read("conf/redis2psql.ini")
@@ -28,7 +31,7 @@ if not RED.ping():
 README_KEY = "README"
 
 
-RED.select(0)
+RED.select(redisDBIdx.DB_IDX_ONPREM_DIAG.value)
 d = {README_KEY: "This key is placed to mark the use of database 0 /"
    " holds onprem server device(s) diag info"}
 key = "![_SERVER_DIAG_DB_]"
@@ -36,7 +39,7 @@ RED.delete(key)
 RED.hset(key, mapping=d)
 
 
-RED.select(1)
+RED.select(redisDBIdx.DB_IDX_EDGE_DIAG.value)
 d = {README_KEY: "This key is placed to mark the use of database 1 /"
    " holds edge device(s) diag info"}
 key = "![_EDGE_DIAG_DB_]"
@@ -44,7 +47,7 @@ RED.delete(key)
 RED.hset(key, mapping=d)
 
 
-RED.select(2)
+RED.select(redisDBIdx.DB_IDX_READS.value)
 d = {README_KEY: "This key is placed to mark the use of database 2 /"
    " holds system meter/endpoint reads"}
 key = "![_READS_DB_]"
