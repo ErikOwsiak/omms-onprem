@@ -108,7 +108,7 @@ _omms.gui = {
          }
          /* -- */
          let buff = _omms.gui.fixScriptTag(obj.outerHTML),
-          buffNewID = targetID;
+            buffNewID = targetID;
          /* -- */
          if (newID) {
             let ts = Date.now();
@@ -117,6 +117,19 @@ _omms.gui = {
          }
          /* gui objs need unique ids */
          $(targetID).html(buff);
+         selector = `#appViewport #${blockID}`;
+         try {
+            let formloadjs = $(selector).attr("formloadjs");
+            if (formloadjs) {
+               console.log(`formloadjs: ${formloadjs}`);
+               let [_obj, _method] = formloadjs.split(".");
+               _omms[_obj][_method]();
+            } else {
+               console.log("formloadjs_not_found");
+            }
+         } catch (e) {
+            console.log(e);
+         }
          /* - - */
          return buffNewID;
       } catch(e) {

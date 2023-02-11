@@ -1,6 +1,8 @@
 
-import os, json, configparser as _cp, redis
+import os, json
+import configparser as _cp, redis
 from psql.dbOps import dbOps
+from webui.app.overview import sysOverview
 
 
 class apiOps(object):
@@ -74,3 +76,8 @@ class apiOps(object):
       pub_chanl = self.ini.get("REDIS_CORE", "WEBUI_BACKEND_CHNL")
       self.red.publish(pub_chanl, f"NEW_REPORT_JOB: {rowid}")
       return 0, rowid
+
+   def overview(self):
+      _sysOverview: sysOverview = sysOverview(self.red)
+      _sysOverview.load()
+      return _sysOverview.to_json_str()

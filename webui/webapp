@@ -109,6 +109,10 @@ def apiget(item):
       apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
       buffout = apiops.clt_kwhrs(dts, cirs)
       CTYPE = CTYPE_JSON
+   elif item == "overview":
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+      buffout = apiops.overview()
+      CTYPE = CTYPE_JSON
    else:
       buffout = ""; errcode = 404
    # -- -- return data -- --

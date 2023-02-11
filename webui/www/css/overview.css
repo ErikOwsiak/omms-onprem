@@ -85,3 +85,130 @@ div.ping-status-hdr {
 .over5 {
    background-color: rgba(228, 130, 154, 0.1);
 }
+
+
+.sun-clock {
+   display: inline-block;
+   height: auto;
+   margin: 4vh auto 4vh 2vw;
+}
+
+/* new overview */
+
+#leftCol, #rightCol {
+   display: inline-block;
+   vertical-align: top;
+   height: 68vh;
+   margin-top: 4vh;
+   border: 2px solid darkblue;
+   border-radius: 6px;
+}
+
+div.so-pane-body #leftCol {
+   width: 35%;
+   margin-left: 2%;
+} 
+
+div.so-pane-body #rightCol {
+   width: 55%;
+   margin-left: 4%;
+   overflow-y: scroll;
+}
+
+.sun-clock > div {
+   display: inline-block;
+   height: 16vh;
+   width: 12vh;
+   margin-right: 2vw;
+   border: 2px solid rgb(23, 10, 70);
+   border-radius: 8px;
+}
+
+.sun-clock .bg {
+   width: 12vh;
+   height: 12vh;
+   margin: auto;
+   background-size: 90%;
+   background-position: center;
+   background-repeat: no-repeat;
+}
+
+.sun-clock .txt {
+   width: 12vh;
+   height: 3.8vh;
+   line-height: 3.8vh;
+   margin: auto;
+   font-size: 2vh;
+   text-align: center;
+}
+
+#tsSunrise .bg {
+   background-image: url(/xicons/dawn_161C83.png);
+}
+
+#tsSunset .bg {
+   background-image: url(/xicons/sunset_161C83.png);
+}
+
+
+div.meter-stats {
+   margin: 4vh 0 0 4vw;
+   font-size: 2.8vh;
+}
+
+div.read-stat-hdr {
+   font-size: 2.4vh;
+   font-weight: bold;
+   margin-bottom: 2vh;
+}
+
+div.read-stat {
+   width: 84%;
+   height: 4.8vh;
+   line-height: 4.8vh;
+   text-indent: 1vw;
+   margin-bottom: 1vh;
+   border: 1px solid darkgrey;
+   border-radius: 8px;
+}
+
+div.read-stat:hover {
+   cursor: pointer;
+   border-color: #4f5374;
+}
+
+#ontime {
+   color: green;
+}
+
+#late_3h {
+   color: rgb(189, 186, 2);
+} 
+
+#late_6h {
+   color: rgb(133, 103, 4);
+}
+
+#missing {
+   color: red;
+} 
+
+div.lst-item {
+   width: 98%;
+   height: 3.2vh;
+   line-height: 3.2vh;
+   margin: 8px auto;
+   font-size: 1.8vh;
+   text-indent: 1vh;
+   border: 1px solid #15207e;
+   border-radius: 4px;
+}
+
+div.lst-item:nth-child(even) {
+   background-color: rgba(150, 174, 196, 0.212);
+}
+
+div.clicked {
+   border-color: #15207e;
+   border-width: 2px;
+}

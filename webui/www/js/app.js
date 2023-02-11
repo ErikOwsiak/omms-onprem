@@ -14,11 +14,10 @@ _omms.app = {
    lastReports: {clientSpaces: null
       , clientMeters: null},
 
-   /* - - */
+   /* -- */
    init() {
       _omms.clickRouter.init();
-      /* _omms.gui.loadDataBlockXml("orgNav", "subMenuCol");
-         _omms.gui.loadDataBlockXml("systemOverview", "appViewport") */
+      _omms.gui.loadDataBlockXml("systemOverview", "appViewport");
       // setTimeout(_omms.app.readOmmsUser, 200);
       // _omms.app.setAcl();
       // _omms.app.applyAcl();
@@ -374,6 +373,11 @@ _omms.app = {
             $("#rptFeedbackDiv").html(msg);
          });
       /* -- */
+   },
+
+   systemOverviewLoad() {
+      _omms.app.sysOverview = new SystemOverview("systemOverview")
+      setTimeout(_omms.app.sysOverview.tick, 200);
    }
 
 };

@@ -16,54 +16,49 @@ class SystemOverview {
          return;
       }
       /* -- else -- */
-      let url = "/api/v1/get/overview";
+      let url = "/api/get/overview";
       $.get(url, SystemOverview.__this__.tack);
    }
 
-   tack(jarr) {
+   tack(jsobj) {
       /* -- */
+      console.log(jsobj);
       if (!SystemOverview.__this__.isSysOverviewLoaded())
          return;
       /* -- else -- */
       setTimeout(SystemOverview.__this__.tick
          , SystemOverview.TIMEOUT);
-      /* calc if the ping overdue */
-      let isoverdue = function(ping, maxMinutes) {
-            try {
-               let msMin = 60000, 
-                  nowDts = Date.now(),
-                  /* utc time */
-                  pingUtcStr = ping[2].trim();
-               /* -- go -- */
-               /* 2021-12-05 19:04:29.956 */
-               let rx = /([\d]{4})-([\d]{2})-([\d]{2})\s{1}([\d]{2}):([\d]{2}):([\d]{2})/gm;
-               let m = rx.exec(pingUtcStr);
-               let [y, mo, d, h, mn,] = m.slice(1);
-               mo = parseInt(mo); d = parseInt(d); h = parseInt(h); 
-               let pingDts = Date.UTC(y, --mo, d, h, mn, 0, 0);
-               let diff = parseInt((nowDts - pingDts) / msMin);
-               return (diff > maxMinutes);
-            } catch(e) {
-               return false;
+      /* -- */
+      if (jsobj.error == undefined)
+         return;
+      /* -- */
+      SystemOverview.__this__.jsobj = jsobj;
+      $("#sunClock #tsSunrise .txt").html(jsobj.sunrise);
+      $("#sunClock #tsSunset .txt").html(jsobj.sunset);
+      /* -- */
+      let ontimeCnt = jsobj.ontime.length;
+      $("#spathsCounts #ontime").html(`OnTime: ${ontimeCnt}`);
+      let late3hCnt = jsobj.late_3h.length;
+      $("#spathsCounts #late_3h").html(`Late 3h ~ 6h: ${late3hCnt}`);
+      let late6hCnt = jsobj.late_6h.length;
+      $("#spathsCounts #late_6h").html(`Late > 6h: ${late6hCnt}`);
+      let missingCnt = jsobj.missing.length;
+      $("#spathsCounts #missing").html(`Missing: ${missingCnt}`);
+      /* -- */
+      $("div.read-stat").off().on("click", function() {
+            $("#rightCol").html("");
+            let btn_id = this.id, arr = SystemOverview.__this__.jsobj[btn_id];
+            if (Array.isArray(arr)) {
+               arr.forEach((i) => {
+                     $("#rightCol").append(`<div class="lst-item">${i}</div>`);
+                  });
+               /* -- */
             }
-         };
-      /* -- display info -- */
-      let less5 = `<div class="less5">under 5 min.</div>`,
-         over5 = `<div class="over5">over 5 min.</div>`,
-         hdr = `<div class="ping-status-hdr">Last Ping Status ${over5}${less5}</div>`,
-         maxMinutes = 5, late = false, pings = [], htmlArr = [hdr];
-      /* on each */
-      jarr.forEach(e => {
-            try {
-               late = isoverdue(e.ping, maxMinutes);
-               pings.push(e.ping.push(late));
-               htmlArr.push(html.ping(e.ping));
-            } catch(e) {
-               console.log(e);
-            }
+            /* -- */
+            $("div.read-stat").removeClass("clicked");
+            $(this).addClass("clicked");
          });
-      /* -- out -- */
-      $("#soPaneBody").html(htmlArr.join(""));
+      /* -- */
    }
 
    isSysOverviewLoaded() {
