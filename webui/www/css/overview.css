@@ -153,7 +153,7 @@ div.so-pane-body #rightCol {
 
 div.meter-stats {
    margin: 4vh 0 0 4vw;
-   font-size: 2.8vh;
+   font-size: 2.2vh;
 }
 
 div.read-stat-hdr {
@@ -164,8 +164,8 @@ div.read-stat-hdr {
 
 div.read-stat {
    width: 84%;
-   height: 4.8vh;
-   line-height: 4.8vh;
+   height: 3.2vh;
+   line-height: 3.2vh;
    text-indent: 1vw;
    margin-bottom: 1vh;
    border: 1px solid darkgrey;
@@ -189,7 +189,7 @@ div.read-stat:hover {
    color: rgb(133, 103, 4);
 }
 
-#missing {
+#missing, #bad_reads {
    color: red;
 } 
 

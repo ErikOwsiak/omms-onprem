@@ -44,6 +44,8 @@ class SystemOverview {
       $("#spathsCounts #late_6h").html(`Late > 6h: ${late6hCnt}`);
       let missingCnt = jsobj.missing.length;
       $("#spathsCounts #missing").html(`Missing: ${missingCnt}`);
+      let badReadsCnt = jsobj.bad_reads.length;
+      $("#spathsCounts #bad_reads").html(`Bad Reads: ${badReadsCnt}`);
       /* -- */
       $("div.read-stat").off().on("click", function() {
             $("#rightCol").html("");
