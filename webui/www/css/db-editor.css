@@ -1,4 +1,8 @@
 
+small {
+   font-style: italic;
+}
+
 #dbTableForm {
    margin-top: 2vh;
 }
@@ -142,10 +146,23 @@
 }
 
 .input_ln input {
-   width: 100%;
+   width: 98%;
    margin: 0 !important;
    font-size: 2vh;
 }
+
+div.must_fill {
+   padding-top: 8px !important;
+   background-color: rgba(13, 75, 207, 0.2);
+   border: 1px solid rgb(40, 40, 94);
+   border-radius: 4px;
+}
+
+div.must_fill input {
+   width: 94% !important;
+   margin: 4px 0 8px 2% !important;
+}
+
 
 div.lbl {
    text-indent: 0.8vh;

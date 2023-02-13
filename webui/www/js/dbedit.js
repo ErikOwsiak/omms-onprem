@@ -89,11 +89,11 @@ class dbEdit {
    }
 
    getTblData_clients(tblname) {
-      let _this = this;
+      let _this = this, itemObj;
       $.get(`/dbedit/get/${tblname}`, function (jsarr) {
          _this.sessCache.dbObjs[tblname] = {};
          jsarr.forEach((i) => {
-               let itemObj = new dbClient(i);
+               itemObj = new dbClient(i);
                _this.sessCache.dbObjs[tblname][itemObj.tag] = itemObj;
                $("#dbObjSelector").append(itemObj.toHtml());
             });
@@ -102,6 +102,7 @@ class dbEdit {
                let TAG_AS_ROWID = $(this).attr("tag");
                _this.onDatabaseItemObjectClick(TAG_AS_ROWID, tblname)
             });
+         /* -- */
       });
    }
 
@@ -120,7 +121,7 @@ class dbEdit {
                let ROWID = $(this).attr("rowid");
                _this.onDatabaseItemObjectClick(ROWID, tblname);
             });
-         /* -- -- */
+         /* -- */
       });
    }
 
@@ -142,12 +143,19 @@ class dbEdit {
    }
 
    displayNewItemForm(dbItemList, tblinfo) {
+      /* -- */
       $(`#${dbItemList}`).html("");
       let dbhtml = new dbeditHtml();
       tblinfo.forEach((i) => {
-         let _html = dbhtml.itemHtml(i);
-         $(`#${dbItemList}`).append(_html);
-      });
+            let _html = dbhtml.itemHtml(i);
+            $(`#${dbItemList}`).append(_html);
+         });
+      let selectors = "#COL_clt_tag, #COL_locl_tag, #COL_cir_tag, #COL_clt_name";
+      /* -- */
+      if (!($(selectors).parent().hasClass("must_fill"))) {
+         $(selectors).parent().addClass("must_fill");
+         $(selectors).siblings().append("&nbsp;&nbsp;<small>*( required )</small>");
+      }
       /* -- */
       this.loadDatalists();
    }
@@ -166,6 +174,7 @@ class dbEdit {
                $(`${ns} #COL_clt_email`).val(itemObj.email);
                $(`${ns} #COL_note`).val(itemObj.note);
                $(`${ns} #COL_clt_tag`).val(itemObj.tag);
+               $(`${ns} #COL_clt_tag`).attr("disabled", "1");
                $(`${ns} #COL_clt_name`).val(itemObj.name);
                $(`${ns} #COL_clt_access_pin`).val(itemObj.pin);
             }
@@ -178,6 +187,7 @@ class dbEdit {
                $(`${ns} #COL_dt_unlink`).val(itemObj.dt_ulnk);
                $(`${ns} #COL_code`).val(itemObj.code);
                $(`${ns} #COL_clt_tag`).val(itemObj.clttag);
+               $(`${ns} #COL_clt_tag`).attr("disabled", "1");
                $(`${ns} #COL_locl_tag`).val(itemObj.locltag);
                $(`${ns} #COL_cir_tag`).val(itemObj.cirtag);
             }
