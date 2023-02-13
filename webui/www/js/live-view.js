@@ -36,8 +36,9 @@ _omms.liveView = {
       if (_omms.liveView.client_tag == "") {
          _omms.liveView.clinet_circuits = null;
          _omms.liveView.monitorRedisKeys();
+         $("#appViewport #vpBody").html("");
          return;
-      } 
+      }
       /* -- */
       let  [dbid, tag] = _omms.liveView.client_tag.split("|");
       dbid = dbid.replace("dbid:", "");

@@ -3,7 +3,7 @@
 _omms.app = {
 
    ZERO_PAD: "0",
-   helpUrl: "https://omms.iotech.systems",
+   helpUrl: "https://omms.iotech.systems/help/ck",
    lastClickedMeter: null,
    streamTbl: "",
    realtimeMon: null,
