@@ -88,9 +88,10 @@ div.ping-status-hdr {
 
 
 .sun-clock {
-   display: inline-block;
+   /*display: inline-block;*/
    height: auto;
-   margin: 4vh auto 4vh 2vw;
+   margin: 4vh auto;
+   text-align: center;
 }
 
 /* new overview */
@@ -119,7 +120,7 @@ div.so-pane-body #rightCol {
    display: inline-block;
    height: 16vh;
    width: 12vh;
-   margin-right: 2vw;
+   margin-right: 2vh;
    border: 2px solid rgb(23, 10, 70);
    border-radius: 8px;
 }
