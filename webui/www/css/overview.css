@@ -110,8 +110,8 @@ div.so-pane-body #leftCol {
 } 
 
 div.so-pane-body #rightCol {
-   width: 55%;
-   margin-left: 4%;
+   width: 58%;
+   margin-left: 1%;
    overflow-y: scroll;
 }
 
