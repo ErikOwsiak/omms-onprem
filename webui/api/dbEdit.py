@@ -186,18 +186,24 @@ class dbEdit(object):
          self.conn.commit()
          cur.close()
 
-   # def _del_client(self, rowid: int):
-   #    qry = f"update config.clients set bitflags = (bitflags + {bitflags.DEL.value})" \
-   #       f", dt_del = now() where clt_rowid = {rowid};"
-   #    cur: cursor = self.conn.cursor()
-   #    try:
-   #       cur.execute(qry)
-   #       if cur.rowcount == 1:
-   #          self.conn.commit()
-   #    except Exception as e:
-   #       print(e)
-   #    finally:
-   #       cur.close()
+   def _del_client(self, rowid: int):
+      # -- -- -- --
+      bitflag = bitflags.DEL.value
+      qry0 = f"update config.clients set bitflags = (bitflags + {bitflag})" \
+         f", dt_del = now() where clt_rowid = {rowid};"
+      qry1 = f"update config.client_circuits set bitflags = (bitflags + {bitflag})" \
+         f", dt_unlink = now() where clt_tag = '{rowid}';"
+      # -- -- -- --
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry0)
+         if cur.rowcount == 1:
+            self.conn.commit()
+
+      except Exception as e:
+         print(e)
+      finally:
+         cur.close()
 
    def __qry_rows(self, qry: str):
       cur: cursor = self.conn.cursor()

@@ -140,7 +140,7 @@ _omms.liveView = {
       }
       rval = jsobj[rkey];
       /* -- */
-      let tkey = "#RPT_kWhrs_dtsutc_epoch", tval = "";
+      let tkey = "#RPT_kWhrs_STATUS", tval = "";
       if (!(tkey in jsobj)) {
          console.log(jsobj);
          throw `KeyNotFound: ${tkey}`;
