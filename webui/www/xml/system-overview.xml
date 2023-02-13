@@ -19,7 +19,7 @@
             </div>
          </div>
          <div id="spathsCounts" class="meter-stats">
-            <div class="read-stat-hdr">Meter Read Timing Stats</div>
+            <div class="read-stat-hdr">Meter Reading Stats</div>
             <div>
                <div id="ontime" class="read-stat">
                </div>
