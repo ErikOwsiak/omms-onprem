@@ -1,7 +1,8 @@
 
 import json, redis
 import dateutil.parser, datetime
-from ommslib.shared.core.datatypes import redisDBIdx
+from core.logProxy import logProxy
+from ommslib.shared.core.datatypes import redisDBIdx, readStatus
 from ommslib.shared.utils.sunclock import sunClock
 from ommslib.shared.utils.locationTxtInfo import locationTxtInfo
 
@@ -36,6 +37,8 @@ class sysOverview(object):
    def __load_meters_info(self):
       d: {} = {}
       lastReadKey = "LAST_READ".encode()
+      kwhReadKey = "#RPT_kWhrs_STATUS".encode()
+      pwrReadKey = "#RPT_powerStats_STATUS".encode()
       hours_3 = 180; hours_6 = 360
       self.red.select(redisDBIdx.DB_IDX_READS.value)
       syspaths = self.red.keys("/gdn/ck/*")
@@ -46,14 +49,11 @@ class sysOverview(object):
       ontime: [] = []; late_3h: [] = []; late_6h: [] = []
       missing: [] = []; bad_reads: [] = []
       # -- -- -- --
-      def _last_read(spath, hmap: {}):
-         if lastReadKey in hmap:
+      def _timing_read(spath, hmap: {}):
+         try:
             spath: str = spath.decode("utf-8")
             last_read: str = hmap[lastReadKey].decode("utf-8")
-            rpt_hdr, rd_stat, dtsutc = [s.strip() for s in last_read.split("|")]
-            # -- -- -- --
-            if rd_stat == "READ_FAILED":
-               bad_reads.append(spath)
+            _, _, dtsutc = [s.strip() for s in last_read.split("|")]
             # -- -- -- --
             dtsutc = str(dtsutc).replace("UTC", "").strip()
             dt: datetime.datetime = dateutil.parser.parse(dtsutc)
@@ -66,15 +66,29 @@ class sysOverview(object):
                late_3h.append(spath)
             elif minutes > hours_6:
                late_6h.append(spath)
-         else:
-            missing.append(syspath.decode("utf-8"))
+         except Exception as e:
+            logProxy.log_exp(e)
       # -- -- -- --
-      def _pong(spath: str, hmap: {}):
-         pass
+      def _read_status(key, spath, hmap: {}):
+         try:
+            spath: str = spath.decode("utf-8")
+            read_stat: str = hmap[key].decode("utf-8")
+            _, _, stat = [s.strip() for s in read_stat.split("|")]
+            # -- -- -- --
+            if stat == readStatus.READ_FAILED:
+               key = key.decode("utf-8")
+               bad_reads.append(f"{spath} | {key}")
+         except Exception as e:
+            logProxy.log_exp(e)
       # -- -- -- --
       for syspath in d.keys():
          hash_map = d[syspath]
-         _last_read(syspath, hash_map)
+         if hash_map:
+            _timing_read(syspath, hash_map)
+            _read_status(kwhReadKey, syspath, hash_map)
+            _read_status(pwrReadKey, syspath, hash_map)
+         else:
+            missing.append(syspath.decode("utf-8"))
       # -- -- -- --
       self.data["ontime"] = ontime
       self.data["late_3h"] = late_3h
