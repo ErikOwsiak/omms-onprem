@@ -92,9 +92,6 @@ class dbEdit(object):
          cur.execute(qry_clts)
          clts_rows = cur.fetchall()
          # -- meter circuits; only those not linked to clients; --
-         # qry_cirs = """select t.met_cir_rowid, t.cir_tag
-         #    from core.elec_meter_circuits t where t.cir_tag in
-         #    (select cc.cir_tag from config.client_circuits cc where cc.clt_tag is null);"""
          qry_cirs = dbEditSql.available_circuits()
          cur.execute(qry_cirs)
          cirs_rows = cur.fetchall()
@@ -147,61 +144,72 @@ class dbEdit(object):
 
    def _delete(self):
       # -- -- -- --
-      qry = ""
       d: {} = {"EditorAction": "Delete"}
       # -- -- -- --
       try:
          tblname: str = self.req.args["tbl"]
          rowid = self.req.values["rowid"]
          if tblname == "clients":
-            qry = f"update config.clients set bitflags = (bitflags + {bitflags.DEL.value})" \
-               f", dt_del = now() where clt_rowid = {rowid};"
+            err, msg = self._del_client(rowid)
          elif tblname == "client_circuits":
-            bitflag = bitflags.DEL.value
-            qry = f"update config.client_circuits set bitflags = (bitflags + {bitflag})" \
-               f", dt_unlink = now() where row_sid = {rowid};"
+            err, msg = self._del_client_circuits(rowid)
          else:
             d["ErrorMsg"] = "BadTableName"
             self.buffout = json.dumps(d)
             self.buffout_error = 588
             return 1
-      except Exception as e:
-         print(e)
-      # -- -- -- --
-      cur: cursor = self.conn.cursor()
-      try:
-         cur.execute(qry)
-         if cur.rowcount == 1:
+         # -- -- -- --
+         if err == 0:
             d["ErrorMsg"] = "OK"
-            self.buffout = json.dumps(d)
             self.buffout_error = 200
          else:
-            self.buffout = ""
-            self.buffout_error = 404
-            self.conn.rollback()
-         return 0
+            d["ErrorMsg"] = f"ErrorNumber: {err}"
+            self.buffout_error = 577
+         # -- -- -- --
+         self.buffout = json.dumps(d)
       except Exception as e:
          print(e)
-      finally:
-         self.conn.commit()
-         cur.close()
 
-   def _del_client(self, rowid: int):
+   def _del_client(self, rowid: int) -> (int, str):
       # -- -- -- --
       bitflag = bitflags.DEL.value
       qry0 = f"update config.clients set bitflags = (bitflags + {bitflag})" \
-         f", dt_del = now() where clt_rowid = {rowid};"
+         f", dt_del = now() where clt_rowid = {rowid} returning clt_tag;"
       qry1 = f"update config.client_circuits set bitflags = (bitflags + {bitflag})" \
-         f", dt_unlink = now() where clt_tag = '{rowid}';"
+         f", dt_unlink = now() where clt_tag = '%s';"
       # -- -- -- --
       cur: cursor = self.conn.cursor()
       try:
          cur.execute(qry0)
+         clt_tag = cur.fetchone()
          if cur.rowcount == 1:
             self.conn.commit()
-
+         qry1 = qry1 % clt_tag
+         cur.execute(qry1)
+         if cur.rowcount == 1:
+            self.conn.commit()
+         return 0, None
       except Exception as e:
          print(e)
+         return 1, str(e)
+      finally:
+         cur.close()
+
+   def _del_client_circuits(self, rowid: int) -> (int, str):
+      # -- -- -- --
+      bitflag = bitflags.DEL.value
+      qry = f"update config.client_circuits set bitflags = (bitflags + {bitflag})" \
+            f", dt_unlink = now() where row_sid = {rowid};"
+      # -- -- -- --
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         if cur.rowcount > 0:
+            self.conn.commit()
+         return 0, None
+      except Exception as e:
+         print(e)
+         return 1, str(e)
       finally:
          cur.close()
 

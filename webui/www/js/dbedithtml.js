@@ -68,7 +68,8 @@ class dbeditHtml {
       let html = `<div id="btnClear" class="crud-btn">Clear</div>` + 
          `<div id="btnUpsert" class="crud-btn">Upsert</div>` +
          `<div id="btnDelete" class="crud-btn">Delete</div>` + 
-         `<input type="text" id="txtValidate" value="" placeholder="cba321" />`;
+         `<input type="text" id="txtValidate" value="" placeholder="cba321" />` + 
+         `<input type="hidden" id="txtTableName" value="${tblname}" />`;
       /* -- */
       return `<div id="tbl_${tblname}" class="crud-frame">${html}</div>`
    }

@@ -53,6 +53,7 @@ class dbEdit {
       /* attach btns events */
       let _this = this;
       $(".crud-btn").off().on("click", function() {
+            /* -- */
             let btns = ["btnUpsert", "btnDelete"], 
                validate = $("#txtValidate").val();
             if (btns.includes(this.id) && validate != "cba321") {
@@ -206,7 +207,18 @@ class dbEdit {
    }
 
    deleteDBItem() {
-      let rowid = $("#newDBItemForm #COL_clt_rowid").val(), 
+      let tblname = $("#txtTableName").val(),
+         rowidstr = "";
+      if (tblname == "clients") {
+         rowidstr = "COL_clt_rowid"
+      } else if (tblname == "client_circuits") {
+         rowidstr = "COL_row_sid"
+      } else {
+         alert(`BadTableName: ${tblname}`);
+         return;
+      }
+      /* -- */
+      let rowid = $(`#newDBItemForm #${rowidstr}`).val(), 
          url = `/dbedit/delete?tbl=${this.current_table}&rowid=${rowid}`;
       let data = {"rowid": rowid};
       $.delete(url, data, function(res) {

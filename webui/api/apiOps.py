@@ -78,6 +78,6 @@ class apiOps(object):
       return 0, rowid
 
    def overview(self):
-      _sysOverview: sysOverview = sysOverview(self.red)
+      _sysOverview: sysOverview = sysOverview(dbops=self.dbops, red=self.red)
       _sysOverview.load()
       return _sysOverview.to_json_str()

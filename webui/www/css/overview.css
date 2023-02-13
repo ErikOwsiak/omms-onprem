@@ -197,13 +197,18 @@ div.read-stat:hover {
 
 div.lst-item {
    width: 98%;
-   height: 3.2vh;
-   line-height: 3.2vh;
+   /*height: 3.2vh;
+   line-height: 3.2vh;*/
    margin: 8px auto;
+   padding: 8px 0;
    font-size: 1.8vh;
-   text-indent: 1vh;
+   /*text-indent: 1vh;*/
    border: 1px solid #15207e;
    border-radius: 4px;
+}
+
+div.lst-item > div {
+   margin-left: 1vh;
 }
 
 div.lst-item:nth-child(even) {

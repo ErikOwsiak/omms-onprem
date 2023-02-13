@@ -1,6 +1,7 @@
 
 import json, redis
 import dateutil.parser, datetime
+from psql.dbOps import dbOps
 from core.logProxy import logProxy
 from ommslib.shared.core.datatypes import redisDBIdx, readStatus
 from ommslib.shared.utils.sunclock import sunClock
@@ -9,7 +10,10 @@ from ommslib.shared.utils.locationTxtInfo import locationTxtInfo
 
 class sysOverview(object):
 
-   def __init__(self, red: redis.Redis):
+   def __init__(self, dbops: dbOps
+         , red: redis.Redis):
+      # -- -- -- --
+      self.dbops: dbOps = dbops
       self.red: redis.Redis = red
       self.data: {} = None
 
@@ -69,15 +73,24 @@ class sysOverview(object):
          except Exception as e:
             logProxy.log_exp(e)
       # -- -- -- --
-      def _read_status(key, spath, hmap: {}):
+      def _read_status(keys: [], spath, hmap: {}):
          try:
-            spath: str = spath.decode("utf-8")
-            read_stat: str = hmap[key].decode("utf-8")
-            _, _, stat = [s.strip() for s in read_stat.split("|")]
             # -- -- -- --
-            if stat == readStatus.READ_FAILED:
-               key = key.decode("utf-8")
-               bad_reads.append(f"{spath} | {key}")
+            keys_out = []
+            spath: str = spath.decode("utf-8")
+            for key in keys:
+               read_stat: str = hmap[key].decode("utf-8")
+               _, _, stat = [s.strip() for s in read_stat.split("|")]
+               # -- -- -- --
+               if stat == readStatus.READ_OK:
+                  continue
+               keys_out.append(key.decode("utf-8"))
+            # -- -- -- --
+            if len(keys_out) > 0:
+               ltag, ctag = self.dbops.get_syspath_info(spath)
+               ltag, ctag = ["n/s" if s is None else s for s in (ltag, ctag)]
+               m: str = f"{spath} <br/> " + " | ".join(keys_out) + "<br/>" + " | ".join([ltag, ctag])
+               bad_reads.append(m)
          except Exception as e:
             logProxy.log_exp(e)
       # -- -- -- --
@@ -85,8 +98,7 @@ class sysOverview(object):
          hash_map = d[syspath]
          if hash_map:
             _timing_read(syspath, hash_map)
-            _read_status(kwhReadKey, syspath, hash_map)
-            _read_status(pwrReadKey, syspath, hash_map)
+            _read_status([kwhReadKey, pwrReadKey], syspath, hash_map)
          else:
             missing.append(syspath.decode("utf-8"))
       # -- -- -- --

@@ -381,6 +381,22 @@ class dbOps(object):
       finally:
          cur.close()
 
+   def get_syspath_info(self, syspath: str) -> ():
+      qry = f"""select t.elec_room_locl_tag
+         , t.cir_tag 
+      from core.elec_meter_circuits t 
+      where t.met_syspath = '{syspath}' limit 1;"""
+      cur: cursor = self.conn.cursor()
+      try:
+         cur.execute(qry)
+         row = cur.fetchone()
+         return row
+      except Exception as e:
+         logProxy.log_exp(e)
+         return None
+      finally:
+         cur.close()
+
    def get_report_data(self, rowid: int) -> []:
       cur: cursor = self.conn.cursor()
       try:

@@ -52,7 +52,8 @@ class SystemOverview {
             let btn_id = this.id, arr = SystemOverview.__this__.jsobj[btn_id];
             if (Array.isArray(arr)) {
                arr.forEach((i) => {
-                     $("#rightCol").append(`<div class="lst-item">${i}</div>`);
+                     let _buff = `<div class="lst-item"><div>${i}</div></div>`;
+                     $("#rightCol").append(_buff);
                   });
                /* -- */
             }
