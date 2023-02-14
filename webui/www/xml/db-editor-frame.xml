@@ -1,6 +1,6 @@
 <div id="databaseEditorFrame" class="db-editor-frame">
    <div id="dbEditorFrmHeader" class="dbEditor-frm-header">
-      <span>database editor</span>
+      <span>config editor</span>
    </div>
    <div class="db-editor-frm-body">
       <div id="dbEditorFrmLfCol" class="db-editor-frm-lf-col">
