@@ -171,10 +171,12 @@ class xlsOut(object):
          calcs_rows: [] = [s.strip() for s in buff.split("&&")]
          for c in calcs_rows:
             try:
+               row_idx += 1
                fst, lst, _kwh = [s.strip() for s in c.strip().split("|")]
                cir, kwh, dts = [s.strip() for s in lst.strip().split(";")]
                msg: str = f"        {cir} | {_kwh} kwh  | {kwh} kwh @ {dts} UTC"
-               row_idx += 1
+               col0_w = col0_w if col0_w > len(msg) else (len(msg) + 8)
+               wsh.set_column(0, 0, col0_w)
                wsh.write(row_idx, 0, msg)
             except Exception as e:
                logProxy.log_exp(e)
