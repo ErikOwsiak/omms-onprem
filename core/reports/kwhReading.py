@@ -30,17 +30,20 @@ class kwhReading(object):
       self.is_full_span: bool = False
       self.msg: str = ""
 
-   def is_fst_of_month(self):
+   def is_lst_of_prev_month(self) -> bool:
+      return True
+
+   def is_fst_of_month(self) -> bool:
       return self.dts_utc.day == 1
 
-   def is_lst_of_month(self):
+   def is_lst_of_month(self) -> bool:
       _, days = cal.monthrange(self.dts_utc.year, self.dts_utc.month)
       return self.dts_utc.day == days
 
    def days_to_fst_of_month(self) -> int:
       return self.dts_utc.day
 
-   def days_to_lst_month(self) -> int:
+   def days_to_lst_of_month(self) -> int:
       y, m = self.dts_utc.year, self.dts_utc.month
       _, days = cal.monthrange(y, m)
       return days - self.dts_utc.day

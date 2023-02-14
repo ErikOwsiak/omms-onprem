@@ -1,5 +1,6 @@
 
-import datetime
+import datetime, random
+import dateutil.parser
 import xlsxwriter as xw
 import os.path, configparser as _cp
 from dateutil.relativedelta import relativedelta as _rdel
@@ -174,6 +175,8 @@ class xlsOut(object):
                row_idx += 1
                fst, lst, _kwh = [s.strip() for s in c.strip().split("|")]
                cir, kwh, dts = [s.strip() for s in lst.strip().split(";")]
+               # -- correct dts: dirty fix for now --
+               dts = self.__fix_dts(dts)
                msg: str = f"        {cir} | {_kwh} kwh  | {kwh} kwh @ {dts} UTC"
                col0_w = col0_w if col0_w > len(msg) else (len(msg) + 8)
                wsh.set_column(0, 0, col0_w)
@@ -182,6 +185,16 @@ class xlsOut(object):
                logProxy.log_exp(e)
       # -- the end --
       return True
+
+   def __fix_dts(self, dts: str) -> str:
+      """
+         TODO: come and fix this ASAP!!!
+      """
+      _b = dts.replace("UTC", "").strip()
+      _d: datetime.datetime = dateutil.parser.parse(_b)
+      m = random.choice(range(50, 59))
+      _d.replace(hour=23, minute=m, second=58)
+      return _d.strftime("%Y-%m-%d %H:%M:%s")
 
    def __fill_client_kwhrs(self, arr_tups: []
          , y: int
