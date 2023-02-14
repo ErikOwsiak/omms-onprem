@@ -193,7 +193,7 @@ class xlsOut(object):
       _b = dts.replace("UTC", "").strip()
       _d: datetime.datetime = dateutil.parser.parse(_b)
       m = random.choice(range(50, 59))
-      _d.replace(hour=23, minute=m, second=58)
+      _d = _d.replace(hour=23, minute=m, second=58, microsecond=0)
       return _d.strftime("%Y-%m-%d %H:%M:%s")
 
    def __fill_client_kwhrs(self, arr_tups: []
