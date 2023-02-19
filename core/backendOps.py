@@ -7,6 +7,7 @@ from lib.utils import utils
 from psql.dbOps import dbOps
 from psql.dbConnServer import dbConnServer
 from core.redSubChannel import redSubChannel
+from core.backendTasks import backendTasks
 from redchannels.backendReportRedSub import backendReportRedSub
 from redchannels.systemErrorsRedSub import systemErrorsRedSub
 
@@ -14,6 +15,7 @@ from redchannels.systemErrorsRedSub import systemErrorsRedSub
 class backendOps(object):
 
    PROC_NAME = "omms-backend"
+   MAIN_LOOP_DELAY: int = 4
 
    def __init__(self, INI: _cp.ConfigParser
          , red: redis.Redis
@@ -72,7 +74,14 @@ class backendOps(object):
 
    def __main_loop_tick(self) -> int:
       try:
-         time.sleep(2.0)
+         time.sleep(backendOps.MAIN_LOOP_DELAY)
+         tasks: backendTasks = backendTasks(self.ini
+            , self.red, self.dbops, self.conn_str)
+         rval = tasks.check_late_reads()
+         if rval != 0:
+            pass
+         else:
+            pass
          return 0
       except Exception as e:
          print(e)
