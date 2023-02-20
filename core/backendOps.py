@@ -15,7 +15,7 @@ from redchannels.systemErrorsRedSub import systemErrorsRedSub
 class backendOps(object):
 
    PROC_NAME = "omms-backend"
-   MAIN_LOOP_DELAY: int = 4
+   MAIN_LOOP_DELAY: int = 30
 
    def __init__(self, INI: _cp.ConfigParser
          , red: redis.Redis

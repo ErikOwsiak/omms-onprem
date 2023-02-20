@@ -33,7 +33,7 @@ class backendTasks(object):
          late6h = data["late_6h"]
          # bad_reads = data["bad_reads"]
          # -- -- -- --
-         if len(late3h) > 0 or len(late6h) > 0 and self._is_time_to_send_alert():
+         if (len(late3h) > 0 or len(late6h) > 0) and self._is_time_to_send_alert():
             if self._send_alert(data):
                self.red.select(redisDBIdx.DB_IDX_RUNTIME.value)
                self.red.set(backendTasks.RED_ALERT_KEY, utils.dts_utc())
