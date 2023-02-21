@@ -3,7 +3,7 @@ import threading, time
 import redis, configparser as _cp
 from psycopg2.extensions import connection as _psql_conn
 # -- --
-from lib.utils import utils
+# from lib.utils import utils
 from psql.dbOps import dbOps
 from psql.dbConnServer import dbConnServer
 from core.redSubChannel import redSubChannel
@@ -15,7 +15,7 @@ from redchannels.systemErrorsRedSub import systemErrorsRedSub
 class backendOps(object):
 
    PROC_NAME = "omms-backend"
-   MAIN_LOOP_DELAY: int = 30
+   MAIN_LOOP_DELAY: int = 4
 
    def __init__(self, INI: _cp.ConfigParser
          , red: redis.Redis
@@ -66,17 +66,20 @@ class backendOps(object):
 
    def __main_thread(self):
       self.__redis_subscribe()
+      tasks: backendTasks = backendTasks(self.ini
+         , self.red, self.dbops, self.conn_str)
+      tasks.init()
+      # -- -- -- --
       while True:
-         if self.__main_loop_tick() != 0:
+         if self.__main_loop_tick(tasks) != 0:
             time.sleep(4.0)
          else:
             continue
+      # -- -- -- --
 
-   def __main_loop_tick(self) -> int:
+   def __main_loop_tick(self, tasks: backendTasks) -> int:
       try:
          time.sleep(backendOps.MAIN_LOOP_DELAY)
-         tasks: backendTasks = backendTasks(self.ini
-            , self.red, self.dbops, self.conn_str)
          rval = tasks.check_late_reads()
          if rval != 0:
             pass

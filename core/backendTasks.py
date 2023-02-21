@@ -1,17 +1,19 @@
 
+import calendar as _cal
 import logging, datetime, dateutil
 import redis, configparser as _cp, smtplib
 from email.message import EmailMessage
 from dateutil.parser import parser
-from ommslib.shared.core.datatypes \
-   import redisDBIdx, readStatus
+from ommslib.shared.core.datatypes import redisDBIdx, readStatus
 from psql.dbOps import dbOps
 from core.utils import sysUtils as utils
 
 
 class backendTasks(object):
 
-   RED_ALERT_KEY = "ALERT_LAST_SENT_DTS"
+   RED_ALERT_KEY: str = "ALERT_LAST_SENT_DTS"
+   ALERT_TASK_DATA: str = "ALERT_TASK_DATA"
+   INI_ALERT_SEND_ON: str = "ALERT_SEND_ON"
 
    def __init__(self, INI: _cp.ConfigParser
          , red: redis.Redis
@@ -26,19 +28,31 @@ class backendTasks(object):
    def __del__(self):
       pass
 
+   def init(self):
+      if self.red is not None:
+         self.red.select(redisDBIdx.DB_IDX_RUNTIME.value)
+         self.red.delete(backendTasks.ALERT_TASK_DATA)
+
    def check_late_reads(self) -> int:
       try:
          data: {} = self._load_meters_info()
          late3h = data["late_3h"]
          late6h = data["late_6h"]
-         # bad_reads = data["bad_reads"]
          # -- -- -- --
-         if (len(late3h) > 0 or len(late6h) > 0) and self._is_time_to_send_alert():
+         has_lates: bool = (len(late3h) > 0 or len(late6h) > 0)
+         time_slot = self._get_timeslot_to_send_alert()
+         if has_lates and time_slot is not None:
             if self._send_alert(data):
                self.red.select(redisDBIdx.DB_IDX_RUNTIME.value)
-               self.red.set(backendTasks.RED_ALERT_KEY, utils.dts_utc())
+               d: {} = {time_slot.upper(): utils.dts_utc()}
+               self.red.hset(backendTasks.ALERT_TASK_DATA, mapping=d)
          else:
-            pass
+            self.red.select(redisDBIdx.DB_IDX_RUNTIME.value)
+            ini_key_val = self.ini.get("BACKEND", backendTasks.INI_ALERT_SEND_ON)
+            d: {} = {"LAST_RUN": utils.dts_utc(with_tz=True)
+               , "IS_TIME_TO_RUN": "NO"
+               , "INI_ALERT_SEND_ON": ini_key_val}
+            self.red.hset(backendTasks.ALERT_TASK_DATA, mapping=d)
          # -- -- -- --
          return 0
       except Exception as e:
@@ -88,9 +102,11 @@ class backendTasks(object):
             keys_out = []
             spath: str = spath.decode("utf-8")
             for key in keys:
+               if key not in hmap:
+                  print(f"\tKeyNotFound: {key} in hmap")
+                  continue
                read_stat: str = hmap[key].decode("utf-8")
                _, _, stat = [s.strip() for s in read_stat.split("|")]
-               # -- -- -- --
                if stat == readStatus.READ_OK:
                   continue
                keys_out.append(key.decode("utf-8"))
@@ -116,17 +132,39 @@ class backendTasks(object):
       # -- -- -- --
       return dout
 
-   def _is_time_to_send_alert(self):
-      self.red.select(redisDBIdx.DB_IDX_RUNTIME.value)
-      val = self.red.get(backendTasks.RED_ALERT_KEY)
-      if val is None:
+   def _get_timeslot_to_send_alert(self) -> [None, str]:
+      # -- -- -- --
+      def _is_good_slot(ts: str, td: {}) -> bool:
+         slot_dow, slot_time = ts.split(":")
+         dt_now: datetime.datetime = datetime.datetime.utcnow()
+         if slot_dow.upper() == dt_now.strftime("%A").upper():
+            dict_key: bytes = ts.upper().encode()
+            if dict_key in td.keys():
+               v: str = td[dict_key]
+               _d = dateutil.parser.parse(v)
+               return not self._was_run_today(dt_now, _d)
+            else:
+               h, m = slot_time[:2], slot_time[2:]
+               stime: datetime.time = datetime.time(hour=int(h), minute=int(m))
+               return dt_now.time() > stime
+         else:
+            return False
+      # -- -- -- --
+      alert_send_on = self.ini.get("BACKEND", backendTasks.INI_ALERT_SEND_ON)
+      if alert_send_on is None:
          return True
       # -- -- -- --
-      utc = utils.dts_utc()
-      now: datetime.datetime = dateutil.parser.parse(utc)
-      dts = dateutil.parser.parse(val.decode("utf-8"))
-      diff = now - dts
-      return diff.seconds > 3600
+      self.red.select(redisDBIdx.DB_IDX_RUNTIME.value)
+      task_data = self.red.hgetall(backendTasks.ALERT_TASK_DATA)
+      if task_data is None:
+         task_data: {} = {}
+      # -- -- -- --
+      time_slots = [s.strip() for s in alert_send_on.split(",")]
+      for time_slot in time_slots:
+         if _is_good_slot(time_slot, task_data):
+            return time_slot
+      # -- -- -- --
+      return None
 
    def _send_alert(self, data: {}) -> bool:
       to_emails: str = self.ini.get("BACKEND", "ALERT_EMAILS")
@@ -134,7 +172,7 @@ class backendTasks(object):
       emsg["Subject"] = "OMMS Alert"
       emsg["From"] = "system@iotech.systems"
       emsg["To"] = to_emails
-      emsg["Cc"] = "system.out@iotech.systems"
+      emsg["Cc"] = "omms.bot@iotech.systems"
       msg = self._create_msg_body(data)
       emsg.set_content(msg)
       try:
@@ -158,3 +196,12 @@ class backendTasks(object):
          buff.extend(arr)
       # -- -- -- --
       return "\n".join(buff)
+
+   def _was_run_today(self, d0: datetime.datetime, d1: datetime.datetime):
+      bool_date: bool = (d0.year == d1.year) and \
+         (d0.month == d1.month) and (d0.day == d1.day)
+      if bool_date is False:
+         return False
+      # -- -- -- --
+      bool_time: bool = d0.time() >= d1.time()
+      return bool_date and bool_time
