@@ -12,7 +12,7 @@ except Exception as e:
    print(e)
    os.chdir("../")
    from core.debug import debug
-
+   os.chdir("gpio")
 
 # -- load ini file --
 GPIO_INI_FILE = "gpio.ini"
