@@ -3,9 +3,13 @@
 import json, os.path
 import configparser as _cp, redis, setproctitle
 from flask import Flask, render_template, request as req, make_response
-from core.debug import debug
-# from psql.dbConnServer import dbConnServer
-# from core.logProxy import logProxy
+try:
+   from core.debug import debug
+   # from psql.dbConnServer import dbConnServer
+   # from core.logProxy import logProxy
+except Exception as e:
+   print(os.getcwd())
+   print(e)
 
 
 # -- load ini file --
