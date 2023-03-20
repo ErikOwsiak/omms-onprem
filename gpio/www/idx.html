@@ -6,17 +6,54 @@
    <title>GPIO - Index</title>
 </head>
 <body>
-   <h1>Building GPIO</h1>
-   <div class="">
-      <div class="gpio-channel">
-         <>CH1
+   <div class="relay-col">
+      <h1>Building GPIO</h1>
+      <!-- roof realys -->   
+      <div id="gpioRoof" class="relay-box waveshare3chHat" bus="onboard">
+         <div class="head">
+            <p>Roof Relays</p>
+         </div>
+         <div class="gpio-channel">
+            <div>CH1</div>
+         </div>
+         <div class="gpio-channel">CH2</div>
+         <div class="gpio-channel">CH3</div>
       </div>
-      <div class="gpio-channel">CH2</div>
-      <div class="gpio-channel">CH2</div>
-      <div class="gpio-channel">CH4</div>
-   </div>
-   <div>
-
+      <!-- p16 0 relays -->
+      <div id="gpioP16_0" class="relay-box lctech4chModbus" bus="modbus">
+         <div class="head">
+            <h3>P16_0 Relays</h3>
+         </div>
+         <div class="gpio-channel">
+            <div>CH1</div>
+         </div>
+         <div class="gpio-channel">CH2</div>
+         <div class="gpio-channel">CH3</div>
+         <div class="gpio-channel">CH4</div>
+      </div>
+      <!-- p16 1 relays -->
+      <div id="gpioP16_1" class="relay-box lctech4chModbus" bus="modbus">
+         <div class="head">
+            <h3>P16_1 Relays</h3>
+         </div>
+         <div class="gpio">
+            <div class="gpio-channel">
+               <div>CH1</div>
+            </div>
+            <div class="gpio-channel">CH2</div>
+            <div class="gpio-channel">CH3</div>
+            <div class="gpio-channel">CH4</div>
+         </div>
+      </div>
+      <!-- p7 0 relays -->
+      <div id="gpioP7_0" class="relay-box lctech4chModbus" bus="modbus">
+         <div class="gpio-channel">
+            <div>CH1</div>
+         </div>
+         <div class="gpio-channel">CH2</div>
+         <div class="gpio-channel">CH3</div>
+         <div class="gpio-channel">CH4</div>
+      </div>
    </div>
 </body>
 </html>

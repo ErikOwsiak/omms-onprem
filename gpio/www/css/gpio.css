@@ -1,6 +1,21 @@
 
+div.relay-col {
+   width: 42vw;
+   margin: 4vh auto;
+}
+
+div.relay-box {
+
+}
+
 div.gpio-channel {
-   width: 8vw;
-   height: 8vw;
+   width: 16vw;
+   height: 4vw;
+   margin: 1vh 0;
    border: 1px solid gray;
+   border-radius: 1vh;
+}
+
+div.gpio-channel:hover {
+   cursor: pointer;
 }
