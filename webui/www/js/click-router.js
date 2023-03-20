@@ -23,7 +23,10 @@ _omms.clickRouter = {
             $(_omms.app.lastClickedMeter).click();
          });
    },
-
+   
+   /*
+      top menu clicks 
+   */
    click() {
       try {
          let clickName = `${this.id}Click`;
