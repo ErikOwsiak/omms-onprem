@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
-import json, time
+import json, os.path
 import configparser as _cp, redis, setproctitle
-import os.path
-
 from flask import Flask, render_template, request as req, make_response
 from core.debug import debug
 # from psql.dbConnServer import dbConnServer
@@ -72,9 +70,10 @@ def state_info():
       print(e)
 
 
-# == == == == == == == == == == == == == == == == == == == == == == == == == ==
+# == == == == == == == == == == == == == == == == == == == == == ==
 # -- -- [ start app here ] -- --
 if __name__ == "__main__":
+   print(os.getcwd())
    setproctitle.setproctitle(APP_NAME)
    app.run(host="0.0.0.0", port=HTTP_PORT)
-# == == == == == == == == == == == == == == == == == == == == == == == == == ==
+# == == == == == == == == == == == == == == == == == == == == == ==
