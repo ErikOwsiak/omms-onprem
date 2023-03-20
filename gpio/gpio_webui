@@ -10,7 +10,8 @@ try:
 except Exception as e:
    print(os.getcwd())
    print(e)
-   exit(1)
+   os.chdir("../")
+   from core.debug import debug
 
 
 # -- load ini file --
