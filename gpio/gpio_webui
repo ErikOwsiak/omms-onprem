@@ -11,6 +11,7 @@ except Exception as e:
    print(os.getcwd())
    print(e)
    os.chdir("../")
+   print(os.getcwd())
    from core.debug import debug
    os.chdir("gpio")
 
