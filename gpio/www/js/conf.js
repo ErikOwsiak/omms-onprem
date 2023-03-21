@@ -2,6 +2,7 @@
 class gpioConf {
 
    static urlpfx = "/omms/gpio";
+   static ctJSON = "application/json";
 
    constructor() {
       this.btnOn = null;
@@ -10,7 +11,6 @@ class gpioConf {
       this.doc = document;
       this.doc.byID = this.doc.getElementById;
       this.elmByID = this.doc.getElementById;
-      this.ctJSON = "application/json";
    }
 
    init() {
@@ -34,7 +34,7 @@ class gpioConf {
       /* -- */
       let data = {devid, chnl, state};
       fetch(url, {method: "POST"
-            , headers: {"Content-Type": this.ctJSON}
+            , headers: {"Content-Type": gpioConf.ctJSON}
             , body: JSON.stringify(data)
          }).then((rsp) => rsp.text()).then((d) => console.log(d));
    }
