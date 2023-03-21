@@ -23,32 +23,32 @@ _omms.app = {
          }, 640);
    },
 
-   setAcl() {
-      /* omms_acl=15 */
-      let rx = /omms_acl=([0-9]{1,2})/gm;
-      let m = rx.exec(document.cookie)
-      if (!m)
-         return;
-      /* -- */
-      if (m.length == 2) {
-         _omms.app.ommsAcl = parseInt(m[1]);
-      } else {
-         _omms.app.ommsAcl = 1;
-      }
-      /* -- */
-   },
+   // setAcl() {
+   //    /* omms_acl=15 */
+   //    let rx = /omms_acl=([0-9]{1,2})/gm;
+   //    let m = rx.exec(document.cookie)
+   //    if (!m)
+   //       return;
+   //    /* -- */
+   //    if (m.length == 2) {
+   //       _omms.app.ommsAcl = parseInt(m[1]);
+   //    } else {
+   //       _omms.app.ommsAcl = 1;
+   //    }
+   //    /* -- */
+   // },
 
-   applyAcl() {
-      $("appbtn").each((_, appbtn) => {
-            let acl = $(appbtn).attr("acl");
-            if (_omms.app.ommsAcl < acl) {
-               $(appbtn).removeClass("hover");
-               $(appbtn).css("opacity", "0.28");
-               $(appbtn).attr("title", "disabled for your ACL");
-               $(appbtn).off();
-            }
-         });
-   },
+   // applyAcl() {
+   //    $("appbtn").each((_, appbtn) => {
+   //          let acl = $(appbtn).attr("acl");
+   //          if (_omms.app.ommsAcl < acl) {
+   //             $(appbtn).removeClass("hover");
+   //             $(appbtn).css("opacity", "0.28");
+   //             $(appbtn).attr("title", "disabled for your ACL");
+   //             $(appbtn).off();
+   //          }
+   //       });
+   // },
 
    /* - - */
    processMeters(jobj) {
