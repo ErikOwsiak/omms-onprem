@@ -16,7 +16,7 @@ class SystemOverview {
          return;
       }
       /* -- else -- */
-      let url = "/api/get/overview";
+      let url = "omms/ui/api/get/overview";
       $.get(url, SystemOverview.__this__.tack);
    }
 
