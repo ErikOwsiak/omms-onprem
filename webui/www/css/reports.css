@@ -233,14 +233,14 @@ div.gd_xl > div:nth-child(1) {
    background-position: center;
    background-size: 68%;
    background-repeat: no-repeat;
-   background-image: url(/xicons/xls-file_64px.png);
+   background-image: url(/omms/xicons/xls-file_64px.png);
 }
 
 div.no_xl > div:nth-child(1) {
    background-position: center;
    background-size: 68%;
    background-repeat: no-repeat;
-   background-image: url(/xicons/no_file_64px.png);
+   background-image: url(/omms/xicons/no_file_64px.png);
 }
 
 div.no_xl > div:nth-child(2), div.gd_xl > div:nth-child(2) {
