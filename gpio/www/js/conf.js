@@ -5,13 +5,21 @@ class gpioConf {
       this.btnOn = null;
       this.btnOff = null;
       this.btnSave = null;
+      this.doc = document;
+      this.doc.byID = this.doc.getElementById;
+      this.elmByID = this.doc.getElementById;
    }
 
    init() {
-      this.btnOn = document.getElementById("btnOverrideON");
+      /* force on button */
+      // this.btnOn = document.getElementById("btnOverrideON");
+      this.btnOn = this.doc.byID("btnOverrideON");
       this.btnOn.addEventListener("click", this.forceOn);
-      this.btnOff = document.getElementById("btnOverrideOFF");
+      /* force off button */
+      // this.btnOff = document.getElementById("btnOverrideOFF");
+      this.btnOff = this.elmByID("btnOverrideOFF");
       this.btnOff.addEventListener("click", this.forceOff);
+      /* save config info */
       this.btnSave = document.getElementById("btnSave");
       this.btnSave.addEventListener("click", this.saveConf);
    }
