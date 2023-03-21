@@ -185,6 +185,10 @@ def state_info():
    except Exception as e:
       print(e)
 
+@app.route("/logout")
+def _exit():
+   return "EXIT_OK"
+
 
 # == == == == == == == == == == == == == == == == == == == == == == == == == ==
 # -- -- [ start app here ] -- --
