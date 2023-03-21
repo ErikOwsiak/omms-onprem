@@ -38,10 +38,10 @@ class restAPI {
       this.getTableUrl = "/api/get/table";
       this.getLisReportstUrl = "ui/api/get/list-reports";
       // /api/get/meters
-      this.getClientMetersUrl = "/api/get/meters";
-      this.getClientCircuitHistoryUrl = "/api/get/clt-cir-history";
-      this.getCltCircuitsUrlv1 = "/api/get/client_circuits";
-      this.getClinetKWhrsUrl = "/api/get/client_kwhrs";
+      this.getClientMetersUrl = "/omms/ui/api/get/meters";
+      this.getClientCircuitHistoryUrl = "/omms/ui/api/get/clt-cir-history";
+      this.getCltCircuitsUrlv1 = "/omms/ui/api/get/client_circuits";
+      this.getClinetKWhrsUrl = "/omms/ui/api/get/client_kwhrs";
    }
 
    getOrg(callback = undefined) {
