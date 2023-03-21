@@ -24,7 +24,7 @@ class restAPI {
       this.delConfigUrl = "/api/del/config";
       this.getDataUrl = "/api/get/config";
       /* reports urls */
-      this.getClientsUrl = "/api/get/clients";
+      this.getClientsUrl = "/omms/ui/api/get/clients";
       this.getCircuitsUrl = "/api/get/circuits";
       this.getReportUrl = "/api/get/report";
       this.getHistogramUrl = "/api/get/histogram";
