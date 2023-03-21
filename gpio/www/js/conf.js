@@ -10,6 +10,7 @@ class gpioConf {
       this.doc = document;
       this.doc.byID = this.doc.getElementById;
       this.elmByID = this.doc.getElementById;
+      this.ctJSON = "application/json";
    }
 
    init() {
@@ -29,8 +30,13 @@ class gpioConf {
       const devid = "devid";
       const chnl = "chnl";
       const state = "on";
-      const url = `${gpioConf.urlpfx}/force/${devid}/${chnl}/${state}`;
-      fetch(url).then((rsp) => rsp.text()).then((d) => console.log(d));
+      const url = `${gpioConf.urlpfx}/force`;
+      /* -- */
+      let data = {devid, chnl, state};
+      fetch(url, {method: "POST"
+            , headers: {"Content-Type": this.ctJSON}
+            , body: JSON.stringify(data)
+         }).then((rsp) => rsp.text()).then((d) => console.log(d));
    }
 
    forceOff() {
