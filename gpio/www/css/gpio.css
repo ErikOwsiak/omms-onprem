@@ -23,7 +23,7 @@ div.gpio-channel:not(.disable):hover {
 div.channel-conf {
    display: none;
    height: auto;
-   width: 66vh;
+   width: 44vw;
    border: 2px solid darkblue;
    border-radius: 1vh;
    background-color: rgba(211, 211, 211, 0.2);
