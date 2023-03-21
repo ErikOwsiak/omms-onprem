@@ -75,9 +75,11 @@ def api_save(arg0, arg1):
    return f"{arg0} : {arg1}"
 
 
-@app.route("/force/<devid>/<chnl>/<state>")
-def force(devid, chnl, state):
-   return f"{devid} : {chnl} : {state}"
+@app.route("/force")
+def force():
+   jsobj = req.json
+   print(jsobj)
+   return f"OK"
 
 
 @app.route("/get/<arg0>/<arg1>", methods=["GET"])
