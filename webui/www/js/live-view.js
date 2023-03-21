@@ -75,7 +75,7 @@ _omms.liveView = {
 
    getRedisData() {
       let update_utcnow = (jsobj) => {
-            $.get("/api/get/utcnow_time", function(resp) {
+            $.get("/omms/ui/api/get/utcnow_time", function(resp) {
                   _omms.liveView.server_utcnow = resp.utcnow_time;
                   _this.processKWhrs(jsobj);
                });
@@ -88,7 +88,7 @@ _omms.liveView = {
       /* -- */    
       let _this = this, 
          sp = out.join("|"), 
-         url = `/api/get/redis_data?dbidx=2&keys=[${sp}]`; 
+         url = `/omms/ui/api/get/redis_data?dbidx=2&keys=[${sp}]`; 
       $.get(url, function(jsobj) {
             update_utcnow(jsobj);     
          });
