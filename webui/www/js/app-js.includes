@@ -1,31 +1,31 @@
 <!-- reports classes -->
-<script src="js/app_namespace_init.js"></script>
-<script src="js/reports/histogram.js"></script>
-<script src="js/reports/kwhrs-report.js"></script>
-<script src="js/db-table.js"></script>
+<script src="ui/js/app_namespace_init.js"></script>
+<script src="ui/js/reports/histogram.js"></script>
+<script src="ui/js/reports/kwhrs-report.js"></script>
+<script src="ui/js/db-table.js"></script>
 <!-- system -->
-<script src="js/chart.js"></script>
-<script src="js/system.js"></script>
-<script src="js/data-ops.js"></script>
-<script src="js/navs/submenu.js"></script>
-<script src="js/strings.js"></script>
-<script src="js/org-navigator.js"></script>
-<script src="js/meter-tree.js"></script>
-<script src="js/sys-overview.js"></script>
-<script src="js/realtime-monitor.js"></script>
-<script src="js/ogpio/open-gpio.js"></script>
+<script src="ui/js/chart.js"></script>
+<script src="ui/js/system.js"></script>
+<script src="ui/js/data-ops.js"></script>
+<script src="ui/js/navs/submenu.js"></script>
+<script src="ui/js/strings.js"></script>
+<script src="ui/js/org-navigator.js"></script>
+<script src="ui/js/meter-tree.js"></script>
+<script src="ui/js/sys-overview.js"></script>
+<script src="ui/js/realtime-monitor.js"></script>
+<script src="ui/js/ogpio/open-gpio.js"></script>
 <!-- html gens -->
-<script src="js/elmtgens/db-table-html.js"></script>
-<script src="js/elmtgens/html.js"></script>
-<script src="js/jquery.js"></script>
-<script src="js/live-view.js"></script>
-<script src="js/gui.js"></script>
-<script src="js/rest-api.js"></script>
-<script src="js/app-clicks.js"></script>
+<script src="ui/js/elmtgens/db-table-html.js"></script>
+<script src="ui/js/elmtgens/html.js"></script>
+<script src="ui/js/jquery.js"></script>
+<script src="ui/js/live-view.js"></script>
+<script src="ui/js/gui.js"></script>
+<script src="ui/js/rest-api.js"></script>
+<script src="ui/js/app-clicks.js"></script>
 <script src="ui/js/click-router.js"></script>
 <script src="ui/js/xmlsecinits.js"></script>
-<script src="js/dbedithtml.js"></script>
-<script src="js/dbeditlib.js"></script>
-<script src="js/dbedit.js"></script>
+<script src="ui/js/dbedithtml.js"></script>
+<script src="ui/js/dbeditlib.js"></script>
+<script src="ui/js/dbedit.js"></script>
 <!-- last to load -> first to execute -->
-<script src="js/app.js"></script>
+<script src="ui/js/app.js"></script>
