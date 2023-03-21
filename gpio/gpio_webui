@@ -75,7 +75,7 @@ def api_save(arg0, arg1):
    return f"{arg0} : {arg1}"
 
 
-@app.route("/force")
+@app.route("/force", methods=["POST"])
 def force():
    jsobj = req.json
    print(jsobj)
