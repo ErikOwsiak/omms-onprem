@@ -59,3 +59,8 @@ div.ln-btns input[type=button] {
    font-size: 2.2vh;
    margin-left: 1vw;
 }
+
+/* buttons */
+input[type=button]:hover {
+   cursor: pointer;
+}

@@ -5,6 +5,7 @@ const gpio = {
       /* -- */
       const sel = ".gpio-channel:not(.disable)";
       const coll = document.querySelectorAll(sel);
+      let conf = null;
       /* -- */
       for (let e of coll)
          e.addEventListener("click", gpio.onChannelClick);
@@ -40,6 +41,9 @@ const gpio = {
             div0.innerText = `${devid} : ${ch}`;
             console.log(div0.innerHTML);
          }, 100);
+      /* -- */
+      this.conf = new gpioConf();
+      this.conf.init();
       /* -- */
       const sel0 = document.getElementById("sunSelOn");
       sel0.addEventListener("change", gpio.onSunOnSelect);
