@@ -46,6 +46,11 @@ _omms.xmlsecs = {
       /* -- */
       $("#monthPicker").off();
       $("#btnRunRpt").off().on("click", _omms.app.startMonthyReport);
+      /* -- */
+      setTimeout(()=> {
+            $("#kWhrsReports").click();
+         }, 480);
+      /* -- */
    }
 
 };
