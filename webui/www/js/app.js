@@ -18,6 +18,9 @@ _omms.app = {
    init() {
       _omms.clickRouter.init();
       _omms.gui.loadDataBlockXml("systemOverview", "appViewport");
+      setTimeout(() => {
+            $("#ontime").click();
+         }, 640);
    },
 
    setAcl() {
