@@ -44,7 +44,7 @@ _omms.liveView = {
       dbid = dbid.replace("dbid:", "");
       tag = tag.replace("tag:", "");
       /* -- */
-      let url = `/api/get/client_circuits?clttag=${tag}`;
+      let url = `/omms/ui/api/get/client_circuits?clttag=${tag}`;
       $.get(url, function(jsarr) {
             console.log(["jsarr", jsarr]);
             if (jsarr.length == 0) {
