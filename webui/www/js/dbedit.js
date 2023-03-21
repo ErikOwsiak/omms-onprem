@@ -31,11 +31,11 @@ class dbEdit {
          this.onGetTableInfo(tblname);
       } else {
          let __dbedit = this,
-            url = `/dbedit/get/table/info?tbl=${tblname}`;
+            url = `ui/dbedit/get/table/info?tbl=${tblname}`;
          $.get(url, function (res) {
-            __dbedit.sessCache.tables[tblname] = res;
-            __dbedit.onGetTableInfo(tblname);
-         });
+               __dbedit.sessCache.tables[tblname] = res;
+               __dbedit.onGetTableInfo(tblname);
+            });
       }
    }
 
