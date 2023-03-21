@@ -43,12 +43,12 @@ appbtn.logout:hover, appbtn.home:hover  {
 
 appbtn.logout {
    margin-right: 1vw !important;
-   background-image: url(/xicons/logout128.png);
+   background-image: url(/omms/ui/xicons/logout128.png);
 }
 
 appbtn.home {
    margin-left: 2vw !important;
-   background-image: url(/xicons/home128.png);
+   background-image: url(/omms/ui/xicons/home128.png);
 }
 
 appbtn_clicked {
