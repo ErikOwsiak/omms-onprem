@@ -27,7 +27,7 @@ class appClicks {
       _omms.realtimeMonitor.stop();
       _omms.gui.clearViewport();
       /* - - */
-      $.get("/do/logout", (jobj) => {
+      $.get("/omms/ui/logout", (jobj) => {
             if (jobj.error == 0) {
                console.log(document.cookie);
                window.location.href = jobj.nxturl;
@@ -36,7 +36,7 @@ class appClicks {
    }
 
    homeClick() {
-      window.location.href = "/home";
+      window.location.href = "/omms/ui";
    }
 
    ogpioClick() {

@@ -18,9 +18,6 @@ _omms.app = {
    init() {
       _omms.clickRouter.init();
       _omms.gui.loadDataBlockXml("systemOverview", "appViewport");
-      // setTimeout(_omms.app.readOmmsUser, 200);
-      // _omms.app.setAcl();
-      // _omms.app.applyAcl();
    },
 
    setAcl() {
@@ -346,7 +343,7 @@ _omms.app = {
          return;
       }
       /* -- */
-      let url = "/api/post/monthly-report";
+      let url = "/omms/ui/api/post/monthly-report";
       $.post(url, {"year": y, "month": m}, function(jsobj) {
             let msg = "";
             if (jsobj.ERR == undefined) {
@@ -383,6 +380,7 @@ _omms.app = {
 };
 
 
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/* - - - - - - - - - - - - - - - - - - - - - - */
 /* attach page loaded event */
-window.addEventListener("DOMContentLoaded", _omms.app.init);
+window.addEventListener("DOMContentLoaded", 
+   _omms.app.init);
