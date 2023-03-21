@@ -1,0 +1,48 @@
+<div id="formIsland" style="display: none;">
+   <div id="_chConfForm" class="chnl-conf-box">
+      <div id="channelInfo" class="ln-ch-info">
+      </div>
+      <div class="ln-time">
+         Time ON:&nbsp;<input id="timeOn" type="time" min="00:01" max="23:59" step="15" />
+         &nbsp;&nbsp;
+         <select id="sunSelOn">
+            <option value="0" selected>use SUN</option>
+            <option value="sunrise">Sunrise</option>
+            <option value="sunset">Sunset</option>
+         </select>
+         &nbsp;&nbsp;
+         <select id="sunSelOnOffset">
+            <option value="-30">-45 minutes</option>
+            <option value="-30">-30 minutes</option>
+            <option value="0" selected>0 minutes</option>
+            <option value="+30">+30 minutes</option>
+            <option value="-30">-+45 minutes</option>
+         </select>
+      </div>
+      <div class="ln-time">
+         Time OFF:&nbsp;<input id="timeOff" type="time" step="15" />
+         &nbsp;&nbsp;
+         <select id="sunSelOff">
+            <option value="0" selected>use SUN</option>
+            <option value="sunrise">Sunrise</option>
+            <option value="sunset">Sunset</option>
+         </select>
+         &nbsp;&nbsp;
+         <select id="sunSelOffOffset">
+            <option value="-30">-45 minutes</option>
+            <option value="-30">-30 minutes</option>
+            <option value="0" selected>0 minutes</option>
+            <option value="+30">+30 minutes</option>
+            <option value="-30">-+45 minutes</option>
+         </select>
+      </div>
+      <div class="ln-time">
+         Channel Name:&nbsp;<input type="text" id="txtChnlName" />
+      </div>
+      <div class="ln-btns">
+         <input type="button" id="btnOverrideON" value="ForceON" />
+         <input type="button" id="btnOverrideOFF" value="ForceOFF" />
+         <input type="button" id="btnSave" value="Save" />
+      </div>
+   </div>
+</div>
