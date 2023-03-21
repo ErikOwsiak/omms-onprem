@@ -255,7 +255,7 @@ _omms.app = {
                   ln = arr.find(i => i.includes(patt));
                /* -- */
                if (ln) {
-                  let p = `/reports/${y}/${ln}`, d = `${y}_${mn}`,
+                  let p = `/omms/ui/reports/${y}/${ln}`, d = `${y}_${mn}`,
                      m = `<div title="${ln}" xls="${p}" class="gd_xl">` + 
                         `<div></div><div>${d}</div></div>`;
                   $(`#YR_${y}`).append(m);
