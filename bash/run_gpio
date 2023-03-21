@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo ""
+echo "   --- [ start gpio-ui ] ---"
+echo ""
+
+# -- -- kill if running -- --
+killall -s KILL gpio-ui
+
+
+
+echo "CWD_1: $(pwd)"
+cd ../gpio || exit 34
+echo "CWD_2: $(pwd)"
+chmod +x gpio_webui
+./gpio_webui >> /dev/null &
+
+echo ""
+echo "   --- [ end start ] ---"
+echo ""
