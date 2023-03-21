@@ -3,8 +3,11 @@ class gpioConf {
 
    static urlpfx = "/omms/gpio";
    static ctJSON = "application/json";
+   static forceUrl = `${gpioConf.urlpfx}/force`;
 
-   constructor() {
+   constructor(devid, chnl) {
+      this.devid = devid;
+      this.chnl = chnl;
       this.btnOn = null;
       this.btnOff = null;
       this.btnSave = null;
@@ -14,36 +17,33 @@ class gpioConf {
    }
 
    init() {
+      let t = this;
       /* force on button */
       this.btnOn = this.doc.byID("btnOverrideON");
-      this.btnOn.addEventListener("click", this.forceOn);
+      this.btnOn.addEventListener("click", function() {
+            this.forceOnOff(t.devid, t.chnl, "on");
+         });
       /* force off button */
       this.btnOff = this.doc.byID("btnOverrideOFF");
-      this.btnOff.addEventListener("click", this.forceOff);
+      this.btnOff.addEventListener("click", function() {
+            this.forceOnOff(t.devid, t.chnl, "off");
+         });
       /* save config info */
       this.btnSave = this.doc.byID("btnSave");
-      this.btnSave.addEventListener("click", this.saveConf);
+      this.btnSave.addEventListener("click", function() {
+            this.saveConf(t.devid, t.chnl);
+         }); 
    }
 
-   forceOn() {
-      console.log("fon");
-      const devid = "devid";
-      const chnl = "chnl";
-      const state = "on";
-      const url = `${gpioConf.urlpfx}/force`;
-      /* -- */
+   forceOnOff(devid, chnl, state) {
       let data = {devid, chnl, state};
-      fetch(url, {method: "POST"
+      fetch(gpioConf.forceUrl, {method: "POST"
             , headers: {"Content-Type": gpioConf.ctJSON}
             , body: JSON.stringify(data)
          }).then((rsp) => rsp.text()).then((d) => console.log(d));
    }
 
-   forceOff() {
-      console.log("off");
-   }
-
-   saveConf() {
+   saveConf(devid, chnl) {
       console.log("save");
    }
 

@@ -77,9 +77,12 @@ def api_save(arg0, arg1):
 
 @app.route("/force", methods=["POST"])
 def force():
-   jsobj = req.json
-   print(jsobj)
-   return f"OK"
+   try:
+      jsobj = req.json
+      print(jsobj)
+      return f"OK"
+   except Exception as e:
+      print(e)
 
 
 @app.route("/get/<arg0>/<arg1>", methods=["GET"])
