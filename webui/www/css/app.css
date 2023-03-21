@@ -10,7 +10,7 @@
    background-size: contain;
    background-repeat: no-repeat;
    background-position: left 1vw center;
-   background-image: url(/imgs/omms-logo-400.png);
+   background-image: url(ui/imgs/omms-logo-400.png);
 }
 
 /* top menu bar */
@@ -280,7 +280,7 @@ div.loading-spinner {
    width: 56vh;
    height: 56vh;
    margin-left: 16vh auto 0 auto;
-   background-image: url("/imgs/spinner.gif");
+   background-image: url("ui/imgs/spinner.gif");
    background-repeat: no-repeat;
    background-size: 56%;
    background-position: center;
