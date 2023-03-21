@@ -22,8 +22,8 @@
 <script src="js/gui.js"></script>
 <script src="js/rest-api.js"></script>
 <script src="js/app-clicks.js"></script>
-<script src="js/click-router.js"></script>
-<script src="js/xmlsecinits.js"></script>
+<script src="ui/js/click-router.js"></script>
+<script src="ui/js/xmlsecinits.js"></script>
 <script src="js/dbedithtml.js"></script>
 <script src="js/dbeditlib.js"></script>
 <script src="js/dbedit.js"></script>
