@@ -6,7 +6,7 @@
    <div id="orgNavBody" class="org-nav-body">
    </div>
    <div id="orgNavBodyBusy" class="org-nav-body-busy">
-      <img src="/imgs/loading.gif"/>
+      <img src="ui/imgs/loading.gif"/>
       <div>loading data for:</div>
    </div>
    __script
