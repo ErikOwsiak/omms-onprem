@@ -40,6 +40,7 @@ if not REDIS.ping():
    exit(2)
 
 
+# URL_PFIX = "/omms/gpio/"
 CTYPE_JSON = "text/json"
 CTYPE_TEXT = "text/plain"
 STATIC_DIR = "www"
@@ -72,6 +73,11 @@ def index():
 @app.route("/save/<arg0>/<arg1>", methods=["POST"])
 def api_save(arg0, arg1):
    return f"{arg0} : {arg1}"
+
+
+@app.route("/force/<devid>/<chnl>/<state>")
+def force(devid, chnl, state):
+   return f"{devid} : {chnl} : {state}"
 
 
 @app.route("/get/<arg0>/<arg1>", methods=["GET"])
