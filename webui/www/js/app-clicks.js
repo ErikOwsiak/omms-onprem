@@ -13,26 +13,30 @@ class appClicks {
    }
 
    systemReportsClick(__this) {
+      /* -- */
       _omms.realtimeMonitor.stop();
       _omms.gui.clearViewport();
-      /* - - */
+      /* -- */
       let text = __this.innerText,
          subMsg = _omms.__str__. sysRpts,
          subMenu = _omms.html.subMenuHead(text, subMsg);
       _omms.gui.subMenu.load(subMenu);
       _omms.gui.loadDataBlockXml("xmlReports", "subMenuCol");
+      /* -- */
    }
 
    logoutClick(__this) {
+      /* -- */
       _omms.realtimeMonitor.stop();
       _omms.gui.clearViewport();
-      /* - - */
+      /* -- */
       $.get("/omms/ui/logout", (jobj) => {
             if (jobj.error == 0) {
                console.log(document.cookie);
                window.location.href = jobj.nxturl;
             }
          });
+      /* -- */
    }
 
    homeClick() {
