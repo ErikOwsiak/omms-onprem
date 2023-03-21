@@ -36,7 +36,7 @@ class restAPI {
       this.delCltCircuitsUrl = "/api/del/clt-circuits";
       /* table quries */
       this.getTableUrl = "/api/get/table";
-      this.getLisReportstUrl = "/api/get/list-reports";
+      this.getLisReportstUrl = "ui/api/get/list-reports";
       // /api/get/meters
       this.getClientMetersUrl = "/api/get/meters";
       this.getClientCircuitHistoryUrl = "/api/get/clt-cir-history";
