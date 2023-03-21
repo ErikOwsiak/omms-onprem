@@ -1,7 +1,7 @@
 
 class OpenGPIO {
 
-   static gpioUrl = "http://10.0.0.122:8066/";
+   static gpioUrl = "http://10.0.0.122:8062/";
    static IFrameBuffer = `<iframe src=\"${OpenGPIO.gpioUrl}\"` +
       ` id=\"GpioIFrame\" class=\"gpio-iframe\" />`;
 
