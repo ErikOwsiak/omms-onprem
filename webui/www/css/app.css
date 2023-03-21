@@ -10,7 +10,7 @@
    background-size: contain;
    background-repeat: no-repeat;
    background-position: left 1vw center;
-   background-image: url(ui/imgs/omms-logo-400.png);
+   background-image: url(/omms/ui/imgs/omms-logo-400.png);
 }
 
 /* top menu bar */
