@@ -90,7 +90,7 @@ class dbEdit {
 
    getTblData_clients(tblname) {
       let _this = this, itemObj;
-      $.get(`/dbedit/get/${tblname}`, function (jsarr) {
+      $.get(`ui/dbedit/get/${tblname}`, function (jsarr) {
          _this.sessCache.dbObjs[tblname] = {};
          jsarr.forEach((i) => {
                itemObj = new dbClient(i);
@@ -109,7 +109,7 @@ class dbEdit {
    getTblData_client_circuits(tblname) {
       let _this = this;
       this.loadDatalists();
-      $.get(`/dbedit/get/${tblname}`, function (jsarr) {
+      $.get(`ui/dbedit/get/${tblname}`, function (jsarr) {
          _this.sessCache.dbObjs[tblname] = {};
          jsarr.forEach((i) => {
                let itemObj = new dbClientMetCer(i);
@@ -127,7 +127,7 @@ class dbEdit {
 
    getTblData_elec_meter_circuits(tblname) {
       let _this = this;
-      $.get(`/dbedit/get/${tblname}`, function (jsarr) {
+      $.get(`ui/dbedit/get/${tblname}`, function (jsarr) {
          _this.sessCache.dbObjs[tblname] = {};
          jsarr.forEach((i) => {
             let itemObj = new dbElecMeterCircut(i);
@@ -247,7 +247,7 @@ class dbEdit {
             data[i.id] = $(i).val();
          });
       /* -- */
-      let url = `/dbedit/upsert?tbl=${this.current_table}`;
+      let url = `ui/dbedit/upsert?tbl=${this.current_table}`;
       $.post(url, data, function(res) {
             if (res.ErrorMsg == "OK")
                alert(`Record Upsert OK`);
@@ -259,7 +259,7 @@ class dbEdit {
    }
 
    loadDatalists() {
-      let url = "/dbedit/get_datalists",
+      let url = "ui/dbedit/get_datalists",
          _this = this;
       /* -- */
       $.get(url, function(jsobj) {
