@@ -1,0 +1,21 @@
+
+div.relay-col {
+   width: 38vw;
+   margin: 4vh auto;
+}
+
+div.gpio-channel {
+   display: inline-block;
+   width: 16vh;
+   height: 10vh;
+   margin: 1vh 0;
+   border: 1px solid gray;
+   border-radius: 1vh;
+}
+
+div.ch-num {
+   height: 3.2vh;
+   line-height: 3.2vh;
+   font-size: 2.4vh;
+   text-indent: 0.6vh;
+}

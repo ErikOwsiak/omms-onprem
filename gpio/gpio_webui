@@ -42,11 +42,13 @@ if not REDIS.ping():
 
 CTYPE_JSON = "text/json"
 CTYPE_TEXT = "text/plain"
+STATIC_DIR = "www"
+TMPL_DIR = "www/tmplts"
 
 
-APP_NAME = "gpio-webui"
+APP_NAME = "gpio-ui"
 app = Flask(APP_NAME, static_url_path=""
-   , static_folder="www", template_folder="www")
+   , static_folder=STATIC_DIR, template_folder=TMPL_DIR)
 
 
 @app.route("/", methods=["GET"])
@@ -55,13 +57,26 @@ def index():
    mode = ""; key = "mode"
    if key in req.args:
       mode = req.args[key]
-   # -- --
-   if mode == "iframe":
-      buff = render_template("iframe.html", _mode=mode)
    else:
-      buff = render_template("idx.html")
+      ua = req.headers.get("User-Agent")
+      if ua.upper().find("MOBILE") > -1:
+         mode = "mobile"
+      else:
+         raise Exception("BadRequest")
+   # -- --
+   buff = render_template("idx.html", _mode=mode)
    # -- --
    return buff
+
+
+@app.route("/save/<arg0>/<arg1>", methods=["POST"])
+def api_save(arg0, arg1):
+   return f"{arg0} : {arg1}"
+
+
+@app.route("/get/<arg0>/<arg1>", methods=["GET"])
+def api_get(arg0, arg1):
+   return f"{arg0} : {arg1}"
 
 
 """
@@ -72,7 +87,6 @@ def state_info():
    hdrs = {"AppServer": "dbEdit ver.: 0.0.3", "content-type": "text/json"}
    try:
       d: {} = {"INFO": "GPIO-WEBUI"}
-      # -- return --
       return json.dumps(d), 200, hdrs
    except Exception as e:
       print(e)
@@ -81,7 +95,6 @@ def state_info():
 # == == == == == == == == == == == == == == == == == == == == == ==
 # -- -- [ start app here ] -- --
 if __name__ == "__main__":
-   print(os.getcwd())
    setproctitle.setproctitle(APP_NAME)
-   app.run(host="0.0.0.0", port=HTTP_PORT, debug=True)
+   app.run(host="0.0.0.0", port=HTTP_PORT, debug=False)
 # == == == == == == == == == == == == == == == == == == == == == ==

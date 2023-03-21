@@ -4,10 +4,6 @@ div.relay-col {
    margin: 4vh auto;
 }
 
-div.relay-box {
-
-}
-
 div.gpio-channel {
    width: 16vw;
    height: 4vw;
@@ -16,6 +12,50 @@ div.gpio-channel {
    border-radius: 1vh;
 }
 
-div.gpio-channel:hover {
+div.disable {
+   opacity: 0.2;
+}
+
+div.gpio-channel:not(.disable):hover {
    cursor: pointer;
+}
+
+div.channel-conf {
+   display: none;
+   height: auto;
+   width: 66vh;
+   border: 2px solid darkblue;
+   border-radius: 1vh;
+   background-color: rgba(211, 211, 211, 0.2);
+}
+
+div.ln-ch-info {
+   width: 96%;
+   height: 3.2vh;
+   margin: 1vh auto;
+   line-height: 3.2vh;
+   text-indent: 1vw;
+   font-size: 2vh;
+   border-bottom: 1px dotted darkblue;
+}
+
+div.ln-time {
+   width: 88%;
+   height: 4vh;
+   line-height: 4vh;
+   margin: 1vh auto;
+   text-align: right;
+   font-size: 2vh;
+}
+
+div.ln-btns {
+   width: 80%;
+   margin: 2vh auto;
+   text-align: right;
+}
+
+div.ln-btns input[type=button] {
+   padding: 6px 12px;
+   font-size: 2.2vh;
+   margin-left: 1vw;
 }

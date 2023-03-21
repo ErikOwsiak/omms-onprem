@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <link type="text/css" rel="stylesheet" href="/css/gpio.css" />
+   {% if _mode == "iframe": %}
+      <link type="text/css" rel="stylesheet" href="/css/iframe.css" />
+   {% elif _mode == "mobile": %}
+      <link type="text/css" rel="stylesheet" href="/css/mobile.css" />
+   {% endif %}
+   <script src="/js/gpio.js"></script>
+   <title>GPIO - Index</title>
+</head>
+<body>
+   {% include "relays.xml" %}
+   {% include "conf.xml" %}
+</body>
+</html>
