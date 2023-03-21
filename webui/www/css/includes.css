@@ -1,10 +1,10 @@
 @import url("histogram.css");
 @import url("reports.css");
 @import url("app-tags.css");
-@import url("ui/css/realtime.css");
-@import url("ui/css/app.css");
-@import url("ui/css/org-nav.css");
-@import url("ui/css/settings.css");
-@import url("ui/css/db-editor.css");
-@import url("ui/css/overview.css");
+@import url("realtime.css");
+@import url("app.css");
+@import url("org-nav.css");
+@import url("settings.css");
+@import url("db-editor.css");
+@import url("overview.css");
 @import url("ogpio.css");
