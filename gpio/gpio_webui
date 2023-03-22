@@ -88,7 +88,7 @@ def api_setconf():
          REDIS.hset(pin_key, "CONF", buff)
          REDIS.hset(pin_key, "CHANNEL_NAME", jsobj["chnlName"])
          PUB_CHANNEL = GPIO_KEY_UPDATE.replace("!DEVID!", jsobj["devid"])
-         REDIS.publish(PUB_CHANNEL, pin_key)
+         REDIS.publish(PUB_CHANNEL.upper(), pin_key)
       else:
          rsp.err = 1; rsp.msg = "BadRedisPing"
          print(rsp)
@@ -122,7 +122,7 @@ def force():
          REDIS.select(int(redisDBIdx.DB_IDX_GPIO.value))
          REDIS.hset(pin_key, "OVERRIDE", json.dumps(jsobj))
          PUB_CHANNEL = GPIO_PIN_OVERRIDE.replace("!DEVID!", jsobj["devid"])
-         REDIS.publish(PUB_CHANNEL, pin_key)
+         REDIS.publish(PUB_CHANNEL.upper(), pin_key)
       else:
          rsp.err = 1; rsp.msg = "BadRedisPing"
       # -- -- -- --
