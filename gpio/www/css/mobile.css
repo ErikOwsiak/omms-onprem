@@ -26,6 +26,7 @@ div.relay-box {
 div.gpio-channel {
    display: inline-block !important;
    width: 22%;
+   height: 8vh;
 }
 
 div.ln-time {
