@@ -95,6 +95,7 @@ def api_setconf():
 def api_getconf(devid, chnl):
    try:
       pin_key: str = sysUtils.pin_redis_key(devid, chnl)
+      print(pin_key)
       REDIS.select(int(redisDBIdx.DB_IDX_GPIO.value))
       val = REDIS.hgetall(pin_key)
       return json.dumps(val)
