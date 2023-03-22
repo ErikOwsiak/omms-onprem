@@ -12,11 +12,13 @@
          </select>
          &nbsp;&nbsp;
          <select id="sunSelOnOffset">
-            <option value="-30">-45 minutes</option>
+            <option value="-45">-45 minutes</option>
             <option value="-30">-30 minutes</option>
+            <option value="-15">-15 minutes</option>
             <option value="0" selected>0 minutes</option>
+            <option value="+15">+15 minutes</option>
             <option value="+30">+30 minutes</option>
-            <option value="-30">-+45 minutes</option>
+            <option value="+45">+45 minutes</option>
          </select>
       </div>
       <div class="ln-time">
@@ -29,11 +31,13 @@
          </select>
          &nbsp;&nbsp;
          <select id="sunSelOffOffset">
-            <option value="-30">-45 minutes</option>
+            <option value="-45">-45 minutes</option>
             <option value="-30">-30 minutes</option>
+            <option value="-15">-15 minutes</option>
             <option value="0" selected>0 minutes</option>
+            <option value="+15">+15 minutes</option>
             <option value="+30">+30 minutes</option>
-            <option value="-30">-+45 minutes</option>
+            <option value="+45">+45 minutes</option>
          </select>
       </div>
       <div class="ln-time">
