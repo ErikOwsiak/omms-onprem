@@ -70,9 +70,14 @@ def index():
    return buff
 
 
-@app.route("/save/<arg0>/<arg1>", methods=["POST"])
-def api_save(arg0, arg1):
-   return f"{arg0} : {arg1}"
+@app.route("/setconf", methods=["POST"])
+def api_save():
+   try:
+      jsobj = req.json
+      print(jsobj)
+      return f"OK"
+   except Exception as e:
+      print(e)
 
 
 @app.route("/force", methods=["POST"])

@@ -4,6 +4,7 @@ class gpioConf {
    static urlpfx = "/omms/gpio";
    static ctJSON = "application/json";
    static forceUrl = `${gpioConf.urlpfx}/force`;
+   static setconfUrl = `${gpioConf.urlpfx}/setconf`;
 
    constructor(devid, chnl) {
       this.devid = devid;
@@ -31,7 +32,8 @@ class gpioConf {
       /* save config info */
       this.btnSave = this.doc.byID("btnSave");
       this.btnSave.addEventListener("click", function() {
-            t.saveConf(t.devid, t.chnl);
+            let d = {"devid": t.devid, "chnl": t.chnl};
+            t.setConf(d);
          }); 
    }
 
@@ -43,8 +45,11 @@ class gpioConf {
          }).then((rsp) => rsp.text()).then((d) => console.log(d));
    }
 
-   saveConf(devid, chnl) {
-      console.log("save");
+   setConf(data) {
+      fetch(gpioConf.forceUrl, {method: "POST"
+            , headers: {"Content-Type": gpioConf.ctJSON}
+            , body: JSON.stringify(data)
+         }).then((rsp) => rsp.text()).then((d) => console.log(d));
    }
 
 };
