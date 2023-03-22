@@ -14,7 +14,6 @@ class gpioConf {
       this.btnSave = null;
       this.doc = document;
       this.doc.byID = this.doc.getElementById;
-      this.elmByID = this.doc.getElementById;
    }
 
    init() {
@@ -32,8 +31,16 @@ class gpioConf {
       /* save config info */
       this.btnSave = this.doc.byID("btnSave");
       this.btnSave.addEventListener("click", function() {
-            let d = {"devid": t.devid, "chnl": t.chnl};
-            t.setConf(d);
+            let tON = document.getElementById("timeOn").nodeValue,
+               tOFF = document.getElementById("timeOff").nodeValue,
+               sunOn = document.getElementById("sunSelOn").nodeValue,
+               sunOff = document.getElementById("sunSelOff").nodeValue,
+               sunOnOffset = document.getElementById("sunSelOnOffset").nodeValue,
+               sunOffOffset = document.getElementById("sunSelOffOffset").nodeValue;
+            /* -- */
+            let data = {"devid": t.devid, "chnl": t.chnl, tON, tOFF
+               , sunOn, sunOff, sunOnOffset, sunOffOffset};
+            t.setConf(data);
          }); 
    }
 
