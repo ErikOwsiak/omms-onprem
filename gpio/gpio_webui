@@ -9,7 +9,6 @@ try:
    from ommslib.shared.core.datatypes import redisDBIdx
 except Exception as e:
    print(os.getcwd())
-   print(e)
    os.chdir("../")
    sys.path.append(os.getcwd())
    print(os.getcwd())
@@ -82,6 +81,7 @@ def api_setconf():
       # -- -- -- --
       if REDIS.ping():
          print(f"[GoodRedisPing]")
+         print(redisDBIdx)
          REDIS.select(8)
          REDIS.hset("GPIO_CONF", key, jsstr)
       else:
