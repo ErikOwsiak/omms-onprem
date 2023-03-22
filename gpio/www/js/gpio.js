@@ -42,7 +42,7 @@ const gpio = {
             console.log(div0.innerHTML);
          }, 100);
       /* -- */
-      this.conf = new gpioConf();
+      this.conf = new gpioConf(devid, ch);
       this.conf.init();
       /* -- */
       const sel0 = document.getElementById("sunSelOn");
