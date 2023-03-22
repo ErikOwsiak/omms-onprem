@@ -31,17 +31,22 @@ class gpioConf {
       /* save config info */
       this.btnSave = this.doc.byID("btnSave");
       this.btnSave.addEventListener("click", function() {
-            let tON = document.getElementById("timeOn").nodeValue,
-               tOFF = document.getElementById("timeOff").nodeValue,
-               sunOn = document.getElementById("sunSelOn").nodeValue,
-               sunOff = document.getElementById("sunSelOff").nodeValue,
-               sunOnOffset = document.getElementById("sunSelOnOffset").nodeValue,
-               sunOffOffset = document.getElementById("sunSelOffOffset").nodeValue;
+            let tON = document.getElementById("timeOn").value,
+               tOFF = document.getElementById("timeOff").value,
+               sunOn = document.getElementById("sunSelOn"),
+               sunOff = document.getElementById("sunSelOff"),
+               sunOnOffset = document.getElementById("sunSelOnOffset"),
+               sunOffOffset = document.getElementById("sunSelOffOffset");
             /* -- */
+            sunOn = sunOn.options[sunOn.slectedIndex].value;
+            sunOff = sunOff.options[sunOff.slectedIndex].value;
+            sunOnOffset = sunOnOffset.options[sunOnoffset.slectedIndex].value;
+            sunOffOffset = sunOffOffset.options[sunOffOffset.slectedIndex].value;
             let data = {"devid": t.devid, "chnl": t.chnl, tON, tOFF
                , sunOn, sunOff, sunOnOffset, sunOffOffset};
+            /* -- */
             t.setConf(data);
-         }); 
+         });
    }
 
    forceOnOff(devid, chnl, state) {
