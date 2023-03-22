@@ -55,7 +55,7 @@ app = Flask(APP_NAME, static_url_path=""
 @app.route("/", methods=["GET"])
 @app.route("/home", methods=["GET"])
 def index():
-   mode = ""; key = "mode"
+   key = "mode"
    if key in req.args:
       mode = req.args[key]
    else:
@@ -71,11 +71,19 @@ def index():
 
 
 @app.route("/setconf", methods=["POST"])
-def api_save():
+def api_setconf():
    try:
       jsobj = req.json
       print(jsobj)
       return f"OK"
+   except Exception as e:
+      print(e)
+
+
+@app.route("/getconf/<devid>/<chnl>", methods=["GET"])
+def api_getconf(devid, chnl):
+   try:
+      return f"OK: {devid} : {chnl}"
    except Exception as e:
       print(e)
 
@@ -88,11 +96,6 @@ def force():
       return f"OK"
    except Exception as e:
       print(e)
-
-
-@app.route("/get/<arg0>/<arg1>", methods=["GET"])
-def api_get(arg0, arg1):
-   return f"{arg0} : {arg1}"
 
 
 """
