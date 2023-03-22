@@ -65,11 +65,11 @@ class gpioConf {
    }
 
    onGotConf(d) {
-      if (d.CHANNEL_NAME) {
+      if (d["CHANNEL_NAME"]) {
          let chnlName = document.getElementById("txtChnlName");
          chnlName.value = (d.CHANNEL_NAME) ? d.CHANNEL_NAME : "";
       }
-      if (d.CONF) {
+      if (d["CONF"]) {
          let tON = document.getElementById("timeOn");
          tON.value = d.CONF.tON;
          let sunOn = document.getElementById("sunSelOn");
@@ -85,7 +85,7 @@ class gpioConf {
       }
       /* -- */
       console.log(d);
-      if (d.OVERRIDE) {
+      if (d["OVERRIDE"]) {
          const on_css = "4px solid green";
          const off_css = "1px solid darkgrey";
          const override = JSON.parse(d.OVERRIDE);
