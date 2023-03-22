@@ -27,3 +27,7 @@ div.gpio-channel {
    display: inline-block !important;
    width: 22%;
 }
+
+div.ln-time {
+   display: none;
+}
