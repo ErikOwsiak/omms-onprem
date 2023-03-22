@@ -79,11 +79,17 @@ def api_setconf():
       jsstr = json.dumps(jsobj)
       # 'devid': 'gpioRoof', 'chnl': '3',
       key = f'dev_{jsobj["devid"]}_ch_{jsobj["chnl"]}'.upper()
-      REDIS.select(redisDBIdx.DB_IDX_GPIO)
-      REDIS.hset("GPIO_CONF", key, jsstr)
+      # -- -- -- --
+      if REDIS.ping():
+         REDIS.select(redisDBIdx.DB_IDX_GPIO)
+         REDIS.hset("GPIO_CONF", key, jsstr)
+      else:
+         print("BadRedisPing")
+      # -- -- -- --
       return f"OK"
    except Exception as e:
       print(e)
+      return str(e)
 
 
 @app.route("/getconf/<devid>/<chnl>", methods=["GET"])
