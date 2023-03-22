@@ -32,6 +32,6 @@ div.ln-time {
    display: none;
 }
 
-div.btnSave {
+div#btnSave {
    display: none;
 }
