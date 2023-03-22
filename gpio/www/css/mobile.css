@@ -1,6 +1,8 @@
 
+h1 { font-size: 8vh; }
+
 div.head {
-   font-size: 4vh;
+   font-size: 6vh;
 }
 
 div.relay-col {
