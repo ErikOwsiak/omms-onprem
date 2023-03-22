@@ -21,17 +21,17 @@ class gpioConf {
       /* force on button */
       this.btnOn = this.doc.byID("btnOverrideON");
       this.btnOn.addEventListener("click", function() {
-            this.forceOnOff(t.devid, t.chnl, "on");
+            t.forceOnOff(t.devid, t.chnl, "on");
          });
       /* force off button */
       this.btnOff = this.doc.byID("btnOverrideOFF");
       this.btnOff.addEventListener("click", function() {
-            this.forceOnOff(t.devid, t.chnl, "off");
+            t.forceOnOff(t.devid, t.chnl, "off");
          });
       /* save config info */
       this.btnSave = this.doc.byID("btnSave");
       this.btnSave.addEventListener("click", function() {
-            this.saveConf(t.devid, t.chnl);
+            t.saveConf(t.devid, t.chnl);
          }); 
    }
 
