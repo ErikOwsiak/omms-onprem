@@ -81,6 +81,7 @@ def api_setconf():
       key = f'dev_{jsobj["devid"]}_ch_{jsobj["chnl"]}'.upper()
       # -- -- -- --
       if REDIS.ping():
+         print("GoodRedisPing")
          REDIS.select(redisDBIdx.DB_IDX_GPIO.value)
          REDIS.hset("GPIO_CONF", key, jsstr)
       else:
