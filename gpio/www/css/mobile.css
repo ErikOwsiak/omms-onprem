@@ -2,10 +2,7 @@
 div.clt-head { 
    font-size: 6vh;
    border: 1px solid darkblue;
-}
-
-div.head {
-   font-size: 6vh;
+   font-weight: bold;
 }
 
 div.relay-col {
