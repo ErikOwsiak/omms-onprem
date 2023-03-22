@@ -34,8 +34,8 @@ div.ln-time {
    display: none;
 }
 
-div.ln-time:last-child {
-   display: block;
+div.ln-time :last-child {
+   display: inline-block;
 }
 
 input#btnSave {
