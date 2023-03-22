@@ -75,15 +75,12 @@ def api_setconf():
    try:
       jsobj = req.json
       jsobj["dtsutc"] = sysUtils.dts_utc()
-      jsstr = json.dumps(jsobj)
+      buff = json.dumps(jsobj)
       # -- -- -- --
       if REDIS.ping():
-         # 'devid': 'gpioRoof', 'chnl': '3'
-         key = f'{jsobj["devid"]}_ch_{jsobj["chnl"]}'.upper()
-         print(f"[GoodRedisPing]")
-         print(int(redisDBIdx.DB_IDX_GPIO.value))
+         key = f'PIN_{jsobj["devid"]}_ch_{jsobj["chnl"]}'.upper()
          REDIS.select(int(redisDBIdx.DB_IDX_GPIO.value))
-         REDIS.hset("GPIO_CONF", key, jsstr)
+         REDIS.set(key, buff)
       else:
          print("BadRedisPing")
       # -- -- -- --
