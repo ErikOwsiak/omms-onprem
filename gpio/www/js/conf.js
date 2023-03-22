@@ -80,6 +80,22 @@ class gpioConf {
       sunOff.value = d.CONF.sunOff;
       let sunOffOffset = document.getElementById("sunSelOffOffset");
       sunOffOffset.value = d.CONF.sunOffOffset;
+      /* -- */
+      if (d.OVERRIDE) {
+         switch (d.OVERRIDE.state) {
+            case "on":
+                  let bOn = this.doc.byID("btnOverrideON");
+                  bOn.style.border = "2px solid darkgreen";
+               break;
+            case "off":
+                  let bOff = this.doc.byID("btnOverrideON");
+                  bOff.style.border = "2px solid darkgreen";
+               break;
+            default:
+               break;
+         }
+      }
+      /* -- */
    }
 
    forceOnOff(devid, chnl, state) {
