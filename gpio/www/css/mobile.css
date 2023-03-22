@@ -1,4 +1,8 @@
 
+div.head {
+   font-size: 4vh;
+}
+
 div.relay-col {
    width: 96vh !important;
 }
