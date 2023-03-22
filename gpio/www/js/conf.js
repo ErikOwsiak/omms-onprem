@@ -61,8 +61,7 @@ class gpioConf {
             t.setConf(data);
          });
       /* -- */
-      let url = `/omms/gpio/getconf/${t.devid}/${t.chnl}`;
-      fetch(url).then((rsp) => rsp.json()).then(t.onGotConf);
+      t.pullState(t);
    }
 
    onGotConf(d) {
@@ -107,6 +106,12 @@ class gpioConf {
             , headers: {"Content-Type": gpioConf.ctJSON}
             , body: JSON.stringify(data)
          }).then((rsp) => rsp.text()).then((d) => console.log(d));
+      /* -- */
+      let t = this;
+      setTimeout(() => {
+            t.pullState(t);
+         }, 1000);
+      /* -- */
    }
 
    setConf(data) {
@@ -114,6 +119,16 @@ class gpioConf {
             , headers: {"Content-Type": gpioConf.ctJSON}
             , body: JSON.stringify(data)
          }).then((rsp) => rsp.text()).then((d) => console.log(d));
+      /* -- */
+      let t = this;
+      setTimeout(() => {
+            t.pullState(t);
+         }, 1000);
+      /* -- */
    }
 
+   pullState(t) {
+      let url = `/omms/gpio/getconf/${t.devid}/${t.chnl}`;
+      fetch(url).then((rsp) => rsp.json()).then(t.onGotConf);
+   }
 };
