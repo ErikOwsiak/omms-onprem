@@ -81,6 +81,7 @@ def api_setconf():
          key = f'PIN_{jsobj["devid"]}_ch_{jsobj["chnl"]}'.upper()
          REDIS.select(int(redisDBIdx.DB_IDX_GPIO.value))
          REDIS.hset(key, "CONF", buff)
+         REDIS.hset(key, "CHANNEL_NAME", jsobj["chnlName"])
       else:
          print("BadRedisPing")
       # -- -- -- --
