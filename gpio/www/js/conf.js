@@ -66,13 +66,11 @@ class gpioConf {
 
    onGotConf(d) {
       /* -- */
+      gpioConf.onMobile();
       /* -- */
       if (d["CHANNEL_NAME"]) {
          let chnlName = document.getElementById("txtChnlName");
          chnlName.value = (d.CHANNEL_NAME) ? d.CHANNEL_NAME : "";
-         let mode = document.getElementById("pageMode");
-         if (mode.value == "mobile")
-            chnlName.readOnly = true;
       }
       if (d["CONF"]) {
          let jobj = JSON.parse(d.CONF);
@@ -147,4 +145,13 @@ class gpioConf {
       let url = `/omms/gpio/getconf/${t.devid}/${t.chnl}`;
       fetch(url).then((rsp) => rsp.json()).then(t.onGotConf);
    }
+
+   static onMobile() {
+      let mode = document.getElementById("pageMode");
+      if (mode.value == "mobile") {
+         let e = document.getElementById("txtChnlName");
+         e.disabled = "1";
+      }
+   }
+
 };
