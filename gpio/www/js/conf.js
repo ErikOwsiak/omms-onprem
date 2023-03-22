@@ -83,6 +83,7 @@ class gpioConf {
       /* -- */
       console.log(d);
       if (d.OVERRIDE) {
+         console.log(d.OVERRIDE.state);
          switch (d.OVERRIDE.state) {
             case "on":
                   let bOn = document.getElementById("btnOverrideON");
