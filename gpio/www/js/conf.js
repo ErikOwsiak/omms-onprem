@@ -138,7 +138,7 @@ class gpioConf {
       fetch(gpioConf.setconfUrl, {method: "POST"
             , headers: {"Content-Type": gpioConf.ctJSON}
             , body: JSON.stringify(data)
-         }).then((rsp) => rsp.text()).then(ondone);
+         }).then((rsp) => rsp.json()).then(ondone);
       /* -- */
       let t = this;
       setTimeout(() => {
