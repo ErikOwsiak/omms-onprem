@@ -81,7 +81,7 @@ def api_setconf():
       # -- -- -- --
       if REDIS.ping():
          print(f"[GoodRedisPing]")
-         print(redisDBIdx)
+         print(redisDBIdx.DB_IDX_GPIO.value)
          REDIS.select(8)
          REDIS.hset("GPIO_CONF", key, jsstr)
       else:
