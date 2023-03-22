@@ -40,9 +40,9 @@ class gpioConf {
                sunOffOffset = document.getElementById("sunSelOffOffset");
             /* -- */
             sunOn = sunOn.options[sunOn.selectedIndex].value;
-            if (sunOn == "0")
+            if (sunOn != "0")
                tON = ""
-            if (sunOff == "0")
+            if (sunOff != "0")
                tOFF = ""
             /* -- */
             sunOff = sunOff.options[sunOff.selectedIndex].value;
