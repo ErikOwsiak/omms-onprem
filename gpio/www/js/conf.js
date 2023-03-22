@@ -32,16 +32,17 @@ class gpioConf {
       this.btnSave = this.doc.byID("btnSave");
       this.btnSave.addEventListener("click", function() {
             let tON = document.getElementById("timeOn").value,
-               tOFF = document.getElementById("timeOff").value,
                sunOn = document.getElementById("sunSelOn"),
-               sunOff = document.getElementById("sunSelOff"),
                sunOnOffset = document.getElementById("sunSelOnOffset"),
+               /* -- */
+               tOFF = document.getElementById("timeOff").value,
+               sunOff = document.getElementById("sunSelOff"),
                sunOffOffset = document.getElementById("sunSelOffOffset");
             /* -- */
-            sunOn = sunOn.options[sunOn.slectedIndex].value;
-            sunOff = sunOff.options[sunOff.slectedIndex].value;
-            sunOnOffset = sunOnOffset.options[sunOnoffset.slectedIndex].value;
-            sunOffOffset = sunOffOffset.options[sunOffOffset.slectedIndex].value;
+            sunOn = sunOn.options[sunOn.selectedIndex].value;
+            sunOff = sunOff.options[sunOff.selectedIndex].value;
+            sunOnOffset = sunOnOffset.options[sunOnoffset.selectedIndex].value;
+            sunOffOffset = sunOffOffset.options[sunOffOffset.selectedIndex].value;
             let data = {"devid": t.devid, "chnl": t.chnl, tON, tOFF
                , sunOn, sunOff, sunOnOffset, sunOffOffset};
             /* -- */
