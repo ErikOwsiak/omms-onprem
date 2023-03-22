@@ -37,6 +37,8 @@ div.ln-time:not(.chnlnm) {
 
 div.chnlnm {
    display: inline-block;
+   width: 90%;
+   margin-left: 4.6%;
 }
 
 div.chnlnm input {
