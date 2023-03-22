@@ -5,8 +5,7 @@ import configparser as _cp, redis, setproctitle
 from flask import Flask, render_template, request as req, make_response
 try:
    from core.debug import debug
-   # from psql.dbConnServer import dbConnServer
-   # from core.logProxy import logProxy
+   from core.utils import sysUtils
 except Exception as e:
    print(os.getcwd())
    print(e)
@@ -14,6 +13,7 @@ except Exception as e:
    sys.path.append(os.getcwd())
    print(os.getcwd())
    from core.debug import debug
+   from core.utils import sysUtils
    os.chdir("gpio")
 
 # -- load ini file --
@@ -40,7 +40,6 @@ if not REDIS.ping():
    exit(2)
 
 
-# URL_PFIX = "/omms/gpio/"
 CTYPE_JSON = "text/json"
 CTYPE_TEXT = "text/plain"
 STATIC_DIR = "www"
@@ -74,6 +73,7 @@ def index():
 def api_setconf():
    try:
       jsobj = req.json
+      jsobj["dtsutc"] = sysUtils.dts_utc()
       print(jsobj)
       return f"OK"
    except Exception as e:
