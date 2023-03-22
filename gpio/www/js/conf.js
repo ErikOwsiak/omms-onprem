@@ -115,11 +115,14 @@ class gpioConf {
    }
 
    forceOnOff(devid, chnl, state) {
+      let ondone = function(jsobj) {
+            alert(jsobj.msg);
+         };
       let data = {devid, chnl, state};
       fetch(gpioConf.forceUrl, {method: "POST"
             , headers: {"Content-Type": gpioConf.ctJSON}
             , body: JSON.stringify(data)
-         }).then((rsp) => rsp.text()).then((d) => console.log(d));
+         }).then((rsp) => rsp.json()).then(ondone);
       /* -- */
       let t = this;
       setTimeout(() => {

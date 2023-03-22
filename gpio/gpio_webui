@@ -4,6 +4,7 @@ import json, os.path, sys
 import configparser as _cp, redis, setproctitle
 from flask import Flask, render_template,\
    request as req, make_response, jsonify
+from gpiolib.gpiotypes import gpioOpResp
 try:
    from core.debug import debug
    from core.utils import sysUtils
@@ -66,14 +67,13 @@ def index():
       else:
          raise Exception("BadRequest")
    # -- --
-   buff = render_template("idx.html", _mode=mode)
-   # -- --
-   return buff
+   return render_template("idx.html", _mode=mode)
 
 
 @app.route("/setconf", methods=["POST"])
 def api_setconf():
    try:
+      rsp: gpioOpResp = gpioOpResp(0, "DataSaved!", "")
       jsobj = req.json
       jsobj["dtsutc"] = sysUtils.dts_utc()
       buff = json.dumps(jsobj)
@@ -84,9 +84,10 @@ def api_setconf():
          REDIS.hset(pin_key, "CONF", buff)
          REDIS.hset(pin_key, "CHANNEL_NAME", jsobj["chnlName"])
       else:
-         print("BadRedisPing")
+         rsp.err = 1; rsp.msg = "BadRedisPing"
+         print(rsp)
       # -- -- -- --
-      return f"OK"
+      return make_response(jsonify(rsp), 200)
    except Exception as e:
       print(e)
       return str(e)
@@ -107,6 +108,7 @@ def api_getconf(devid, chnl):
 @app.route("/force", methods=["POST"])
 def force():
    try:
+      rsp: gpioOpResp = gpioOpResp(0, "ChannelForced!", "")
       jsobj = req.json
       jsobj["dtsutc"] = sysUtils.dts_utc()
       if REDIS.ping():
@@ -114,10 +116,12 @@ def force():
          REDIS.select(int(redisDBIdx.DB_IDX_GPIO.value))
          REDIS.hset(pin_key, "OVERRIDE", json.dumps(jsobj))
       else:
-         print("BadRedisPing")
-      return f"OK"
+         rsp.err = 1; rsp.msg = "BadRedisPing"
+      # -- -- -- --
+      return make_response(jsonify(rsp), 200)
    except Exception as e:
       print(e)
+      return str(e)
 
 
 """
