@@ -104,6 +104,7 @@ def force():
       jsobj = req.json
       jsobj["dtsutc"] = sysUtils.dts_utc()
       buff = json.dumps(jsobj)
+      print(buff)
       if REDIS.ping():
          key = f'PIN_{jsobj["devid"]}_ch_{jsobj["chnl"]}'.upper()
          REDIS.select(int(redisDBIdx.DB_IDX_GPIO.value))
