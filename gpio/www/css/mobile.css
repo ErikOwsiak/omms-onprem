@@ -37,11 +37,14 @@ div.ln-time:not(.chnlnm) {
 
 div.chnlnm {
    display: inline-block;
-   width: 90%;
+   width: 96% !important;
+   height: auto !important;
+   line-height: normal !important;
    margin-left: 4.6%;
 }
 
 div.chnlnm input {
+   width: 82%;
    font-size: 2.4vh;
 }
 
@@ -51,7 +54,6 @@ input#btnSave {
 
 div.channel-conf {
    width: 98% !important;
-
 }
 
 div.ln-btns {
