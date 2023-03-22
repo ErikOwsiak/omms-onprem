@@ -70,18 +70,20 @@ class gpioConf {
          chnlName.value = (d.CHANNEL_NAME) ? d.CHANNEL_NAME : "";
       }
       if (d["CONF"]) {
+         let jobj = JSON.parse(d.CONF);
          let tON = document.getElementById("timeOn");
-         tON.value = d.CONF.tON;
+         tON.value = jobj.tON;
+         /* selects */
          let sunOn = document.getElementById("sunSelOn");
-         sunOn.value = d.CONF.sunOn;
+         sunOn.value = jobj.sunOn;
          let sunOnOffset = document.getElementById("sunSelOnOffset");
-         sunOnOffset.value = d.CONF.sunOffOffset;
+         sunOnOffset.value = jobj.sunOffOffset;
          let tOFF = document.getElementById("timeOff");
-         tOFF.value = d.CONF.tOFF;
+         tOFF.value = jobj.tOFF;
          let sunOff = document.getElementById("sunSelOff");
-         sunOff.value = d.CONF.sunOff;
+         sunOff.value = jobj.sunOff;
          let sunOffOffset = document.getElementById("sunSelOffOffset");
-         sunOffOffset.value = d.CONF.sunOffOffset;
+         sunOffOffset.value = jobj.sunOffOffset;
       }
       /* -- */
       console.log(d);
