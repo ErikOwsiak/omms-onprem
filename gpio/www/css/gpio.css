@@ -1,4 +1,9 @@
 
+div.clt-head {
+   height: 4vh;
+   font-weight: bold;
+}
+
 div.relay-col {
    width: 54vw;
    margin: 4vh auto;
