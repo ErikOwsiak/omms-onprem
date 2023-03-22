@@ -34,6 +34,10 @@ div.ln-time:not(.chnlnm) {
    display: none;
 }
 
+div.chnlnm {
+   display: inline-block;
+}
+
 input#btnSave {
    display: none;
 }
