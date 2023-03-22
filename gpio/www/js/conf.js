@@ -72,7 +72,7 @@ class gpioConf {
          chnlName.value = (d.CHANNEL_NAME) ? d.CHANNEL_NAME : "";
          let mode = document.getElementById("pageMode");
          if (mode.value == "mobile")
-            chnlName.readonly = true;
+            chnlName.attributes["readonly"] = true;
       }
       if (d["CONF"]) {
          let jobj = JSON.parse(d.CONF);
