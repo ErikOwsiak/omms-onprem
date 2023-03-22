@@ -40,7 +40,7 @@
             <option value="+45">+45 minutes</option>
          </select>
       </div>
-      <div class="ln-time">
+      <div class="ln-time chnlnm">
          Channel Name:&nbsp;<input type="text" id="txtChnlName" />
       </div>
       <div class="ln-btns">
