@@ -92,7 +92,7 @@ class gpioConf {
          /* -- */
          switch (override.state) {
             case "on":
-               bOn.style.border = on_css;
+                  bOn.style.border = on_css;
                break;
             case "off":
                   bOff.style.border = on_css;
