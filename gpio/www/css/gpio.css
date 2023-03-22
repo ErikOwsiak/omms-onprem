@@ -12,6 +12,13 @@ div.gpio-channel {
    border-radius: 1vh;
 }
 
+div.head {
+   font-size: 2.8vh;
+   font-weight: bold;
+   margin-bottom: 0;
+   text-indent: 1vh;
+}
+
 div.disable {
    opacity: 0.2;
 }
