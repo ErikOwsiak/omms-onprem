@@ -1,5 +1,5 @@
 <div class="relay-col">
-   <h1>Versus CK :: Building GPIO</h1>
+   <h1>VersusCK : Building GPIO</h1>
    <!-- roof realys -->
    <div id="gpioRoof" class="relay-box waveshare3chHat" bus="onboard">
       <div class="head">
