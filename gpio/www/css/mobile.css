@@ -1,5 +1,7 @@
 
-div.clt-head { 
+div.clt-head {
+   width: 98vw;
+   margin: 4vh auto; 
    font-size: 6vh;
    border: 1px solid darkblue;
    font-weight: bold;
@@ -11,5 +13,6 @@ div.relay-col {
 
 div.relay-box {
    width: 90%;
+   margin: 4vh auto;
    border: 1px dotted rebeccapurple;
 }
