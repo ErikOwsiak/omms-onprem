@@ -36,3 +36,8 @@ div.ln-time {
 input#btnSave {
    display: none;
 }
+
+div.channel-conf {
+   width: 98% !important;
+   
+}
