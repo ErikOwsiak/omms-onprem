@@ -7,9 +7,10 @@ body, html {
 div.clt-head {
    width: 96vw;
    margin: 4vw auto; 
-   font-size: 8vw;
-   border: 1px solid darkblue;
+   font-size: 7.6vw;
    font-weight: bold;
+   border: 1px solid darkblue;
+   border-radius: 4px;
 }
 
 div.relay-col {
@@ -17,11 +18,12 @@ div.relay-col {
 }
 
 div.relay-box {
-   width: 90%;
+   width: 96%;
    margin: 4vh auto;
    border: 1px dotted rebeccapurple;
 }
 
 div.gpio-channel {
    display: inline-block !important;
+   width: 24%;
 }
