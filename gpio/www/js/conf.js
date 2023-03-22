@@ -71,13 +71,14 @@ class gpioConf {
       }
       if (d["CONF"]) {
          let jobj = JSON.parse(d.CONF);
+         /* -- */
          let tON = document.getElementById("timeOn");
          tON.value = jobj.tON;
-         /* selects */
          let sunOn = document.getElementById("sunSelOn");
          sunOn.value = jobj.sunOn;
          let sunOnOffset = document.getElementById("sunSelOnOffset");
-         sunOnOffset.value = jobj.sunOffOffset;
+         sunOnOffset.value = jobj.sunOnOffset;
+         /* -- */
          let tOFF = document.getElementById("timeOff");
          tOFF.value = jobj.tOFF;
          let sunOff = document.getElementById("sunSelOff");
