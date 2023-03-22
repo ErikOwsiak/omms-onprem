@@ -1,7 +1,7 @@
 
 h1 { 
-   font-size: 6vh; 
-   text-align: center;
+   font-size: 6vh;
+   border: 1px solid darkblue;
 }
 
 div.head {
