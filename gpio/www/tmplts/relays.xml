@@ -47,7 +47,7 @@
    <!-- p16 1 relays -->
    <div id="gpioP16_1" class="relay-box lctech4chModbus" bus="modbus">
       <div class="head">
-         <h3>P16_1 Relays</h3>
+         <p>P16_1 Relays</p>
       </div>
       <div class="channels">
          <div devid="gpioP16_1" ch="1" class="gpio-channel">
@@ -69,7 +69,7 @@
    <!-- p7 0 relays -->
    <div id="gpioP7_0" class="relay-box lctech4chModbus" bus="modbus">
       <div class="head">
-         <h3>P7_0 Relays</h3>
+         <p>P7_0 Relays</p>
       </div>
       <div class="channels">
          <div devid="gpioP7_0" ch="1" class="gpio-channel">
