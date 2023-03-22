@@ -84,11 +84,11 @@ class gpioConf {
       if (d.OVERRIDE) {
          switch (d.OVERRIDE.state) {
             case "on":
-                  let bOn = this.doc.byID("btnOverrideON");
+                  let bOn = document.getElementById("btnOverrideON");
                   bOn.style.border = "2px solid darkgreen";
                break;
             case "off":
-                  let bOff = this.doc.byID("btnOverrideON");
+                  let bOff = document.getElementById("btnOverrideON");
                   bOff.style.border = "2px solid darkgreen";
                break;
             default:
