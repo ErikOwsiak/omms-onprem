@@ -34,6 +34,10 @@ div.ln-time {
    display: none;
 }
 
+div.ln-time:last-child {
+   display: block;
+}
+
 input#btnSave {
    display: none;
 }
@@ -53,8 +57,4 @@ div.ch-num {
    line-height: inherit !important;
    font-size: 3vh;
    text-align: center;
-}
-
-input#txtChnlName {
-   display: inline-block !important;
 }
