@@ -54,3 +54,7 @@ div.ch-num {
    font-size: 3vh;
    text-align: center;
 }
+
+input#txtChnlName {
+   display: inline-block !important;
+}
