@@ -28,6 +28,7 @@ div.gpio-channel {
    display: inline-block !important;
    width: 22%;
    height: 8vh;
+   line-height: 8vh;
 }
 
 div.ln-time:not(.chnlnm) {
