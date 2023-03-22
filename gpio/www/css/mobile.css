@@ -6,14 +6,14 @@ body, html {
 
 div.clt-head {
    width: 98vw;
-   margin: 4vh auto; 
+   margin: 4vw auto; 
    font-size: 6vh;
    border: 1px solid darkblue;
    font-weight: bold;
 }
 
 div.relay-col {
-   width: 96vh !important;
+   width: 96vw !important;
 }
 
 div.relay-box {
