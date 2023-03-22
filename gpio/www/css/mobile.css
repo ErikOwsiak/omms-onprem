@@ -31,3 +31,7 @@ div.gpio-channel {
 div.ln-time {
    display: none;
 }
+
+div.btnSave {
+   display: none;
+}
