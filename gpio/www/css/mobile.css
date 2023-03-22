@@ -31,6 +31,10 @@ div.gpio-channel {
    line-height: 8vh;
 }
 
+div.gpio-channel:hover {
+   cursor: pointer;
+}
+
 div.ln-time:not(.chnlnm) {
    display: none;
 }
