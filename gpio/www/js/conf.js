@@ -81,6 +81,7 @@ class gpioConf {
       let sunOffOffset = document.getElementById("sunSelOffOffset");
       sunOffOffset.value = d.CONF.sunOffOffset;
       /* -- */
+      console.log(d);
       if (d.OVERRIDE) {
          switch (d.OVERRIDE.state) {
             case "on":
