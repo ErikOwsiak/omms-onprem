@@ -83,21 +83,25 @@ class gpioConf {
       console.log(d);
       if (d.OVERRIDE) {
          const on_css = "4px solid green";
+         const off_css = "1px solid darkgrey";
          const override = JSON.parse(d.OVERRIDE);
+         let bOn = document.getElementById("btnOverrideON");
+         bOn.style.border = off_css;
+         let bOff = document.getElementById("btnOverrideOFF");
+         bOff.style.border = off_css;
+         /* -- */
          switch (override.state) {
             case "on":
-                  let bOn = document.getElementById("btnOverrideON");
-                  bOn.style.border = on_css;
+               bOn.style.border = on_css;
                break;
             case "off":
-                  let bOff = document.getElementById("btnOverrideOFF");
                   bOff.style.border = on_css;
                break;
             default:
                break;
          }
+         /* -- */
       }
-      /* -- */
    }
 
    forceOnOff(devid, chnl, state) {
