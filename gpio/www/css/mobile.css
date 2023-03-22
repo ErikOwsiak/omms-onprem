@@ -30,7 +30,7 @@ div.gpio-channel {
    height: 8vh;
 }
 
-div.ln-time :not(.chnlnm) {
+div.ln-time:not(.chnlnm) {
    display: none;
 }
 
