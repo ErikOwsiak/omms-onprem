@@ -1,6 +1,9 @@
 
 div.clt-head {
    height: 8vh;
+   line-height: 8vh;
+   font-weight: bold;
+   font-size: 4.2vh;
    font-weight: bold;
 }
 
