@@ -37,18 +37,19 @@ class gpioConf {
                /* -- */
                tOFF = document.getElementById("timeOff").value,
                sunOff = document.getElementById("sunSelOff"),
-               sunOffOffset = document.getElementById("sunSelOffOffset")
+               sunOffOffset = document.getElementById("sunSelOffOffset"),
                chnlName = document.getElementById("txtChnlName").value;
             /* -- */
             sunOn = sunOn.options[sunOn.selectedIndex].value;
             if (sunOn != "0")
                tON = ""
+            sunOff = sunOff.options[sunOff.selectedIndex].value;
             if (sunOff != "0")
                tOFF = ""
             /* -- */
-            sunOff = sunOff.options[sunOff.selectedIndex].value;
             sunOnOffset = sunOnOffset.options[sunOnOffset.selectedIndex].value;
             sunOffOffset = sunOffOffset.options[sunOffOffset.selectedIndex].value;
+            /* -- */
             let data = {"devid": t.devid, "chnl": t.chnl, tON, tOFF
                , sunOn, sunOff, sunOnOffset, sunOffOffset, chnlName};
             /* -- */
