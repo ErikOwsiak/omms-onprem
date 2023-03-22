@@ -95,3 +95,20 @@ class sysUtils(object):
    @staticmethod
    def pin_redis_key(devid: str, chnl: str):
       return f'PIN_{devid}_ch_{chnl}'.upper()
+
+   @staticmethod
+   def decode_redis(src):
+      if isinstance(src, list):
+         rv = list()
+         for key in src:
+            rv.append(sysUtils.decode_redis(key))
+         return rv
+      elif isinstance(src, dict):
+         rv = dict()
+         for key in src:
+            rv[key.decode()] = sysUtils.decode_redis(src[key])
+         return rv
+      elif isinstance(src, bytes):
+         return src.decode()
+      else:
+         raise Exception("type not handled: " + type(src))

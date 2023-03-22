@@ -99,7 +99,7 @@ def api_getconf(devid, chnl):
       REDIS.select(int(redisDBIdx.DB_IDX_GPIO.value))
       val = REDIS.hgetall(pin_key)
       print(val)
-      return json.dumps(val)
+      return json.dumps(sysUtils.decode_redis(val))
    except Exception as e:
       print(e)
 
