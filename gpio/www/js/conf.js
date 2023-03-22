@@ -46,7 +46,7 @@ class gpioConf {
    }
 
    setConf(data) {
-      fetch(gpioConf.forceUrl, {method: "POST"
+      fetch(gpioConf.setconfUrl, {method: "POST"
             , headers: {"Content-Type": gpioConf.ctJSON}
             , body: JSON.stringify(data)
          }).then((rsp) => rsp.text()).then((d) => console.log(d));
