@@ -38,6 +38,10 @@ div.chnlnm {
    display: inline-block;
 }
 
+div.chnlnm input {
+   font-size: 3.2vh;
+}
+
 input#btnSave {
    display: none;
 }
