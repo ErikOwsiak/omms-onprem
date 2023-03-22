@@ -8,3 +8,8 @@ div.clt-head {
 div.relay-col {
    width: 96vh !important;
 }
+
+div.relay-box {
+   width: 90%;
+   border: 1px dotted rebeccapurple;
+}

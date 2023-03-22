@@ -1,5 +1,7 @@
 <div class="relay-col">
-   <div class="clt-head">VersusCK : SiteGPIO</div>
+   <div class="clt-head">
+      VersusCK : SiteGPIO
+   </div>
    <!-- roof realys -->
    <div id="gpioRoof" class="relay-box waveshare3chHat" bus="onboard">
       <div class="head">
@@ -85,7 +87,7 @@
             <div class="ch-num">CH4</div>
          </div>
       </div>
-   </div>
-   <div id="gpioP7_0Conf" class="channel-conf">
+      <div id="gpioP7_0Conf" class="channel-conf">
+      </div>
    </div>
 </div>
