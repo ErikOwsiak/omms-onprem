@@ -28,6 +28,11 @@ class gpioConf {
       this.btnOff.addEventListener("click", function() {
             t.forceOnOff(t.devid, t.chnl, "off");
          });
+      /* force clear */
+      this.btnClr = this.doc.byID("btnOverrideCLR");
+      this.btnClr.addEventListener("click", function() {
+            t.forceOnOff(t.devid, t.chnl, "n/s");
+         });
       /* save config info */
       this.btnSave = this.doc.byID("btnSave");
       this.btnSave.addEventListener("click", function() {
