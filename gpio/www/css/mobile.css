@@ -1,4 +1,9 @@
 
+body, html {
+   margin: 0;
+   padding: 0;
+}
+
 div.clt-head {
    width: 98vw;
    margin: 4vh auto; 
