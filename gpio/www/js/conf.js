@@ -66,8 +66,20 @@ class gpioConf {
    }
 
    onGotConf(d) {
-      let txtChnlName = document.getElementById("txtChnlName");
-      txtChnlName.value = d.CHANNEL_NAME;
+      let chnlName = document.getElementById("txtChnlName").value;
+      chnlName.value = (d.CHANNEL_NAME) ? d.CHANNEL_NAME : "";
+      let tON = document.getElementById("timeOn");
+      tON.value = d.CONF.tON;
+      let sunOn = document.getElementById("sunSelOn");
+      sunOn.value = d.CONF.sunOn;
+      let sunOnOffset = document.getElementById("sunSelOnOffset");
+      sunOnOffset.value = d.CONF.sunOffOffset;
+      let tOFF = document.getElementById("timeOff");
+      tOFF.value = d.CONF.tOFF;
+      let sunOff = document.getElementById("sunSelOff");
+      sunOff.value = d.CONF.sunOff;
+      let sunOffOffset = document.getElementById("sunSelOffOffset");
+      sunOffOffset.value = d.CONF.sunOffOffset;
    }
 
    forceOnOff(devid, chnl, state) {
