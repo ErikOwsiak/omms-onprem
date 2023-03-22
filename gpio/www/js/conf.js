@@ -57,7 +57,12 @@ class gpioConf {
          });
       /* -- */
       let url = `/omms/gpio/getconf/${t.devid}/${t.chnl}`;
-      fetch(url).then((rsp) => rsp.json()).then((d) => console.log(d));
+      fetch(url).then((rsp) => rsp.json()).then(t.onGotConf);
+   }
+
+   onGotConf(d) {
+      let txtChnlName = this.doc.byID("txtChnlName");
+      txtChnlName.value = d.CHANNEL_NAME;
    }
 
    forceOnOff(devid, chnl, state) {
