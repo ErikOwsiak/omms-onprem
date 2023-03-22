@@ -41,7 +41,7 @@ class gpioConf {
             /* -- */
             sunOn = sunOn.options[sunOn.selectedIndex].value;
             sunOff = sunOff.options[sunOff.selectedIndex].value;
-            sunOnOffset = sunOnOffset.options[sunOnoffset.selectedIndex].value;
+            sunOnOffset = sunOnOffset.options[sunOnOffset.selectedIndex].value;
             sunOffOffset = sunOffOffset.options[sunOffOffset.selectedIndex].value;
             let data = {"devid": t.devid, "chnl": t.chnl, tON, tOFF
                , sunOn, sunOff, sunOnOffset, sunOffOffset};
