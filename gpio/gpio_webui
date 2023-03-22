@@ -76,11 +76,11 @@ def api_setconf():
    try:
       jsobj = req.json
       jsobj["dtsutc"] = sysUtils.dts_utc()
-      print(jsobj)
+      jsstr = json.dumps(jsobj)
       # 'devid': 'gpioRoof', 'chnl': '3',
-      key = f'conf_dev_{jsobj["devid"]}_ch_{jsobj["chnl"]}'
+      key = f'dev_{jsobj["devid"]}_ch_{jsobj["chnl"]}'.upper()
       REDIS.select(redisDBIdx.DB_IDX_GPIO)
-      REDIS.hset(key, mapping=jsobj)
+      REDIS.hset("GPIO_CONF", key, jsstr)
       return f"OK"
    except Exception as e:
       print(e)
