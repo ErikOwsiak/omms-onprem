@@ -5,9 +5,9 @@ body, html {
 }
 
 div.clt-head {
-   width: 98vw;
+   width: 96vw;
    margin: 4vw auto; 
-   font-size: 6vh;
+   font-size: 6vw;
    border: 1px solid darkblue;
    font-weight: bold;
 }
