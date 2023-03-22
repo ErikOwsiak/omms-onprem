@@ -57,7 +57,9 @@ class gpioConf {
          });
       /* -- */
       let url = `/omms/gpio/getconf/${t.devid}/${t.chnl}`;
-      fetch(url).then((rsp) => rsp.json()).then(t.onGotConf);
+      fetch(url).then((rsp) => rsp.json()).then(function(d) {
+            t.onGotConf(d);
+         });
    }
 
    onGotConf(d) {
