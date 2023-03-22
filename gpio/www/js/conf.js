@@ -66,7 +66,7 @@ class gpioConf {
    }
 
    onGotConf(d) {
-      let chnlName = document.getElementById("txtChnlName").value;
+      let chnlName = document.getElementById("txtChnlName");
       chnlName.value = (d.CHANNEL_NAME) ? d.CHANNEL_NAME : "";
       let tON = document.getElementById("timeOn");
       tON.value = d.CONF.tON;
