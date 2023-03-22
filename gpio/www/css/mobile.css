@@ -44,4 +44,12 @@ div.channel-conf {
 
 div.ln-btns {
    width: 98% !important;
+   text-align: center;
+}
+
+div.ch-num {
+   height: inherit !important;
+   line-height: inherit !important;
+   font-size: 3vh;
+   text-align: center;
 }
