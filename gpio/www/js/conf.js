@@ -83,8 +83,8 @@ class gpioConf {
       /* -- */
       console.log(d);
       if (d.OVERRIDE) {
-         console.log(d.OVERRIDE.state);
-         switch (d.OVERRIDE.state) {
+         const override = JSON.parse(d.OVERRIDE);
+         switch (override.state) {
             case "on":
                   let bOn = document.getElementById("btnOverrideON");
                   bOn.style.border = "2px solid darkgreen";
