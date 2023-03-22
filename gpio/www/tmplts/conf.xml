@@ -46,7 +46,7 @@
       <div class="ln-btns">
          <input type="button" id="btnOverrideON" value="ForceON" />
          <input type="button" id="btnOverrideOFF" value="ForceOFF" />
-         <input type="button" id="btnOverrideCLR" value="ForceCLEAR" />
+         <input type="button" id="btnOverrideCLR" value="ForceCLR" />
          <input type="button" id="btnSave" value="Save" />
       </div>
    </div>
