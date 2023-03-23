@@ -18,7 +18,7 @@
 </head>
 <body>
    <input type="hidden" id="pageMode" value="{{ _mode }}" />
-   {% _mode == "dev": %}
+   {% if _mode == "dev": %}
       {% include "dev_relays.xml" %}
    {% else: %}
       {% include "dev_relays.xml" %}
