@@ -9,6 +9,8 @@
       <link type="text/css" rel="stylesheet" href="/omms/gpio/css/iframe.css" />
    {% elif _mode == "mobile": %}
       <link type="text/css" rel="stylesheet" href="/omms/gpio/css/mobile.css" />
+   {% elif _mode == "dev": %}
+      <link type="text/css" rel="stylesheet" href="/omms/gpio/css/mobile.css" />
    {% endif %}
    <script src="/omms/gpio/js/conf.js"></script>
    <script src="/omms/gpio/js/gpio.js"></script>
@@ -16,7 +18,11 @@
 </head>
 <body>
    <input type="hidden" id="pageMode" value="{{ _mode }}" />
-   {% include "relays.xml" %}
+   {% _mode == "dev": %}
+      {% include "dev_relays.xml" %}
+   {% else: %}
+      {% include "dev_relays.xml" %}
+   {% endif %}
    {% include "conf.xml" %}
 </body>
 </html>
