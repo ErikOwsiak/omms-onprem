@@ -1,6 +1,6 @@
 <div class="relay-col">
    <div class="clt-head">
-      VersusCK : SiteGPIO
+      DevCK : SiteGPIO
    </div>
    <!-- roof realys -->
    <div id="gpioRoof" class="relay-box waveshare3chHat" bus="onboard">
