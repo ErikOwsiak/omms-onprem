@@ -17,6 +17,10 @@ class gpioConf {
    }
 
    init() {
+      
+      let b = HTML.selTime();
+      console.log(b);
+
       let t = this;
       /* force on button */
       this.btnOn = this.doc.byID("btnOverrideON");
