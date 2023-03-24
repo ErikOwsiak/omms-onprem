@@ -35,7 +35,8 @@ class gpioConf {
          });
       /* save config info */
       this.btnSave = this.doc.byID("btnSave");
-      this.btnSave.addEventListener("click", function() {
+      let btnSaveClick = function() {
+            /* -- */
             let tON = document.getElementById("timeOn").value,
                sunOn = document.getElementById("sunSelOn"),
                sunOnOffset = document.getElementById("sunSelOnOffset"),
@@ -46,11 +47,16 @@ class gpioConf {
                chnlName = document.getElementById("txtChnlName").value;
             /* -- */
             sunOn = sunOn.options[sunOn.selectedIndex].value;
-            if (sunOn != "0")
-               tON = ""
+            if (tON == "" || sunOn == "0") {
+               alert("Select ON Time!");
+               return;
+            }
+            /* -- */
             sunOff = sunOff.options[sunOff.selectedIndex].value;
-            if (sunOff != "0")
-               tOFF = ""
+            if (tOff == "" || sunOff == "0") {
+               alert("Select OFF Time!");
+               return;
+            }
             /* -- */
             sunOnOffset = sunOnOffset.options[sunOnOffset.selectedIndex].value;
             sunOffOffset = sunOffOffset.options[sunOffOffset.selectedIndex].value;
@@ -59,9 +65,11 @@ class gpioConf {
                , sunOn, sunOff, sunOnOffset, sunOffOffset, chnlName};
             /* -- */
             t.setConf(data);
-         });
+         };
       /* -- */
-      t.pullState(t);
+      this.btnSave.addEventListener("click", btnSaveClick);
+      /* -- */
+      // t.pullState(t);
    }
 
    onGotConf(d) {
