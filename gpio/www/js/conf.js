@@ -17,11 +17,14 @@ class gpioConf {
    }
 
    init() {
-      
-      let div = this.doc.byID("divSelTimeOff");
-      div.innerHTML =  HTML.selTime("TimeON", "timeOn", "timeon-css");
-      
+      /* -- */
       let t = this;
+      /* on time */
+      let div = this.doc.byID("divSelTimeOn");
+      div.innerHTML =  HTML.selTime("TimeON", "timeOn", "timeon-css");
+      /* off time */
+      div = this.doc.byID("divSelTimeOff");
+      div.innerHTML =  HTML.selTime("TimeOFF", "timeOff", "timeon-css");
       /* force on button */
       this.btnOn = this.doc.byID("btnOverrideON");
       this.btnOn.addEventListener("click", function() {
