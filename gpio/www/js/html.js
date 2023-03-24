@@ -8,6 +8,9 @@ const HTML = {
          h = String(i).padStart(2, "0");
          hrs.push(`<option value="${h}">${h}</option>`);
       }
+      hrs.push(`<option value="sunrise">Sunrise</option>`);
+      hrs.push(`<option value="sunset">Sunset</option>`);
+      /* -- */
       hrs.push("</select>");
       let m, mnts = [`<select id="selMM_${id}" class="${cls}">`] 
       for (let i = 0; i <= 45; i += 15) {
