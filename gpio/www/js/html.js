@@ -3,15 +3,18 @@
 const HTML = {
 
    selTimeHH(lbl, id, cls) {
-      let h, hrs = [`<select id="selHH_${id}" class="${cls}">`];
+      let sl, h, hrs = [`<select id="selHH_${id}" class="${cls}">`];
       hrs.push(`<optgroup label="DayParts">`);
       hrs.push(`<option value="sunrise">Sunrise</option>`);
       hrs.push(`<option value="sunset">Sunset</option>`);
       hrs.push(`</optgroup><optgroup label="Hours">`);
+      /* -- */
       for (let i = 0; i < 24; i++) {
+         sl = (i == 0) ? "selected" : "";
          h = String(i).padStart(2, "0");
          hrs.push(`<option value="${h}">${h}</option>`);
       }
+      /* -- */
       hrs.push(`</optgroup></select>`);
       return `${lbl}:&nbsp;&nbsp;${hrs.join("")}`;
       /* -- */
