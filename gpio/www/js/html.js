@@ -2,7 +2,7 @@
 
 const HTML = {
 
-   selTime(id, cls) {
+   selTime(lbl, id, cls) {
       let hrs = [`<select id="selHH_${id}" class="${cls}">`];
       for (let i = 0; i < 24; i++) {
          let h = String(i).padStart(2, "0");
@@ -14,7 +14,9 @@ const HTML = {
          mnts.push(`<option value="${i}">${i}</option>`);
       /* -- */
       mnts.push("</select>");
-      return `${hrs.join("")}&nbsp;:&nbsp;${mnts.join("")}`;
+      return `${lbl}&nbsp;:&nbsp;${hrs.join("")}` + 
+         `&nbsp;:&nbsp;${mnts.join("")}&nbsp;&nbsp;`;
+      /* -- */
    }
 
 };
