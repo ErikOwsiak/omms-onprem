@@ -20,8 +20,12 @@ class gpioConf {
       /* -- */
       let t = this;
       /* on time */
+      let div_val = function() {
+            alert(this);
+         };
       let div = this.doc.byID("divSelTimeOn");
       div.innerHTML =  HTML.selTime("TimeON", "timeOn", "timeon-css");
+      div.val = div_val;
       /* off time */
       div = this.doc.byID("divSelTimeOff");
       div.innerHTML =  HTML.selTime("TimeOFF", "timeOff", "timeon-css");
@@ -44,7 +48,8 @@ class gpioConf {
       this.btnSave = this.doc.byID("btnSave");
       let btnSaveClick = function() {
             /* -- */
-            let tON = document.getElementById("timeOn").value,
+            let test = document.getElementById("divSelTimeOn").val(),
+               tON = document.getElementById("timeOn").value,
                sunOn = document.getElementById("sunSelOn"),
                sunOnOffset = document.getElementById("sunSelOnOffset"),
                /* -- */
