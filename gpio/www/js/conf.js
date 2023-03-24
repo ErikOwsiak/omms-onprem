@@ -20,6 +20,9 @@ class gpioConf {
       /* -- */
       let t = this;
       /* on time */
+      let hr_sel_chng = function() {
+            console.log(this);
+         };
       let div_val = function() {
             let id = this.id;
             let divHv = document.getElementById(`selHH_${id}`).val(),
@@ -28,9 +31,15 @@ class gpioConf {
             return `${divHv}:${divMv}`;
          };
       /* -- -- */
-      let div = this.doc.byID("divSelTimeOn");
-      div.innerHTML =  HTML.selTime("TimeON", "timeOn", "timeon-css");
+      let div = this.doc.byID("divSelTimeOn"),
+         _id = "timeOn"
+      div.innerHTML =  HTML.selTime("TimeON", _id, "timeon-css");
       div.val = div_val;
+      let sel = `selHH_${_id}`;
+      document.getElementById(sel).addEventListener("change", function() {
+            alert(this);
+         });
+
       /* off time */
       div = this.doc.byID("divSelTimeOff");
       div.innerHTML =  HTML.selTime("TimeOFF", "timeOff", "timeon-css");
