@@ -74,7 +74,8 @@ class gpioConf {
       this.btnSave = this.doc.byID("btnSave");
       let btnSaveClick = function() {
             /* -- */
-            let [T0, T1] = document.getElementById("divSel_TimeOn").val();
+            let tdiv = document.getElementById("divSel_TimeOn");
+            console.log(tdiv);
             console.log([T0, T1]);
             /* -- */
             let tOFF = document.getElementById("divSel_TimeOff").val(),
