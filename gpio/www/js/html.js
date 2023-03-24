@@ -10,7 +10,7 @@ const HTML = {
       }
       hrs.push("</select>");
       let mnts = [`<select id="selMM_${id}" class="${cls}">`] 
-      for (let i = 15; i <= 45; i += 15)
+      for (let i = 0; i <= 45; i += 15)
          mnts.push(`<option value="${i}">${i}</option>`);
       /* -- */
       mnts.push("</select>");

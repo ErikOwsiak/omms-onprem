@@ -21,8 +21,12 @@ class gpioConf {
       let t = this;
       /* on time */
       let div_val = function() {
-            alert(this);
+            let id = this.id,
+               divHv = this.getElementById(`selHH_${id}`).val(),
+               divMv = this.getElementById(`selMM_${id}`).val();
+            return `${divHv}:${divMv}`;
          };
+      /* -- -- */
       let div = this.doc.byID("divSelTimeOn");
       div.innerHTML =  HTML.selTime("TimeON", "timeOn", "timeon-css");
       div.val = div_val;
@@ -48,24 +52,23 @@ class gpioConf {
       this.btnSave = this.doc.byID("btnSave");
       let btnSaveClick = function() {
             /* -- */
-            let test = document.getElementById("divSelTimeOn").val(),
-               tON = document.getElementById("timeOn").value,
+            let tON = document.getElementById("divSelTimeOn").val(),
                sunOn = document.getElementById("sunSelOn"),
                sunOnOffset = document.getElementById("sunSelOnOffset"),
                /* -- */
-               tOFF = document.getElementById("timeOff").value,
+               tOFF = document.getElementById("divSelTimeOff").val(),
                sunOff = document.getElementById("sunSelOff"),
                sunOffOffset = document.getElementById("sunSelOffOffset"),
                chnlName = document.getElementById("txtChnlName").value;
             /* -- */
             sunOn = sunOn.options[sunOn.selectedIndex].value;
-            if (tON == "" && sunOn == "0") {
+            if (tON == ":" && sunOn == "0") {
                alert("Select ON Time!");
                return;
             }
             /* -- */
             sunOff = sunOff.options[sunOff.selectedIndex].value;
-            if (tOFF == "" && sunOff == "0") {
+            if (tOFF == ":" && sunOff == "0") {
                alert("Select OFF Time!");
                return;
             }
