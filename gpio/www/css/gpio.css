@@ -84,3 +84,7 @@ div.ln-btns input[type=button] {
 input[type=button]:hover {
    cursor: pointer;
 }
+
+div.selTime {
+   display: inline-block;
+}
