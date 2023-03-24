@@ -86,8 +86,6 @@ def api_setconf():
          chnl: str = jsobj["chnl"]
          pin_key: str = sysUtils.pin_redis_key(jsobj["devid"], chnl)
          REDIS.select(redisDBIdx.DB_IDX_GPIO.value)
-         # REDIS.hset(pin_key, "CONF", buff)
-         # REDIS.hset(pin_key, "CHANNEL_NAME", jsobj["chnlName"])
          _data: {} = {"CONF": buff, "CHANNEL_ID": chnl, "CHANNEL_NAME": jsobj["chnlName"]}
          REDIS.hset(pin_key, mapping=_data)
          PUB_CHANNEL = GPIO_KEY_UPDATE.replace("!DEVID!", jsobj["devid"])
@@ -125,7 +123,6 @@ def force():
          pin_key: str = sysUtils.pin_redis_key(devid, chnl)
          REDIS.select(redisDBIdx.DB_IDX_GPIO.value)
          _data: {} = {"CHANNEL_ID": chnl, "OVERRIDE": json.dumps(jsobj)}
-         # REDIS.hset(pin_key, "OVERRIDE", json.dumps(jsobj))
          REDIS.hset(pin_key, mapping=_data)
          PUB_CHANNEL = GPIO_PIN_OVERRIDE.replace("!DEVID!", jsobj["devid"])
          REDIS.publish(PUB_CHANNEL.upper(), pin_key)
