@@ -28,7 +28,7 @@ const HTML = {
          mnts.push(`<option value="${m}"${sl}>${m}</option>`);
       }
       mnts.push("</select>");
-      return mnts;   
+      return mnts.join("");   
    }
 
 };
