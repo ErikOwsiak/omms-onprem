@@ -4,7 +4,7 @@ const HTML = {
 
    selTime(lbl, id, cls) {
       let h, hrs = [`<select id="selHH_${id}" class="${cls}">`];
-      hrs.push[`<optgroup label="Hours">`];
+      hrs.push(`<optgroup label="Hours">`);
       for (let i = 0; i < 24; i++) {
          h = String(i).padStart(2, "0");
          hrs.push(`<option value="${h}">${h}</option>`);
