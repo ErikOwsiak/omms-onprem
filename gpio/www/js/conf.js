@@ -21,9 +21,11 @@ class gpioConf {
       let t = this;
       /* on time */
       let div_val = function() {
-            let id = this.id,
-               divHv = this.getElementById(`selHH_${id}`).val(),
+            let id = this.id;
+            console.log(id);
+            let divHv = this.getElementById(`selHH_${id}`).val(),
                divMv = this.getElementById(`selMM_${id}`).val();
+            /* -- */
             return `${divHv}:${divMv}`;
          };
       /* -- -- */
