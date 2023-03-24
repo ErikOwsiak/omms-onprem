@@ -37,7 +37,7 @@ class gpioConf {
       div.val = div_val;
       let sel = `selHH_${_id}`;
       document.getElementById(sel).addEventListener("change", function() {
-            alert(this);
+            alert(this.value);
          });
 
       /* off time */
