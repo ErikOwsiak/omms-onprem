@@ -24,7 +24,7 @@
       <div class="ln-time">
          Time OFF:&nbsp;<input id="timeOff" type="time" step="15" />
          &nbsp;&nbsp;
-         <div id="selTimeOff" class="selTime"></div> 
+         <div id="divSelTimeOff" class="selTime"></div> 
          <select id="sunSelOff">
             <option value="0" selected>use SUN</option>
             <option value="sunrise">Sunrise</option>
