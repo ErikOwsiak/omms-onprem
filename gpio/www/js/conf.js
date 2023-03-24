@@ -19,8 +19,8 @@ class gpioConf {
    init() {
       
       let div = this.doc.byID("divSelTimeOff");
-      div.innerHTML =  HTML.selTime("timeOn", "timeon-css");
-
+      div.innerHTML =  HTML.selTime("TimeON", "timeOn", "timeon-css");
+      
       let t = this;
       /* force on button */
       this.btnOn = this.doc.byID("btnOverrideON");
