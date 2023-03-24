@@ -18,10 +18,11 @@ const HTML = {
    },
 
    selTimeMM(id, cls, min, max, step) {
-      let m, mnts = [`<select id="selMM_${id}" class="${cls}">`] 
+      let sl, m, mnts = [`<select id="selMM_${id}" class="${cls}">`] 
       for (let i = min; i <= max; i += step) {
+         sl = (i == 0) ? "selected" : "";
          m = String(i).padStart(2, "0");
-         mnts.push(`<option value="${m}">${m}</option>`);
+         mnts.push(`<option value="${m}" ${sl}>${m}</option>`);
       }
       mnts.push("</select>");
       return mnts;   
