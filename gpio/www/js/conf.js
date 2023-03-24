@@ -21,12 +21,13 @@ class gpioConf {
       let t = this;
       /* on time */
       let hr_sel_chng = function() {
-            let dayparts = ["sunrise", "sunset"];
+            let _id = this.attributes["_idtag"].value,
+               dayparts = ["sunrise", "sunset"];
+            /* -- */
+            let div = document.querySelector(`#divSel_${_id}_MM`);
             if (dayparts.includes(this.value)) {
-               let div = document.querySelector("#divSelTimeOn_MM");
                div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", -45, 45, 15);
             } else {
-               div = document.querySelector("#divSelTimeOn_MM");
                div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", 0, 45, 15);
             }
          };
