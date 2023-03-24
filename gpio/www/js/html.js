@@ -10,9 +10,9 @@ const HTML = {
       hrs.push(`</optgroup><optgroup label="Hours">`);
       /* -- */
       for (let i = 0; i < 24; i++) {
-         sl = (i == 0) ? "selected" : "";
+         sl = (i == 0) ? " selected" : "";
          h = String(i).padStart(2, "0");
-         hrs.push(`<option value="${h}">${h}</option>`);
+         hrs.push(`<option value="${h}"${sl}>${h}</option>`);
       }
       /* -- */
       hrs.push(`</optgroup></select>`);
@@ -23,9 +23,9 @@ const HTML = {
    selTimeMM(id, cls, min, max, step) {
       let sl, m, mnts = [`<select id="selMM_${id}" class="${cls}">`] 
       for (let i = min; i <= max; i += step) {
-         sl = (i == 0) ? "selected" : "";
+         sl = (i == 0) ? " selected" : "";
          m = String(i).padStart(2, "0");
-         mnts.push(`<option value="${m}" ${sl}>${m}</option>`);
+         mnts.push(`<option value="${m}"${sl}>${m}</option>`);
       }
       mnts.push("</select>");
       return mnts;   
