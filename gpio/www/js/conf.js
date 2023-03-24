@@ -18,7 +18,7 @@ class gpioConf {
 
    init() {
       
-      let b = HTML.selTime();
+      let b = HTML.selTime("timeOn", "timeon-css");
       console.log(b);
 
       let t = this;
