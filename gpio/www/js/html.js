@@ -4,12 +4,15 @@ const HTML = {
 
    selTime(lbl, id, cls) {
       let h, hrs = [`<select id="selHH_${id}" class="${cls}">`];
+      hrs.push[`<optgroup label="Hours">`];
       for (let i = 0; i < 24; i++) {
          h = String(i).padStart(2, "0");
          hrs.push(`<option value="${h}">${h}</option>`);
       }
+      hrs.push(`</optgroup><optgroup label="DayParts">`);
       hrs.push(`<option value="sunrise">Sunrise</option>`);
       hrs.push(`<option value="sunset">Sunset</option>`);
+      hrs.push("</optgroup>");
       /* -- */
       hrs.push("</select>");
       let m, mnts = [`<select id="selMM_${id}" class="${cls}">`] 
