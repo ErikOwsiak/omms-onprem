@@ -47,8 +47,15 @@ class gpioConf {
       div = document.querySelector(`#divSel_${_id}_MM`);
       div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", 0, 45, 15);
       /* off time */
-      div = this.doc.byID("divSelTimeOff");
-      div.innerHTML =  HTML.selTime("TimeOFF", "timeOff", "timeon-css");
+      _id = "TimeOff", lbl = "TimeOFF", sel = `selHH_${_id}`,
+         div = document.querySelector(`#divSel_${_id}_HH`);
+      div.innerHTML =  HTML.selTimeHH(lbl, _id, "timeon-css");
+      div.val = div_val;
+      document.getElementById(sel).addEventListener("change", hr_sel_chng);
+      div = document.querySelector(`#divSel_${_id}_MM`);
+      div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", 0, 45, 15);
+      //div = this.doc.byID("divSelTimeOff");
+      //div.innerHTML =  HTML.selTime("TimeOFF", "timeOff", "timeon-css");
       /* force on button */
       this.btnOn = this.doc.byID("btnOverrideON");
       this.btnOn.addEventListener("click", function() {
