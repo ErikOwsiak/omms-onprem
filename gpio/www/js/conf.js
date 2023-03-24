@@ -35,8 +35,7 @@ class gpioConf {
       let div_val = function() {
             let divHv = document.getElementById(`selHH_${this.id}`).val(),
                divMv = document.getElementById(`selMM_${this.id}`).val();
-            /* -- */
-            return `${divHv}:${divMv}`;
+            return [divHv, divMv];
          };
       /* -- TimeON selector -- */
       let _id = "TimeOn", lbl = "TimeON", sel = `selHH_${_id}`,
@@ -75,11 +74,10 @@ class gpioConf {
       this.btnSave = this.doc.byID("btnSave");
       let btnSaveClick = function() {
             /* -- */
-            let tON = document.getElementById("divSelTimeOn").val(),
-               sunOn = document.getElementById("sunSelOn"),
-               sunOnOffset = document.getElementById("sunSelOnOffset"),
-               /* -- */
-               tOFF = document.getElementById("divSelTimeOff").val(),
+            let [T0, T1] = document.getElementById("divSel_TimeOn").val();
+            console.log([T0, T1]);
+            /* -- */
+            let tOFF = document.getElementById("divSel_TimeOff").val(),
                sunOff = document.getElementById("sunSelOff"),
                sunOffOffset = document.getElementById("sunSelOffOffset"),
                chnlName = document.getElementById("txtChnlName").value;
@@ -107,7 +105,6 @@ class gpioConf {
       /* -- */
       this.btnSave.addEventListener("click", btnSaveClick);
       /* -- */
-      // t.pullState(t);
    }
 
    onGotConf(d) {
