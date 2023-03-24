@@ -23,8 +23,8 @@ class gpioConf {
       let div_val = function() {
             let id = this.id;
             console.log(id);
-            let divHv = this.getElementById(`selHH_${id}`).val(),
-               divMv = this.getElementById(`selMM_${id}`).val();
+            let divHv = document.getElementById(`selHH_${id}`).val(),
+               divMv = document.getElementById(`selMM_${id}`).val();
             /* -- */
             return `${divHv}:${divMv}`;
          };
