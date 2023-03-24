@@ -47,13 +47,13 @@ class gpioConf {
                chnlName = document.getElementById("txtChnlName").value;
             /* -- */
             sunOn = sunOn.options[sunOn.selectedIndex].value;
-            if (tON == "" || sunOn == "0") {
+            if (tON == "" && sunOn == "0") {
                alert("Select ON Time!");
                return;
             }
             /* -- */
             sunOff = sunOff.options[sunOff.selectedIndex].value;
-            if (tOff == "" || sunOff == "0") {
+            if (tOFF == "" && sunOff == "0") {
                alert("Select OFF Time!");
                return;
             }
