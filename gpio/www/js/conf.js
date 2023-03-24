@@ -23,9 +23,11 @@ class gpioConf {
       let hr_sel_chng = function() {
             let dayparts = ["sunrise", "sunset"];
             if (dayparts.includes(this.value)) {
-               alert("a");
+               let div = document.querySelector("#divSelTimeOn_MM");
+               div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", -45, 45, 15);
             } else {
-               alert("b");
+               div = document.querySelector("#divSelTimeOn_MM");
+               div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", 0, 45, 15);
             }
          };
       /* -- */
