@@ -38,12 +38,12 @@ class gpioConf {
             return `${divHv}:${divMv}`;
          };
       /* -- */
-      let _id = "timeOn", lbl = "TimeON", sel = `selHH_${_id}`,
-         div = document.querySelector("#divSelTimeOn_HH");
+      let _id = "TimeOn", lbl = "TimeON", sel = `selHH_${_id}`,
+         div = document.querySelector(`#divSel_${_id}_HH`);
       div.innerHTML =  HTML.selTimeHH(lbl, _id, "timeon-css");
       div.val = div_val;
       document.getElementById(sel).addEventListener("change", hr_sel_chng);
-      div = document.querySelector("#divSelTimeOn_MM");
+      div = document.querySelector(`#divSel_${_id}_MM`);
       div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", 0, 45, 15);
       /* off time */
       div = this.doc.byID("divSelTimeOff");

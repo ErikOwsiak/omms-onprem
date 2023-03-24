@@ -3,46 +3,16 @@
       <div id="channelInfo" class="ln-ch-info">
       </div>
       <div class="ln-time">
-         <div id="divSelTimeOn" class="selTime">
-            <div id="divSelTimeOn_HH" class="_HH"></div>
-            <div id="divSelTimeOn_MM" class="_MM"></div>
+         <div id="divSel_TimeOn" class="selTime">
+            <div id="divSel_TimeOn_HH" class="_HH"></div>
+            <div id="divSel_TimeOn_MM" class="_MM"></div>
          </div>
-         <!-- <select id="sunSelOn">
-            <option value="0" selected>use SUN</option>
-            <option value="sunrise">Sunrise</option>
-            <option value="sunset">Sunset</option>
-         </select>
-         &nbsp;&nbsp;
-         <select id="sunSelOnOffset">
-            <option value="-45">-45 minutes</option>
-            <option value="-30">-30 minutes</option>
-            <option value="-15">-15 minutes</option>
-            <option value="0" selected>0 minutes</option>
-            <option value="+15">+15 minutes</option>
-            <option value="+30">+30 minutes</option>
-            <option value="+45">+45 minutes</option>
-         </select> -->
       </div>
       <div class="ln-time">
-         <!-- Time OFF:&nbsp;<input id="timeOff" type="time" step="15" />
-         &nbsp;&nbsp; -->
-         <div id="divSelTimeOff" class="selTime">
+         <div id="divSel_TimeOff" class="selTime">
+            <div id="divSel_TimeOff_HH" class="_HH"></div>
+            <div id="divSel_TimeOff_MM" class="_MM"></div>
          </div>
-         <select id="sunSelOff">
-            <option value="0" selected>use SUN</option>
-            <option value="sunrise">Sunrise</option>
-            <option value="sunset">Sunset</option>
-         </select>
-         &nbsp;&nbsp;
-         <select id="sunSelOffOffset">
-            <option value="-45">-45 minutes</option>
-            <option value="-30">-30 minutes</option>
-            <option value="-15">-15 minutes</option>
-            <option value="0" selected>0 minutes</option>
-            <option value="+15">+15 minutes</option>
-            <option value="+30">+30 minutes</option>
-            <option value="+45">+45 minutes</option>
-         </select>
       </div>
       <div class="ln-time chnlnm">
          Channel Name:&nbsp;<input type="text" id="txtChnlName" />
