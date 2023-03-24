@@ -3,11 +3,11 @@
       <div id="channelInfo" class="ln-ch-info">
       </div>
       <div class="ln-time">
-         <!--Time ON:&nbsp;<input id="timeOn" type="time" min="00:01" max="23:59" step="15" />
-         &nbsp;&nbsp; -->
          <div id="divSelTimeOn" class="selTime">
+            <div id="divSelTimeOn_HH" class="_HH"></div>
+            <div id="divSelTimeOn_MM" class="_MM"></div>
          </div>
-         <select id="sunSelOn">
+         <!-- <select id="sunSelOn">
             <option value="0" selected>use SUN</option>
             <option value="sunrise">Sunrise</option>
             <option value="sunset">Sunset</option>
@@ -21,7 +21,7 @@
             <option value="+15">+15 minutes</option>
             <option value="+30">+30 minutes</option>
             <option value="+45">+45 minutes</option>
-         </select>
+         </select> -->
       </div>
       <div class="ln-time">
          <!-- Time OFF:&nbsp;<input id="timeOff" type="time" step="15" />

@@ -21,24 +21,26 @@ class gpioConf {
       let t = this;
       /* on time */
       let hr_sel_chng = function() {
-            console.log(this);
+            let dayparts = ["sunrise", "sunset"];
+            if (dayparts.includes(this.value)) {
+               alert("a");
+            } else {
+               alert("b");
+            }
          };
+      /* -- */
       let div_val = function() {
-            let id = this.id;
-            let divHv = document.getElementById(`selHH_${id}`).val(),
-               divMv = document.getElementById(`selMM_${id}`).val();
+            let divHv = document.getElementById(`selHH_${this.id}`).val(),
+               divMv = document.getElementById(`selMM_${this.id}`).val();
             /* -- */
             return `${divHv}:${divMv}`;
          };
-      /* -- -- */
-      let div = this.doc.byID("divSelTimeOn"),
-         _id = "timeOn"
-      div.innerHTML =  HTML.selTime("TimeON", _id, "timeon-css");
+      /* -- */
+      let _id = "timeOn", lbl = "TimeON", sel = `selHH_${_id}`,
+         div = document.querySelector("#divSelTimeOn_HH");
+      div.innerHTML =  HTML.selTime(lbl, _id, "timeon-css");
       div.val = div_val;
-      let sel = `selHH_${_id}`;
-      document.getElementById(sel).addEventListener("change", function() {
-            alert(this.value);
-         });
+      document.getElementById(sel).addEventListener("change", hr_sel_chng);
 
       /* off time */
       div = this.doc.byID("divSelTimeOff");

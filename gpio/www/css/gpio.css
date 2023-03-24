@@ -88,3 +88,7 @@ input[type=button]:hover {
 div.selTime {
    display: inline-block;
 }
+
+div._HH, div._MM {
+   display: inline-block;
+}

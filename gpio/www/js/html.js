@@ -24,6 +24,18 @@ const HTML = {
       return `${lbl}&nbsp;:&nbsp;${hrs.join("")}` + 
          `&nbsp;:&nbsp;${mnts.join("")}&nbsp;&nbsp;`;
       /* -- */
+   },
+
+   selTimeHH(id, cls, min, max, step) {
+      let m, mnts = [`<select id="selMM_${id}" class="${cls}">`] 
+      for (let i = min; i <= max; i += step) {
+         m = String(i).padStart(2, "0");
+         mnts.push(`<option value="${m}">${m}</option>`);
+      }
+      /* -- */
+      mnts.push("</select>");
+      return `${lbl}&nbsp;:&nbsp;${hrs.join("")}` + 
+         `&nbsp;:&nbsp;${mnts.join("")}&nbsp;&nbsp;`;   
    }
 
 };
