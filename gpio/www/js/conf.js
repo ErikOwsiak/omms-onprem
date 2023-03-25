@@ -31,16 +31,16 @@ class gpioConf {
          };
       /* -- divSel_TimeOn_HH, divSel_TimeOn_MM */
       let div_val = function() {
-            debugger
             let selHv, selMv, 
                _idtag = this.attributes["_idtag"].value,
                selH = document.getElementById(`selHH_${_idtag}`),
                selM = document.getElementById(`selMM_${_idtag}`);
+            console.log(`div_val: ${_idtag}`);
             /* -- */
             if (selH != undefined)
                selHv = selH.value;
             if (selM != undefined)
-               selMv = selM.value
+               selMv = selM.value;
             /* -- */
             return [selHv, selMv];
          };
