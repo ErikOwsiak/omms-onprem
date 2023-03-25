@@ -82,14 +82,10 @@ class gpioConf {
       this.btnSave = this.doc.byID("btnSave");
       let btnSaveClick = function() {
             /* -- greb HH selector -- */
-            let selHH = document.getElementById("selHH_TimeOn");
-            console.log(selHH.value);
-            //console.log([T0, T1]);
-            /* -- */
-            let tOFF = document.getElementById("divSel_TimeOff").val(),
-               sunOff = document.getElementById("sunSelOff"),
-               sunOffOffset = document.getElementById("sunSelOffOffset"),
-               chnlName = document.getElementById("txtChnlName").value;
+            debugger
+            let [onHH, onMM] = document.getElementById("selHH_TimeOn").val();
+            let [offHH, offMM] = document.getElementById("selHH_TimeOff").val();
+            let chnlName = document.getElementById("txtChnlName").value;
             /* -- */
             sunOn = sunOn.options[sunOn.selectedIndex].value;
             if (tON == ":" && sunOn == "0") {
