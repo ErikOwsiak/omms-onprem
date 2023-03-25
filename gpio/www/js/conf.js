@@ -19,13 +19,11 @@ class gpioConf {
    init() {
       /* -- */
       let t = this;
-      /* on time */
       let hr_sel_chng = function() {
-            let _id = this.attributes["_idtag"].value,
+            let _idtag = this.attributes["_idtag"].value,
                dayparts = ["sunrise", "sunset"];
             /* -- */
-            // debugger
-            let sellMM = document.getElementById(`selMM_${_id}`);
+            let sellMM = document.getElementById(`selMM_${_idtag}`);
             if (dayparts.includes(this.value))
                sellMM.innerHTML =  HTML.selTimeMM(-45, 45, 15);
             else
@@ -34,9 +32,11 @@ class gpioConf {
       /* -- divSel_TimeOn_HH, divSel_TimeOn_MM */
       let div_val = function() {
             debugger
-            let divHv, divMv, _idtag = this.attributes["_idtag"].value,
+            let divHv, divMv, 
+               _idtag = this.attributes["_idtag"].value,
                divH = document.getElementById(`selHH_${_idtag}`),
                divM = document.getElementById(`selMM_${_idtag}`);
+            /* -- */
             if (divH != undefined)
                divHv = divHv.value();
 
