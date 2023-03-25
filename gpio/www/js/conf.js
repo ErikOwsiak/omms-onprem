@@ -35,7 +35,6 @@ class gpioConf {
                _idtag = this.attributes["_idtag"].value,
                selH = document.getElementById(`selHH_${_idtag}`),
                selM = document.getElementById(`selMM_${_idtag}`);
-            console.log(`div_val: ${_idtag}`);
             /* -- */
             if (selH != undefined)
                selHv = selH.value;
@@ -82,28 +81,12 @@ class gpioConf {
       this.btnSave = this.doc.byID("btnSave");
       let btnSaveClick = function() {
             /* -- greb HH selector -- */
-            debugger
             let [onHH, onMM] = divTimeOn.val();
             let [offHH, offMM] = divTimeOff.val();
             let chnlName = document.getElementById("txtChnlName").value;
             /* -- */
-            sunOn = sunOn.options[sunOn.selectedIndex].value;
-            if (tON == ":" && sunOn == "0") {
-               alert("Select ON Time!");
-               return;
-            }
-            /* -- */
-            sunOff = sunOff.options[sunOff.selectedIndex].value;
-            if (tOFF == ":" && sunOff == "0") {
-               alert("Select OFF Time!");
-               return;
-            }
-            /* -- */
-            sunOnOffset = sunOnOffset.options[sunOnOffset.selectedIndex].value;
-            sunOffOffset = sunOffOffset.options[sunOffOffset.selectedIndex].value;
-            /* -- */
-            let data = {"devid": t.devid, "chnl": t.chnl, tON, tOFF
-               , sunOn, sunOff, sunOnOffset, sunOffOffset, chnlName};
+            let data = {"devid": t.devid, "chnl": t.chnl
+               , "ON": `${onHH}:${onMM}`, "OFF": `${offHH}:${offMM}`, chnlName};
             /* -- */
             t.setConf(data);
          };
