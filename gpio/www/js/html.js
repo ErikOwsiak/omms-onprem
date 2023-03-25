@@ -3,7 +3,7 @@
 const HTML = {
 
    selTimeHH(lbl, id, cls) {
-      let sl, h, hrs = [`<select id="selHH_${id}" _idtag=${id} class="${cls}">`];
+      let sl, h, hrs = [`<select id="selHH_${id}" _idtag="${id}" class="${cls}">`];
       hrs.push(`<optgroup label="DayParts">`);
       hrs.push(`<option value="sunrise">Sunrise</option>`);
       hrs.push(`<option value="sunset">Sunset</option>`);

@@ -83,9 +83,9 @@ class gpioConf {
       /* save config info */
       this.btnSave = this.doc.byID("btnSave");
       let btnSaveClick = function() {
-            /* -- */
-            let tdiv = document.getElementById("divSel_TimeOn");
-            console.log(tdiv.val());
+            /* -- greb HH selector -- */
+            let selHH = document.getElementById("divSel_TimeOn");
+            console.log(selHH.value);
             //console.log([T0, T1]);
             /* -- */
             let tOFF = document.getElementById("divSel_TimeOff").val(),
