@@ -34,9 +34,9 @@ class gpioConf {
       /* -- divSel_TimeOn_HH, divSel_TimeOn_MM */
       let div_val = function() {
             debugger
-            let divHv, divMv, 
-               divH = document.getElementById(`selHH_${this.id}`),
-               divM = document.getElementById(`selMM_${this.id}`);
+            let divHv, divMv, _idtag = this.attributes["_idtag"],
+               divH = document.getElementById(`selHH_${_idtag}`),
+               divM = document.getElementById(`selMM_${_idtag}`);
             if (divH != undefined)
                divHv = divHv.value();
 
