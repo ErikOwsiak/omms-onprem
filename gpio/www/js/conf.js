@@ -24,12 +24,12 @@ class gpioConf {
             let _id = this.attributes["_idtag"].value,
                dayparts = ["sunrise", "sunset"];
             /* -- */
-            let div = document.querySelector(`#divSel_${_id}_MM`);
-            if (dayparts.includes(this.value)) {
-               div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", -45, 45, 15);
-            } else {
-               div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", 0, 45, 15);
-            }
+            debugger
+            let sellMM = document.getElementById(`divSel_${_id}_MM`);
+            if (dayparts.includes(this.value))
+               sellMM.innerHTML =  HTML.selTimeMM(-45, 45, 15);
+            else
+               sellMM.innerHTML =  HTML.selTimeMM(0, 45, 15);
          };
       /* -- divSel_TimeOn_HH, divSel_TimeOn_MM */
       let div_val = function() {
