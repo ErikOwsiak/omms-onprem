@@ -37,9 +37,14 @@ class gpioConf {
                divMv = document.getElementById(`selMM_${this.id}`).val();
             return [divHv, divMv];
          };
+      /* add val calls on the div holding HH & MM selects */
+      let divTimeOn = document.getElementById("divSel_TimeOn"),
+         divTimeOff = document.getElementById("divSel_TimeOff");
+      divTimeOn.val = div_val;
+      divTimeOff.val = div_val;
       /* -- TimeON selector -- */
       let _id = "TimeOn", lbl = "TimeON", sel = `selHH_${_id}`,
-         div = document.querySelector(`#divSel_${_id}`);
+         div = document.querySelector(`#divSel_${_id}_HH`);
       div.innerHTML =  HTML.selTimeHH(lbl, _id, "timeon-css");
       div.val = div_val;
       document.getElementById(sel).addEventListener("change", hr_sel_chng);
