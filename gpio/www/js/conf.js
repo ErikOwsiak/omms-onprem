@@ -32,18 +32,18 @@ class gpioConf {
       /* -- divSel_TimeOn_HH, divSel_TimeOn_MM */
       let div_val = function() {
             debugger
-            let divHv, divMv, 
+            let selHv, selMv, 
                _idtag = this.attributes["_idtag"].value,
                selH = document.getElementById(`selHH_${_idtag}`),
                selM = document.getElementById(`selMM_${_idtag}`);
             console.log([selH, selM]);
             /* -- */
             if (selH != undefined)
-               divHv = selH.value();
+               divHv = selH.value;
             if (selM != undefined)
-               divHv = divM.value()
+               selHv = selM.value
             /* -- */
-            return [divHv, divMv];
+            return [selHv, selMv];
          };
       /* add val calls on the div holding HH & MM selects */
       let divTimeOn = document.getElementById("divSel_TimeOn"),
