@@ -39,7 +39,7 @@ class gpioConf {
          };
       /* -- TimeON selector -- */
       let _id = "TimeOn", lbl = "TimeON", sel = `selHH_${_id}`,
-         div = document.querySelector(`#divSel_${_id}_HH`);
+         div = document.querySelector(`#divSel_${_id}`);
       div.innerHTML =  HTML.selTimeHH(lbl, _id, "timeon-css");
       div.val = div_val;
       document.getElementById(sel).addEventListener("change", hr_sel_chng);
