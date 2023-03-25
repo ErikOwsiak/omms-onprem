@@ -92,3 +92,7 @@ div.selTime {
 div._HH, div._MM {
    display: inline-block;
 }
+
+#selMM_TimeOn, #selMM_TimeOff {
+   width: 6vw;
+}
