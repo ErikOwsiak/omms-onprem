@@ -38,8 +38,10 @@ class gpioConf {
                divM = document.getElementById(`selMM_${_idtag}`);
             /* -- */
             if (divH != undefined)
-               divHv = divHv.value();
-
+               divHv = divH.value();
+            if (divM != undefined)
+               divHv = divM.value()
+            /* -- */
             return [divHv, divMv];
          };
       /* add val calls on the div holding HH & MM selects */
