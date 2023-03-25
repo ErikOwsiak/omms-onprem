@@ -17,9 +17,15 @@
          </div>
       </div>
       <div class="ln-time">
-         <div id="divSel_TimeOff" _idtag="TimeOff" class="selTime">
-            <div id="divSel_TimeOff_HH" class="_HH"></div>
-            <div id="divSel_TimeOff_MM" class="_MM"></div>
+         <div id="divSel_TimeOff_HH" class="_HH">
+            TimeOFF&nbsp;-&nbsp;&nbsp;&nbsp;Hours/DayParts&nbsp;&nbsp;:&nbsp;&nbsp;
+            <select id="selHH_TimeOff" _idtag="TimeOff" class="selSelTime">
+            </select>
+         </div>
+         <div id="divSel_TimeOn_MM" class="_MM">
+            &nbsp;Minutes:&nbsp;
+            <select id="selMM_TimeOff" class="selSelTime">
+            </select>
          </div>
       </div>
       <div class="ln-time chnlnm">
