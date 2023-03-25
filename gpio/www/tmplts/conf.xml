@@ -5,7 +5,7 @@
       <div class="ln-time">
          <div id="divSel_TimeOn" _idtag="TimeOn" class="selTime">
             <div id="divSel_TimeOn_HH" class="_HH">
-               TimeON:&nbsp;&nbsp;
+               TimeON&nbsp;-&nbsp;&nbsp;&nbsp;Hours/DayParts&nbsp;&nbsp;:&nbsp;&nbsp;
                <select id="selHH_TimeOn" _idtag="TimeOn" class="selSelTime">
                </select>
             </div>
