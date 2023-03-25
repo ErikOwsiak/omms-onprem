@@ -36,12 +36,11 @@ class gpioConf {
                _idtag = this.attributes["_idtag"].value,
                selH = document.getElementById(`selHH_${_idtag}`),
                selM = document.getElementById(`selMM_${_idtag}`);
-            console.log([selH, selM]);
             /* -- */
             if (selH != undefined)
-               divHv = selH.value;
+               selHv = selH.value;
             if (selM != undefined)
-               selHv = selM.value
+               selMv = selM.value
             /* -- */
             return [selHv, selMv];
          };
