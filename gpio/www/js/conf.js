@@ -34,12 +34,13 @@ class gpioConf {
             debugger
             let divHv, divMv, 
                _idtag = this.attributes["_idtag"].value,
-               divH = document.getElementById(`selHH_${_idtag}`),
-               divM = document.getElementById(`selMM_${_idtag}`);
+               selH = document.getElementById(`selHH_${_idtag}`),
+               selM = document.getElementById(`selMM_${_idtag}`);
+            console.log([selH, selM]);
             /* -- */
-            if (divH != undefined)
-               divHv = divH.value();
-            if (divM != undefined)
+            if (selH != undefined)
+               divHv = selH.value();
+            if (selM != undefined)
                divHv = divM.value()
             /* -- */
             return [divHv, divMv];
