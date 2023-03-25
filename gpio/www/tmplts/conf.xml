@@ -3,13 +3,15 @@
       <div id="channelInfo" class="ln-ch-info">
       </div>
       <div class="ln-time">
-         <div id="divSel_TimeOn" class="selTime">
-            <div id="divSel_TimeOn_HH" class="_HH"></div>
-            <div id="divSel_TimeOn_MM" class="_MM"></div>
+         <div id="divSel_TimeOn" _idtag="TimeOn" class="selTime">
+            <div id="divSel_TimeOn_HH" class="_HH">
+            </div>
+            <div id="divSel_TimeOn_MM" class="_MM">
+            </div>
          </div>
       </div>
       <div class="ln-time">
-         <div id="divSel_TimeOff" class="selTime">
+         <div id="divSel_TimeOff" _idtag="TimeOff" class="selTime">
             <div id="divSel_TimeOff_HH" class="_HH"></div>
             <div id="divSel_TimeOff_MM" class="_MM"></div>
          </div>
