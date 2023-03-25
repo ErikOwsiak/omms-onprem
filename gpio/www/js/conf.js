@@ -83,8 +83,8 @@ class gpioConf {
       let btnSaveClick = function() {
             /* -- greb HH selector -- */
             debugger
-            let [onHH, onMM] = document.getElementById("selHH_TimeOn").val();
-            let [offHH, offMM] = document.getElementById("selHH_TimeOff").val();
+            let [onHH, onMM] = divTimeOn.val();
+            let [offHH, offMM] = divTimeOff.val();
             let chnlName = document.getElementById("txtChnlName").value;
             /* -- */
             sunOn = sunOn.options[sunOn.selectedIndex].value;
