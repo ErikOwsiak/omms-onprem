@@ -31,10 +31,10 @@ class gpioConf {
                div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", 0, 45, 15);
             }
          };
-      /* -- */
+      /* -- divSel_TimeOn_HH, divSel_TimeOn_MM */
       let div_val = function() {
-            let divHv = document.getElementById(`selHH_${this.id}`).val(),
-               divMv = document.getElementById(`selMM_${this.id}`).val();
+            let divHv = document.getElementById(`selHH_${this.id}`).value(),
+               divMv = document.getElementById(`selMM_${this.id}`).value();
             return [divHv, divMv];
          };
       /* add val calls on the div holding HH & MM selects */
