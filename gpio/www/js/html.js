@@ -25,7 +25,7 @@ const HTML = {
       for (let i = min; i <= max; i += step) {
          sl = (i == 0) ? " selected" : "";
          m = String(i).padStart(2, "0");
-         mnts.push(`<option value="${m}"${sl}>${m} minutes</option>`);
+         mnts.push(`<option value="${m}"${sl}>${m}</option>`);
       }
       return mnts.join("");   
    }

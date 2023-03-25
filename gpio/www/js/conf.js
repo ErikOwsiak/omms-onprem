@@ -24,7 +24,7 @@ class gpioConf {
             let _id = this.attributes["_idtag"].value,
                dayparts = ["sunrise", "sunset"];
             /* -- */
-            debugger
+            // debugger
             let sellMM = document.getElementById(`selMM_${_id}`);
             if (dayparts.includes(this.value))
                sellMM.innerHTML =  HTML.selTimeMM(-45, 45, 15);
