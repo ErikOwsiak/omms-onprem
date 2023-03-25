@@ -47,24 +47,20 @@ class gpioConf {
          divTimeOff = document.getElementById("divSel_TimeOff");
       divTimeOn.val = div_val;
       divTimeOff.val = div_val;
-      /* -- TimeON selector -- */
-      let _id = "TimeOn", lbl = "TimeON", sel = `selHH_${_id}`,
-         div = document.querySelector(`#divSel_${_id}_HH`);
-      div.innerHTML =  HTML.selTimeHH(lbl, _id, "timeon-css");
-      div.val = div_val;
-      document.getElementById(sel).addEventListener("change", hr_sel_chng);
-      div = document.querySelector(`#divSel_${_id}_MM`);
-      div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", 0, 45, 15);
-      /* off time */
-      _id = "TimeOff", lbl = "TimeOFF", sel = `selHH_${_id}`,
-         div = document.querySelector(`#divSel_${_id}_HH`);
-      div.innerHTML =  HTML.selTimeHH(lbl, _id, "timeon-css");
-      div.val = div_val;
-      document.getElementById(sel).addEventListener("change", hr_sel_chng);
-      div = document.querySelector(`#divSel_${_id}_MM`);
-      div.innerHTML =  HTML.selTimeMM(_id, "timeon-css", 0, 45, 15);
-      //div = this.doc.byID("divSelTimeOff");
-      //div.innerHTML =  HTML.selTime("TimeOFF", "timeOff", "timeon-css");
+      /* -- select ON hour | onHH */
+      let selHHon = document.getElementById("selHH_TimeOn");
+      selHHon.innerHTML =  HTML.selTimeHH();
+      selHHon.addEventListener("change", hr_sel_chng);
+      /* -- select ON minutes | onMM */
+      let selMMon = document.getElementById("selMM_TimeOn");
+      selMMon.innerHTML =  HTML.selTimeMM(0, 45, 15);
+      /* -- select OFF hour | offHH */
+      let selHHoff = document.getElementById("selHH_TimeOff");
+      selHHoff.innerHTML =  HTML.selTimeHH();
+      selHHoff.addEventListener("change", hr_sel_chng);
+      /* -- select OFF minutes | offMM */
+      let selMMoff = document.getElementById("selMM_TimeOff");
+      selMMoff.innerHTML =  HTML.selTimeMM(0, 45, 15);
       /* force on button */
       this.btnOn = this.doc.byID("btnOverrideON");
       this.btnOn.addEventListener("click", function() {
@@ -84,7 +80,7 @@ class gpioConf {
       this.btnSave = this.doc.byID("btnSave");
       let btnSaveClick = function() {
             /* -- greb HH selector -- */
-            let selHH = document.getElementById("divSel_TimeOn");
+            let selHH = document.getElementById("selHH_TimeOn");
             console.log(selHH.value);
             //console.log([T0, T1]);
             /* -- */

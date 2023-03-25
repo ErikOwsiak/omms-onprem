@@ -5,8 +5,14 @@
       <div class="ln-time">
          <div id="divSel_TimeOn" _idtag="TimeOn" class="selTime">
             <div id="divSel_TimeOn_HH" class="_HH">
+               TimeON:&nbsp;&nbsp;
+               <select id="selHH_TimeOn" _idtag="TimeOn" class="selSelTime">
+               </select>
             </div>
             <div id="divSel_TimeOn_MM" class="_MM">
+               &nbsp;Minutes:&nbsp;
+               <select id="selMM_TimeOn" class="selSelTime">
+               </select>
             </div>
          </div>
       </div>

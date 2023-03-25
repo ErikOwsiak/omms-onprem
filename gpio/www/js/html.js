@@ -2,8 +2,8 @@
 
 const HTML = {
 
-   selTimeHH(lbl, id, cls) {
-      let sl, h, hrs = [`<select id="selHH_${id}" _idtag="${id}" class="${cls}">`];
+   selTimeHH() {
+      let sl, h, hrs = [];
       hrs.push(`<optgroup label="DayParts">`);
       hrs.push(`<option value="sunrise">Sunrise</option>`);
       hrs.push(`<option value="sunset">Sunset</option>`);
@@ -15,19 +15,18 @@ const HTML = {
          hrs.push(`<option value="${h}"${sl}>${h}</option>`);
       }
       /* -- */
-      hrs.push(`</optgroup></select>`);
-      return `${lbl}:&nbsp;&nbsp;${hrs.join("")}`;
+      hrs.push(`</optgroup>`);
+      return hrs.join("");
       /* -- */
    },
 
-   selTimeMM(id, cls, min, max, step) {
-      let sl, m, mnts = [`<select id="selMM_${id}" class="${cls}">`] 
+   selTimeMM(min, max, step) {
+      let sl, m, mnts = [];
       for (let i = min; i <= max; i += step) {
          sl = (i == 0) ? " selected" : "";
          m = String(i).padStart(2, "0");
          mnts.push(`<option value="${m}"${sl}>${m} minutes</option>`);
       }
-      mnts.push("</select>");
       return mnts.join("");   
    }
 
