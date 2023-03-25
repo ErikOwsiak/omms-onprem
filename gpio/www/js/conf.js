@@ -33,8 +33,13 @@ class gpioConf {
          };
       /* -- divSel_TimeOn_HH, divSel_TimeOn_MM */
       let div_val = function() {
-            let divHv = document.getElementById(`selHH_${this.id}`).value(),
-               divMv = document.getElementById(`selMM_${this.id}`).value();
+            debugger
+            let divHv, divMv, 
+               divH = document.getElementById(`selHH_${this.id}`),
+               divM = document.getElementById(`selMM_${this.id}`);
+            if (divH != undefined)
+               divHv = divHv.value();
+
             return [divHv, divMv];
          };
       /* add val calls on the div holding HH & MM selects */
