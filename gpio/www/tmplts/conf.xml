@@ -17,7 +17,7 @@
          </div>
       </div>
       <div class="ln-time">
-         <div id="divSel_TimeOff" _idtag="TimeOn" class="selTime">
+         <div id="divSel_TimeOff" _idtag="TimeOff" class="selTime">
             <div id="divSel_TimeOff_HH" class="_HH">
                TimeOFF&nbsp;-&nbsp;&nbsp;&nbsp;Hours/DayParts&nbsp;&nbsp;:&nbsp;&nbsp;
                <select id="selHH_TimeOff" _idtag="TimeOff" class="selSelTime">
