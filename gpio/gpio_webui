@@ -17,7 +17,11 @@ except Exception as e:
    from core.debug import debug
    from core.utils import sysUtils
    from ommslib.shared.core.datatypes import redisDBIdx
+
+try:
    os.chdir("gpio")
+finally:
+   pass
 
 # -- load ini file --
 GPIO_INI_FILE = "gpio.ini"
