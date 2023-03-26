@@ -85,8 +85,8 @@ class gpioConf {
             let [offHH, offMM] = divTimeOff.val();
             let chnlName = document.getElementById("txtChnlName").value;
             /* -- */
-            let data = {"devid": t.devid, "chnl": t.chnl
-               , "ON": `${onHH}:${onMM}`, "OFF": `${offHH}:${offMM}`, chnlName};
+            let data = {"devid": t.devid, "chnl": t.chnl, chnlName
+               , "ON": `${onHH}:${onMM}`, "OFF": `${offHH}:${offMM}`};
             /* -- */
             t.setConf(data);
          };

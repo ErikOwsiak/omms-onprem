@@ -93,7 +93,7 @@ class sysUtils(object):
       return cal.monthrange(y, m)[1]
 
    @staticmethod
-   def pin_redis_key(devid: str, chnl: str):
+   def pin_redis_key(devid: str, chnl: int):
       return f'PIN_{devid}_ch_{chnl}'.upper()
 
    @staticmethod

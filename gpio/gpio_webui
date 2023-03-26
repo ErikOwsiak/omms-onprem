@@ -4,7 +4,7 @@ import json, os.path, sys
 import configparser as _cp, redis, setproctitle
 from flask import Flask, render_template,\
    request as req, make_response, jsonify
-from gpiolib.gpiotypes import gpioOpResp
+from gpiolib.gpiotypes import gpioOpResp, confSetData, forceData
 try:
    from core.debug import debug
    from core.utils import sysUtils
@@ -51,6 +51,7 @@ CTYPE_JSON = "text/json"
 CTYPE_TEXT = "text/plain"
 STATIC_DIR = "www"
 TMPL_DIR = "www/tmplts"
+MSG_ERR_NO_RED_PONG: str = "NoRedPong"
 
 
 APP_NAME = "gpio-ui"
@@ -59,7 +60,6 @@ app = Flask(APP_NAME, static_url_path=""
 
 
 @app.route("/", methods=["GET"])
-@app.route("/home", methods=["GET"])
 def index():
    key = "mode"
    if key in req.args:
@@ -69,7 +69,7 @@ def index():
       if ua.upper().find("MOBILE") > -1:
          mode = "mobile"
       else:
-         raise Exception("BadRequest")
+         mode = "iframe"
    # -- --
    return render_template("idx.html", _mode=mode)
 
@@ -78,20 +78,18 @@ def index():
 def api_setconf():
    try:
       rsp: gpioOpResp = gpioOpResp(0, "DataSaved!", "")
-      jsobj = req.json
-      jsobj["dtsutc"] = sysUtils.dts_utc()
-      buff = json.dumps(jsobj)
+      data: confSetData = confSetData()
+      data.load(req.json)
       # -- -- -- --
       if REDIS.ping():
-         chnl: str = jsobj["chnl"]
-         pin_key: str = sysUtils.pin_redis_key(jsobj["devid"], chnl)
+         PIN_KEY: str = sysUtils.pin_redis_key(data.devid, data.chnl)
          REDIS.select(redisDBIdx.DB_IDX_GPIO.value)
-         _data: {} = {"CONF": buff, "CHANNEL_ID": chnl, "CHANNEL_NAME": jsobj["chnlName"]}
-         REDIS.hset(pin_key, mapping=_data)
-         PUB_CHANNEL = GPIO_KEY_UPDATE.replace("!DEVID!", jsobj["devid"])
-         REDIS.publish(PUB_CHANNEL.upper(), pin_key)
+         REDIS.delete(PIN_KEY)
+         REDIS.hset(PIN_KEY, mapping=data.mapping())
+         PUB_CHANNEL = GPIO_KEY_UPDATE.replace("!DEVID!", data.devid)
+         REDIS.publish(PUB_CHANNEL.upper(), PIN_KEY)
       else:
-         rsp.err = 1; rsp.msg = "BadRedisPing"
+         rsp.err = 1; rsp.msg = MSG_ERR_NO_RED_PONG
          print(rsp)
       # -- -- -- --
       return make_response(rsp.toJson(), 200)
@@ -116,18 +114,16 @@ def api_getconf(devid, chnl):
 def force():
    try:
       rsp: gpioOpResp = gpioOpResp(0, "ChannelForced!", "")
-      jsobj = req.json
-      jsobj["dtsutc"] = sysUtils.dts_utc()
+      data: forceData = forceData()
+      data.load(req.json)
       if REDIS.ping():
-         devid = jsobj["devid"]; chnl = jsobj["chnl"]
-         pin_key: str = sysUtils.pin_redis_key(devid, chnl)
+         PIN_KEY: str = sysUtils.pin_redis_key(data.devid, data.chnl_id)
          REDIS.select(redisDBIdx.DB_IDX_GPIO.value)
-         _data: {} = {"CHANNEL_ID": chnl, "OVERRIDE": json.dumps(jsobj)}
-         REDIS.hset(pin_key, mapping=_data)
-         PUB_CHANNEL = GPIO_PIN_OVERRIDE.replace("!DEVID!", jsobj["devid"])
-         REDIS.publish(PUB_CHANNEL.upper(), pin_key)
+         REDIS.hset(PIN_KEY, mapping=data.mapping())
+         PUB_CHANNEL = GPIO_PIN_OVERRIDE.replace("!DEVID!", data.devid)
+         REDIS.publish(PUB_CHANNEL.upper(), PIN_KEY)
       else:
-         rsp.err = 1; rsp.msg = "BadRedisPing"
+         rsp.err = 1; rsp.msg = MSG_ERR_NO_RED_PONG
       # -- -- -- --
       return make_response(rsp.toJson(), 200)
    except Exception as e:
@@ -152,5 +148,5 @@ def state_info():
 # -- -- [ start app here ] -- --
 if __name__ == "__main__":
    setproctitle.setproctitle(APP_NAME)
-   app.run(host="0.0.0.0", port=HTTP_PORT, debug=True)
+   app.run(host="0.0.0.0", port=HTTP_PORT, debug=True, use_reloader=False)
 # == == == == == == == == == == == == == == == == == == == == == ==
