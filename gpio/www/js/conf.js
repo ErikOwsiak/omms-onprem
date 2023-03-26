@@ -92,6 +92,7 @@ class gpioConf {
          };
       /* -- */
       this.btnSave.addEventListener("click", btnSaveClick);
+      this.pullState(this);
       /* -- */
    }
 
