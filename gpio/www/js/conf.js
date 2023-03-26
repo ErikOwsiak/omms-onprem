@@ -25,7 +25,7 @@ class gpioConf {
             /* -- */
             let sellMM = document.getElementById(`selMM_${_idtag}`);
             if (dayparts.includes(this.value))
-               sellMM.innerHTML =  HTML.selTimeMM(-45, 45, 15);
+               sellMM.innerHTML =  HTML.selTimeMM(-45, 45, 15, "+");
             else
                sellMM.innerHTML =  HTML.selTimeMM(0, 45, 15);
          };

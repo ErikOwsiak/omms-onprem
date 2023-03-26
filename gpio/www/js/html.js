@@ -20,11 +20,12 @@ const HTML = {
       /* -- */
    },
 
-   selTimeMM(min, max, step) {
+   selTimeMM(min, max, step, posprfx = "") {
       let sl, m, mnts = [];
       for (let i = min; i <= max; i += step) {
          sl = (i == 0) ? " selected" : "";
          m = String(i).padStart(2, "0");
+         m = (i > 0) ? `+${m}` : m;
          mnts.push(`<option value="${m}"${sl}>${m}</option>`);
       }
       return mnts.join("");   
