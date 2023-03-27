@@ -55,7 +55,9 @@ class gpioConf {
                divMM = document.getElementById(`selMM_${idtag}`);
             /* -- */
             divHH.value = hh;
-            divMM.value = mm;
+            setTimeout(function() {
+                  divMM.value = mm;
+               }, 100);
          };
       /* add val calls on the div holding HH & MM selects */
       let divTimeOn = document.getElementById("divSel_TimeOn"),
