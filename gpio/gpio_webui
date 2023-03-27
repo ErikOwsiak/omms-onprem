@@ -43,12 +43,9 @@ if debug.is_dev_box():
 # -- -- -- --
 RED: _cp.SectionProxy = GPIO_INI[REDIS_SEC]
 RED_CORE: _cp.SectionProxy = GPIO_INI["REDIS_CORE"]
+GPIO_KEY_UPDATE: str = RED_CORE.get("GPIO_CONF_CHANGE")
 REDIS: redis.Redis = redis.Redis(host=RED.get("HOST")
    , port=RED.getint("PORT"), password=RED_CORE.get("PWD"))
-
-GPIO_KEY_UPDATE: str = RED_CORE.get("GPIO_CONF_CHANGE")
-GPIO_PIN_OVERRIDE: str = RED_CORE.get("GPIO_OVERRIDE")
-
 if not REDIS.ping():
    print("RedisBadPing!")
    exit(2)
@@ -127,7 +124,7 @@ def force():
          PIN_KEY: str = sysUtils.pin_redis_key(data.devid, data.chnl_id)
          REDIS.select(redisDBIdx.DB_IDX_GPIO.value)
          REDIS.hset(PIN_KEY, mapping=data.mapping())
-         PUB_CHANNEL = GPIO_PIN_OVERRIDE.replace("!DEVID!", data.devid)
+         PUB_CHANNEL = GPIO_KEY_UPDATE.replace("!DEVID!", data.devid)
          REDIS.publish(PUB_CHANNEL.upper(), PIN_KEY)
       else:
          rsp.err = 1; rsp.msg = MSG_ERR_NO_RED_PONG
