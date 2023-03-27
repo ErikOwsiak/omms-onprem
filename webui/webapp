@@ -15,6 +15,7 @@ APP_INI: str = os.getenv("WEBUI_INI")
 if not os.path.exists(APP_INI):
    print(f"APP_INI_NOT_FOUND: {APP_INI}")
    exit(1)
+print(f"\nWEBUI_INI_LOADED: {APP_INI}")
 
 # -- load ini file --
 WEBUI_INI: _cp.ConfigParser = _cp.ConfigParser()

@@ -23,6 +23,7 @@ OMMS_INI: str = os.getenv("OMMS_INI")
 if not os.path.exists(OMMS_INI):
    print(f"OMMS_INI_NOT_FOUND: {OMMS_INI}")
    exit(1)
+print(f"\nWEBUI_INI_LOADED: {OMMS_INI}")
 
 try:
    os.chdir("gpio")
