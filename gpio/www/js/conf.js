@@ -5,6 +5,7 @@ class gpioConf {
    static ctJSON = "application/json";
    static forceUrl = `${gpioConf.urlpfx}/force`;
    static setconfUrl = `${gpioConf.urlpfx}/setconf`;
+   static DAYPARTS = ["sunrise", "sunset"];
 
    constructor(devid, chnl) {
       this.devid = devid;
@@ -20,11 +21,9 @@ class gpioConf {
       /* -- */
       let t = this;
       let hr_sel_chng = function() {
-            let _idtag = this.attributes["_idtag"].value,
-               dayparts = ["sunrise", "sunset"];
-            /* -- */
+            let _idtag = this.attributes["_idtag"].value;
             let sellMM = document.getElementById(`selMM_${_idtag}`);
-            if (dayparts.includes(this.value))
+            if (gpioConf.DAYPARTS.includes(this.value))
                sellMM.innerHTML =  HTML.selTimeMM(-45, 45, 15, "+");
             else
                sellMM.innerHTML =  HTML.selTimeMM(0, 45, 15);
@@ -55,9 +54,13 @@ class gpioConf {
                divMM = document.getElementById(`selMM_${idtag}`);
             /* -- */
             divHH.value = hh;
-            setTimeout(function() {
-                  divMM.value = mm;
-               }, 100);
+            if (gpioConf.DAYPARTS.includes(hh)) {
+               divMM.innerHTML = HTML.selTimeMM(-45, 45, 15, "+");
+               divMM.value = mm;
+            } else {
+               divMM.innerHTML = HTML.selTimeMM(0, 45, 15);
+               divMM.value = mm;
+            }            
          };
       /* add val calls on the div holding HH & MM selects */
       let divTimeOn = document.getElementById("divSel_TimeOn"),
