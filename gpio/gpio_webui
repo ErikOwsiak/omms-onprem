@@ -19,29 +19,22 @@ except Exception as e:
    from ommslib.shared.core.datatypes import redisDBIdx
 
 
-OMMS_INI: str = os.getenv("OMMS_INI")
-if not os.path.exists(OMMS_INI):
-   print(f"OMMS_INI_NOT_FOUND: {OMMS_INI}")
-   exit(1)
-print(f"\nWEBUI_INI_LOADED: {OMMS_INI}")
-
 try:
    os.chdir("gpio")
-except:
-   pass
+except Exception as e:
+   print(e)
 finally:
    pass
 
-# -- load ini file --
-GPIO_INI_FILE = "gpio.ini"
-if not os.path.exists(GPIO_INI_FILE):
-   print(f"CWD: {os.getcwd()}")
-   print(f"PathNotFound: {GPIO_INI_FILE}")
-   exit(-1)
+APP_INI: str = os.getenv("GPIO_INI")
+if APP_INI is None or not os.path.exists(APP_INI):
+   print(f"GPIO_INI_NOT_FOUND: {APP_INI}")
+   exit(1)
+print(f"\nGPIO_INI_LOADED: {APP_INI}")
 
 # -- -- -- --
 GPIO_INI: _cp.ConfigParser = _cp.ConfigParser()
-GPIO_INI.read(GPIO_INI_FILE)
+GPIO_INI.read(APP_INI)
 HTTP_PORT: int = GPIO_INI.getint("HTTP", "PORT")
 
 # -- -- -- --
