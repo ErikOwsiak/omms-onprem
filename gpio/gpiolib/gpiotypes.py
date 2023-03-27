@@ -52,7 +52,7 @@ class confSetData(object):
    def mapping(self) -> {}:
       return {"DEVICE_ID": self.devid, "BOARD_CHANNEL": self.chnl
          , "CHANNEL_NAME": self.chnl_name, "ON": self.ON, "OFF": self.OFF
-         , "OVERRIDE": "NIL", "DTSUTC": self.dtsutc}
+         , "CONF_DTSUTC": self.dtsutc, "OVERRIDE": "NIL", "OVERRIDE_DTSUTC": "NIL"}
 
 
 class forceData(object):
