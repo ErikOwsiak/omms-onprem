@@ -136,34 +136,15 @@ class gpioConf {
       if (d["OFF"])
          divTimeOff.setval(d.OFF, "TimeOff");
       /* -- */
-      if (d["CONF"]) {
-         let jobj = JSON.parse(d.CONF);
-         /* -- */
-         let tON = document.getElementById("timeOn");
-         tON.value = jobj.tON;
-         let sunOn = document.getElementById("sunSelOn");
-         sunOn.value = jobj.sunOn;
-         let sunOnOffset = document.getElementById("sunSelOnOffset");
-         sunOnOffset.value = jobj.sunOnOffset;
-         /* -- */
-         let tOFF = document.getElementById("timeOff");
-         tOFF.value = jobj.tOFF;
-         let sunOff = document.getElementById("sunSelOff");
-         sunOff.value = jobj.sunOff;
-         let sunOffOffset = document.getElementById("sunSelOffOffset");
-         sunOffOffset.value = jobj.sunOffOffset;
-      }
-      /* -- */
       if (d["OVERRIDE"]) {
          const on_css = "4px solid green";
          const off_css = "1px solid darkgrey";
-         const override = JSON.parse(d.OVERRIDE);
          let bOn = document.getElementById("btnOverrideON");
          bOn.style.border = off_css;
          let bOff = document.getElementById("btnOverrideOFF");
          bOff.style.border = off_css;
          /* -- */
-         switch (override.state) {
+         switch (d.OVERRIDE) {
             case "on":
                   bOn.style.border = on_css;
                break;
