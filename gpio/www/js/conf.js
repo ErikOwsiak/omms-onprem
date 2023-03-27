@@ -97,7 +97,7 @@ class gpioConf {
       /* force clear */
       this.btnClr = this.doc.byID("btnOverrideCLR");
       this.btnClr.addEventListener("click", function() {
-            t.forceOnOff(t.devid, t.chnl, "n/s");
+            t.forceOnOff(t.devid, t.chnl, "NIL");
          });
       /* save config info */
       this.btnSave = this.doc.byID("btnSave");
