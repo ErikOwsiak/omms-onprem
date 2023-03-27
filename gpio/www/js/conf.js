@@ -43,11 +43,28 @@ class gpioConf {
             /* -- */
             return [selHv, selMv];
          };
+      /* -- setter --
+         OFF: "sunrise:-30"
+         ON: "sunset:15"
+         OFF: "05:30"
+         ON: "sunset:-15" */
+      let set_val = function(val, idtag) {
+            console.log(val);
+            let [hh, mm] = val.split(":");
+            let divHH = document.getElementById(`selHH_${idtag}`),
+               divMM = document.getElementById(`selMM_${idtag}`);
+            /* -- */
+            divHH.value = hh;
+            divMM.value = mm;
+         };
       /* add val calls on the div holding HH & MM selects */
       let divTimeOn = document.getElementById("divSel_TimeOn"),
          divTimeOff = document.getElementById("divSel_TimeOff");
-      divTimeOn.val = div_val;
+      /* -- */
+      divTimeOn.val = div_val; 
+      divTimeOn.setval = set_val;
       divTimeOff.val = div_val;
+      divTimeOff.setval = set_val;
       /* -- select ON hour | onHH */
       let selHHon = document.getElementById("selHH_TimeOn");
       selHHon.innerHTML =  HTML.selTimeHH();
@@ -98,12 +115,22 @@ class gpioConf {
 
    onGotConf(d) {
       /* -- */
+      console.log(d);
       gpioConf.onMobile();
+      let divTimeOn = document.getElementById("divSel_TimeOn"),
+         divTimeOff = document.getElementById("divSel_TimeOff");
       /* -- */
       if (d["CHANNEL_NAME"]) {
          let chnlName = document.getElementById("txtChnlName");
          chnlName.value = (d.CHANNEL_NAME) ? d.CHANNEL_NAME : "";
       }
+      /* -- */
+      if (d["ON"])
+         divTimeOn.setval(d.ON, "TimeOn");
+      /* -- */
+      if (d["OFF"])
+         divTimeOff.setval(d.OFF, "TimeOff");
+      /* -- */
       if (d["CONF"]) {
          let jobj = JSON.parse(d.CONF);
          /* -- */
@@ -122,7 +149,6 @@ class gpioConf {
          sunOffOffset.value = jobj.sunOffOffset;
       }
       /* -- */
-      console.log(d);
       if (d["OVERRIDE"]) {
          const on_css = "4px solid green";
          const off_css = "1px solid darkgrey";
