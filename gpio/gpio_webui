@@ -18,8 +18,16 @@ except Exception as e:
    from core.utils import sysUtils
    from ommslib.shared.core.datatypes import redisDBIdx
 
+
+OMMS_INI: str = os.getenv("OMMS_INI")
+if not os.path.exists(OMMS_INI):
+   print(f"OMMS_INI_NOT_FOUND: {OMMS_INI}")
+   exit(1)
+
 try:
    os.chdir("gpio")
+except:
+   pass
 finally:
    pass
 
@@ -36,16 +44,10 @@ GPIO_INI.read(GPIO_INI_FILE)
 HTTP_PORT: int = GPIO_INI.getint("HTTP", "PORT")
 
 # -- -- -- --
-REDIS_SEC = "REDIS_PROD"
-if debug.is_dev_box():
-   REDIS_SEC = "REDIS_DEV"
-
-# -- -- -- --
-RED: _cp.SectionProxy = GPIO_INI[REDIS_SEC]
-RED_CORE: _cp.SectionProxy = GPIO_INI["REDIS_CORE"]
-GPIO_KEY_UPDATE: str = RED_CORE.get("GPIO_CONF_CHANGE")
-REDIS: redis.Redis = redis.Redis(host=RED.get("HOST")
-   , port=RED.getint("PORT"), password=RED_CORE.get("PWD"))
+RED_SEC: _cp.SectionProxy = GPIO_INI["REDIS"]
+GPIO_KEY_UPDATE: str = RED_SEC.get("GPIO_CONF_CHANGE")
+REDIS: redis.Redis = redis.Redis(host=RED_SEC.get("HOST")
+   , port=RED_SEC.getint("PORT"), password=RED_SEC.get("PWD"))
 if not REDIS.ping():
    print("RedisBadPing!")
    exit(2)

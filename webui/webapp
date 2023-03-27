@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import json, time
+import json, time, os
 import configparser as _cp, redis, setproctitle
 from psycopg2.extensions import connection as _psql_conn
 from flask import Flask, render_template, request as req, make_response
@@ -11,35 +11,36 @@ from core.logProxy import logProxy
 from api.dbEdit import dbEdit
 
 
+APP_INI: str = os.getenv("WEBUI_INI")
+if not os.path.exists(APP_INI):
+   print(f"APP_INI_NOT_FOUND: {APP_INI}")
+   exit(1)
+
 # -- load ini file --
 WEBUI_INI: _cp.ConfigParser = _cp.ConfigParser()
-WEBUI_INI.read("webui.ini")
+WEBUI_INI.read(APP_INI)
 WEBUI_PORT: int = WEBUI_INI.getint("WEBUI", "PORT")
 
-
-# -- -- -- --
-REDIS_SEC = "REDIS_PROD"
-PSQL_CONN_SEC = "PSQL_PROD"
-if debug.is_dev_box():
-   PSQL_CONN_SEC = "PSQL_DEV"
-   REDIS_SEC = "REDIS_DEV"
 # -- -- -- --
 PSQL_CONN_CLOSED: bool = False
-PSQL_CONN_STR = WEBUI_INI.get(PSQL_CONN_SEC, "CONN_STR")
+PSQL_CONN_STR = WEBUI_INI.get("PSQL", "CONN_STR")
 print(f"\nPSQL_CONN_STR: {PSQL_CONN_STR}")
 PSQL_CONN: _psql_conn = dbConnServer.getConnection(PSQL_CONN_STR)
+if PSQL_CONN is None:
+   print("PSQL_CONN_IS_NONE")
+   exit(100)
+
 if PSQL_CONN.closed:
    PSQL_CONN_CLOSED = True
    print("PSQL_CONN is closed!\n")
-   exit(1)
+   exit(101)
 else:
    print("PSQL_CONN_OK\n")
 
 
-RED: _cp.SectionProxy = WEBUI_INI[REDIS_SEC]
-RED_CORE: _cp.SectionProxy = WEBUI_INI["REDIS_CORE"]
-REDIS: redis.Redis = redis.Redis(host=RED.get("HOST")
-   , port=RED.getint("PORT"), password=RED_CORE.get("PWD"))
+RED_SEC: _cp.SectionProxy = WEBUI_INI["REDIS"]
+REDIS: redis.Redis = redis.Redis(host=RED_SEC.get("HOST")
+   , port=RED_SEC.getint("PORT"), password=RED_SEC.get("PWD"))
 if not REDIS.ping():
    print("RedisBadPing!")
    exit(2)
