@@ -90,66 +90,6 @@
       <div id="gpioP7_0Conf" class="channel-conf">
       </div>
    </div>
-   <!-- dev relays -->
-   <div id="devLab3rHat" class="relay-box waveshare3chHat" bus="onboard">
-      <div class="head">
-         <p>DevLabRelays</p>
-      </div>
-      <div class="channels">
-         <!-- DEVLAB3RHAT -->
-         <div devid="devLab3rHat" ch="1" class="gpio-channel">
-            <div class="ch-num">CH1</div>
-         </div>
-         <div devid="devLab3rHat" ch="2" class="gpio-channel">
-            <div class="ch-num">CH2</div>
-         </div>
-         <div devid="devLab3rHat" ch="3" class="gpio-channel">
-            <div class="ch-num">CH3</div>
-         </div>
-         <div devid="devLab3rHat" ch="4" class="gpio-channel disable">
-            <div class="ch-num">CH4</div>
-         </div>
-      </div>
-      <div id="devLab3rHatConf" class="channel-conf">
-      </div>
-   </div>
-    <!-- door realys -->
-    <div id="devLab8R" class="relay-box waveshare8chExpBoard" bus="onboard">
-      <div class="head">
-         <p>DevLab 8Relay Exp. Board</p>
-      </div>
-      <div class="channels">
-         <div>
-            <div devid="devLab8R" ch="1" class="gpio-channel">
-               <div class="ch-num">CH1</div>
-            </div>
-            <div devid="devLab8R" ch="2" class="gpio-channel">
-               <div class="ch-num">CH2</div>
-            </div>
-            <div devid="devLab8R" ch="3" class="gpio-channel">
-               <div class="ch-num">CH3</div>
-            </div>
-            <div devid="devLab8R" ch="4" class="gpio-channel">
-               <div class="ch-num">CH4</div>
-            </div>
-         </div>
-         <div>
-            <div devid="devLab8R" ch="5" class="gpio-channel">
-               <div class="ch-num">CH5</div>
-            </div>
-            <div devid="devLab8R" ch="6" class="gpio-channel">
-               <div class="ch-num">CH6</div>
-            </div>
-            <div devid="devLab8R" ch="7" class="gpio-channel">
-               <div class="ch-num">CH7</div>
-            </div>
-            <div devid="devLab8R" ch="8" class="gpio-channel">
-               <div class="ch-num">CH8</div>
-            </div>
-         </div>
-      </div>
-      <div id="devLab8RConf" class="channel-conf">
-      </div>
-   </div>
+   
 
 </div>
