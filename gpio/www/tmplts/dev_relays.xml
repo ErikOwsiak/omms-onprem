@@ -28,7 +28,7 @@
    <!-- door realys -->
    <div id="devLab8R" class="relay-box waveshare8chExpBoard" bus="onboard">
       <div class="head">
-         <p>DevLab 8Realy Exp. Board</p>
+         <p>DevLab 8Relay Exp. Board</p>
       </div>
       <div class="channels">
          <div>
