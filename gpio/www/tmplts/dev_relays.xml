@@ -41,7 +41,7 @@
             <div devid="devLab8R" ch="3" class="gpio-channel">
                <div class="ch-num">CH3</div>
             </div>
-            <div devid="devLab8R" ch="4" class="gpio-channel disable">
+            <div devid="devLab8R" ch="4" class="gpio-channel">
                <div class="ch-num">CH4</div>
             </div>
          </div>
@@ -55,7 +55,7 @@
             <div devid="devLab8R" ch="7" class="gpio-channel">
                <div class="ch-num">CH7</div>
             </div>
-            <div devid="devLab8R" ch="8" class="gpio-channel disable">
+            <div devid="devLab8R" ch="8" class="gpio-channel">
                <div class="ch-num">CH8</div>
             </div>
          </div>
