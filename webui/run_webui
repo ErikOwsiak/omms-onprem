@@ -11,15 +11,16 @@ from core.logProxy import logProxy
 from api.dbEdit import dbEdit
 
 
-APP_INI: str = os.getenv("WEBUI_INI")
-if not os.path.exists(APP_INI):
-   print(f"APP_INI_NOT_FOUND: {APP_INI}")
+START_INI_PATH = "start_ini"
+if not os.path.islink(START_INI_PATH):
+   print(f"START_INI_SIMLINK_NOT_FOUND: {START_INI_PATH}")
    exit(1)
-print(f"\nWEBUI_INI_LOADED: {APP_INI}")
+print(f"\nSTART_INI_SIMLINK_FOUND: {START_INI_PATH}")
+
 
 # -- load ini file --
 WEBUI_INI: _cp.ConfigParser = _cp.ConfigParser()
-WEBUI_INI.read(APP_INI)
+WEBUI_INI.read(START_INI_PATH)
 WEBUI_PORT: int = WEBUI_INI.getint("WEBUI", "PORT")
 
 # -- -- -- --
