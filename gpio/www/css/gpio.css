@@ -101,9 +101,9 @@ div._HH, div._MM {
 #feedbadkBox {
    width: 86%;
    margin: 0.5vh auto;
-   height: 3.2vh;
-   line-height: 3.2vh;
-   font-size: 2.4vh;
+   height: 4vh;
+   line-height: 4vh;
+   font-size: 3.2vh;
    border: 1px solid darkblue;
    border-radius: 4px;
 }

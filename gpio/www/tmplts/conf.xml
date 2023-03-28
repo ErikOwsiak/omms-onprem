@@ -30,7 +30,7 @@
             </div>
          </div>
       </div>
-      <div id="feedbadkBox" class="ln-time chnlnm">
+      <div id="feedbackBox" class="ln-time chnlnm">
       </div>
       <div class="ln-time chnlnm">
          Channel Name:&nbsp;<input type="text" id="txtChnlName" />

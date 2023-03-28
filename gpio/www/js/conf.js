@@ -122,7 +122,6 @@ class gpioConf {
 
    onGotConf(d) {
       /* -- */
-      console.log(d);
       gpioConf.onMobile();
       let divTimeOn = document.getElementById("divSel_TimeOn"),
          divTimeOff = document.getElementById("divSel_TimeOff");
@@ -162,7 +161,11 @@ class gpioConf {
 
    forceOnOff(devid, chnl, state) {
       let ondone = function(jsobj) {
-            alert(jsobj.MSG);
+            let fb = document.getElementById("feedbackBox");
+            fb.innerHTML = jsobj.MSG;
+            setTimeout(function() {
+                  fb.innerHTML = "";
+               }, 2000);
          };
       let data = {devid, chnl, state};
       fetch(gpioConf.forceUrl, {method: "POST"
@@ -179,7 +182,11 @@ class gpioConf {
 
    setConf(data) {
       let ondone = function(jsobj) {
-            alert(jsobj.MSG);
+            let fb = document.getElementById("feedbackBox");
+            fb.innerHTML = jsobj.MSG;
+            setTimeout(function() {
+                  fb.innerHTML = "";
+               }, 2000);
          };
       fetch(gpioConf.setconfUrl, {method: "POST"
             , headers: {"Content-Type": gpioConf.ctJSON}
