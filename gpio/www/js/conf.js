@@ -58,7 +58,7 @@ class gpioConf {
                divMM.innerHTML = HTML.selTimeMM(-45, 45, 15, "+");
                divMM.value = mm;
             } else {
-               divMM.innerHTML = HTML.selTimeMM(0, 45, 15);
+               divMM.innerHTML = HTML.selTimeMM(0, 55, 5);
                divMM.value = mm;
             }            
          };
@@ -76,14 +76,16 @@ class gpioConf {
       selHHon.addEventListener("change", hr_sel_chng);
       /* -- select ON minutes | onMM */
       let selMMon = document.getElementById("selMM_TimeOn");
-      selMMon.innerHTML =  HTML.selTimeMM(0, 45, 15);
+      selMMon.innerHTML =  HTML.selTimeMM(0, 55, 5);
+      console.log(selHHon.innerHTML);
       /* -- select OFF hour | offHH */
       let selHHoff = document.getElementById("selHH_TimeOff");
       selHHoff.innerHTML =  HTML.selTimeHH();
       selHHoff.addEventListener("change", hr_sel_chng);
       /* -- select OFF minutes | offMM */
       let selMMoff = document.getElementById("selMM_TimeOff");
-      selMMoff.innerHTML =  HTML.selTimeMM(0, 45, 15);
+      selMMoff.innerHTML =  HTML.selTimeMM(0, 55, 5);
+      console.log(selMMoff.innerHTML);
       /* force on button */
       this.btnOn = this.doc.byID("btnOverrideON");
       this.btnOn.addEventListener("click", function() {

@@ -26,10 +26,6 @@ class gpioOpResp(object):
       return json.dumps(d)
 
 
-"""
-   let data = {"devid": t.devid, "chnl": t.chnl, chnlName
-      , "ON": `${onHH}:${onMM}`, "OFF": `${offHH}:${offMM}`};
-"""
 class confSetData(object):
 
    def __init__(self):
@@ -39,7 +35,7 @@ class confSetData(object):
       self.chnl_name: str = ""
       self.ON: str = ""
       self.OFF: str = ""
-      self.dtsutc = sysUtils.dts_utc()
+      self.dtsutc = sysUtils.dts_utc(with_tz=True)
 
    def load(self, jsobj: json):
       self.jsobj = jsobj
@@ -52,7 +48,7 @@ class confSetData(object):
    def mapping(self) -> {}:
       return {"DEVICE_ID": self.devid, "BOARD_CHANNEL": self.chnl
          , "CHANNEL_NAME": self.chnl_name, "ON": self.ON, "OFF": self.OFF
-         , "CONF_DTSUTC": self.dtsutc, "OVERRIDE": "NIL", "OVERRIDE_DTSUTC": "NIL"}
+         , "CONF_DTS": self.dtsutc, "OVERRIDE": "NIL", "OVERRIDE_DTS": "NIL"}
 
 
 class forceData(object):
@@ -61,11 +57,8 @@ class forceData(object):
       self.devid: str = ""
       self.chnl_id: int = 0
       self.state: str = ""
-      self.dtsutc: str = sysUtils.dts_utc()
+      self.dtsutc: str = sysUtils.dts_utc(with_tz=True)
 
-   """
-      _data: {} = {"CHANNEL_ID": chnl, "OVERRIDE": json.dumps(jsobj)}
-   """
    def load(self, jsobj: json):
       _on: [] = ["on", "ON", "1"]
       _off: [] = ["off", "OFF", "0"]
@@ -74,4 +67,4 @@ class forceData(object):
       self.state = jsobj["state"]
 
    def mapping(self) -> {}:
-      return {"OVERRIDE": self.state, "OVERRIDE_DTSUTC": self.dtsutc}
+      return {"OVERRIDE": self.state, "OVERRIDE_DTS": self.dtsutc}
