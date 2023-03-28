@@ -5,6 +5,7 @@ echo ""
 echo "   --- [ start start ] ---"
 echo ""
 
+
 # -- -- kill if running -- --
 killall -s KILL omms-webui
 
@@ -52,8 +53,8 @@ fi
 echo "CWD_1: $(pwd)"
 cd ../webui || exit 34
 echo "CWD_2: $(pwd)"
-chmod +x webapp
-./webapp >> /dev/null &
+chmod +x run_webui
+./run_webui >> /dev/null &
 
 echo ""
 echo "   --- [ end start ] ---"
