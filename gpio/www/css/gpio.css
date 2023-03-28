@@ -96,3 +96,14 @@ div._HH, div._MM {
 #selMM_TimeOn, #selMM_TimeOff {
    width: 4vw;
 }
+
+
+#feedbadkBox {
+   width: 86%;
+   margin: 0.5vh auto;
+   height: 2.4vh;
+   line-height: 2.4vh;
+   font-size: 2vh;
+   border: 1px solid darkblue;
+   border-radius: 4px;
+}
