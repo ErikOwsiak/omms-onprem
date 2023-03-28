@@ -26,15 +26,16 @@ except Exception as e:
 finally:
    pass
 
-APP_INI: str = os.getenv("GPIO_INI")
-if APP_INI is None or not os.path.exists(APP_INI):
-   print(f"GPIO_INI_NOT_FOUND: {APP_INI}")
+
+START_INI_PATH = "start_ini"
+if not os.path.islink(START_INI_PATH):
+   print(f"START_INI_SIMLINK_NOT_FOUND: {START_INI_PATH}")
    exit(1)
-print(f"\nGPIO_INI_LOADED: {APP_INI}")
+print(f"\nSTART_INI_SIMLINK_NOT_FOUND: {START_INI_PATH}")
 
 # -- -- -- --
 GPIO_INI: _cp.ConfigParser = _cp.ConfigParser()
-GPIO_INI.read(APP_INI)
+GPIO_INI.read(START_INI_PATH)
 HTTP_PORT: int = GPIO_INI.getint("HTTP", "PORT")
 
 # -- -- -- --
