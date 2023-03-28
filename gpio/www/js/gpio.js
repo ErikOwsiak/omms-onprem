@@ -45,16 +45,6 @@ const gpio = {
       this.conf = new gpioConf(devid, ch);
       this.conf.init();
       /* -- */
-      // const sel0 = document.getElementById("sunSelOn");
-      // sel0.addEventListener("change", gpio.onSunOnSelect);
-      // const sel1 = document.getElementById("sunSelOff");
-      // sel1.addEventListener("change", gpio.onSunOffSelect);
-      // /* -- */
-      // const offset0 = document.getElementById("sunSelOnOffset");
-      // offset0.addEventListener("change", gpio.onSunOnSelect);
-      // const offset1 = document.getElementById("sunSelOffOffset");
-      // offset1.addEventListener("change", gpio.onSunOffSelect);
-      /* -- */
    },
 
    getNewConfForm() {
@@ -62,18 +52,8 @@ const gpio = {
       const e = document.querySelector(sel);
       return e.outerHTML;   
    }
-   
-   //,
-   // onSunOnSelect() {
-   //    console.log(this.value);
-   // },
-
-   // onSunOffSelect() {
-   //    console.log(this.value);
-   // }
 
 };
-
 
 
 /* -- -- */
