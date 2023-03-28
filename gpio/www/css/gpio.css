@@ -103,7 +103,9 @@ div._HH, div._MM {
    margin: 0.5vh auto;
    height: 4vh;
    line-height: 4vh;
-   font-size: 3.2vh;
+   font-size: 2.4vh;
+   text-align: left;
+   text-indent: 1vw;
    border: 1px solid darkblue;
    border-radius: 4px;
 }
