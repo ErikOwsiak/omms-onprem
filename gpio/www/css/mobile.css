@@ -41,7 +41,7 @@ div.ln-time:not(.chnlnm) {
 
 div.chnlnm {
    display: inline-block;
-   width: 96% !important;
+   width: 90% !important;
    height: auto !important;
    line-height: normal !important;
 }
