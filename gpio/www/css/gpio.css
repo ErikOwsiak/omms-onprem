@@ -99,9 +99,10 @@ div._HH, div._MM {
 
 
 #feedbackBox {
-   width: 86%;
-   margin: 0.5vh auto;
-   height: 4vh;
+   display: block !important;
+   width: 86% !important;
+   margin: 0.5vh auto !important;
+   height: 4vh !important;
    line-height: 4vh;
    font-size: 2.4vh;
    text-align: left;
