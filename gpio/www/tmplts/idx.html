@@ -19,11 +19,7 @@
 </head>
 <body>
    <input type="hidden" id="pageMode" value="{{ _mode }}" />
-   {% if _mode == "dev": %}
-      {% include "dev_relays.xml" %}
-   {% else: %}
-      {% include "relays.xml" %}
-   {% endif %}
+   {% include _rlsxml %}
    {% include "conf.xml" %}
 </body>
 </html>

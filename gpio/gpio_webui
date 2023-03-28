@@ -51,6 +51,10 @@ CTYPE_JSON = "text/json"
 CTYPE_TEXT = "text/plain"
 STATIC_DIR = "www"
 TMPL_DIR = "www/tmplts"
+IDX_PAGE = "idx.html"
+RELAYS_XML: str = GPIO_INI.get("IDX_PAGE", "RELAYS_XML")
+if RELAYS_XML in [None, ""]:
+   RELAYS_XML = "relays.xml"
 MSG_ERR_NO_RED_PONG: str = "NoRedPong"
 
 
@@ -71,7 +75,7 @@ def index():
       else:
          mode = "iframe"
    # -- --
-   return render_template("idx.html", _mode=mode)
+   return render_template(IDX_PAGE, _mode=mode, _rlsxml=RELAYS_XML)
 
 
 @app.route("/setconf", methods=["POST"])
