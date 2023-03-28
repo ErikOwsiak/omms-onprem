@@ -1,14 +1,15 @@
 <div class="relay-col">
+
    <div class="clt-head">
       DevCK : SiteGPIO
    </div>
-   <!-- roof realys -->
+
+   <!-- main wall -->
    <div id="devLab3rHat" class="relay-box waveshare3chHat" bus="onboard">
       <div class="head">
-         <p>DevLab 3Relay Hat</p>
+         <p>DevLabRelays</p>
       </div>
       <div class="channels">
-         <!-- DEVLAB3RHAT -->
          <div devid="devLab3rHat" ch="1" class="gpio-channel">
             <div class="ch-num">CH1</div>
          </div>
@@ -25,6 +26,7 @@
       <div id="devLab3rHatConf" class="channel-conf">
       </div>
    </div>
+   
    <!-- door realys -->
    <div id="devLab8R" class="relay-box waveshare8chExpBoard" bus="onboard">
       <div class="head">
@@ -60,8 +62,9 @@
             </div>
          </div>
       </div>
-      <div id="devLab3rHatConf" class="channel-conf">
+      <div id="devLab8RConf" class="channel-conf">
       </div>
    </div>
+   
 <!-- file end -->
 </div>
