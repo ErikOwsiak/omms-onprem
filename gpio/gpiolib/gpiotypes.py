@@ -1,17 +1,20 @@
 
 import json, os, sys
+ROOT_DIR = os.getcwd()
 try:
    from core.debug import debug
    from core.utils import sysUtils
    from ommslib.shared.core.datatypes import redisDBIdx
 except Exception as e:
-   print(os.getcwd())
+   print(e)
+   print(ROOT_DIR)
    os.chdir("../")
    sys.path.append(os.getcwd())
    print(os.getcwd())
    from core.debug import debug
    from core.utils import sysUtils
    from ommslib.shared.core.datatypes import redisDBIdx
+   os.chdir(ROOT_DIR)
 
 
 class gpioOpResp(object):
