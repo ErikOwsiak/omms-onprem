@@ -462,11 +462,28 @@ div.kwhs-reading:nth-child(even) {
 }
 
 /* -------------------- */
-/* wan access */
+/* -- wan access -- */
 div.wa-frame {
-   width: 92%;
-   height: 46vh;
+   width: 90%;
+   height: auto;
    margin: 4vh auto;
    border: 1px solid darkmagenta;
    border-radius: 1vh;
+}
+
+div.wa-qac {
+   width: 98%;
+   height: 42vh;
+   margin: 0 auto;
+   border: 1px solid darkblue;
+   border-radius: 1vh;
+}
+
+div.wa-ctls {
+   width: 98%;
+   height: 4vh;
+   line-height: 4vh;
+   margin: 2vh auto;
+   border: 1px solid darkblue;
+   border-radius: 0.5vh;
 }
