@@ -16,8 +16,9 @@ class wanAccess {
          `<div id="waCtrls" class="wa-ctls">${this.ctls}</div></div>`;
       /* -- */
       $("#subMenuCol").html(this.frame);
+      let _this = this;
       $("#bntCreateAccessQRC").off().on("click", function() { 
-            this.createQRC();
+            _this.createQRC();
          });
       /* -- */
    }
