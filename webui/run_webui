@@ -6,10 +6,12 @@ from psycopg2.extensions import connection as _psql_conn
 from flask import Flask, render_template, request as req, make_response
 try:
    from api.apiOps import apiOps
-   from core.debug import debug
-   from psql.dbConnServer import dbConnServer
-   from core.logProxy import logProxy
    from api.dbEdit import dbEdit
+   from core.debug import debug
+   from core.logProxy import logProxy
+   from app.qrcaccess import qrcAccess
+   from psql.dbConnServer import dbConnServer
+   from ommslib.shared.core.datatypes import redisDBIdx
 except Exception as e:
    print(e)
    ROOT_DIR: str = os.getcwd()
@@ -22,6 +24,8 @@ except Exception as e:
    from psql.dbConnServer import dbConnServer
    from core.logProxy import logProxy
    from api.dbEdit import dbEdit
+   from app.qrcaccess import qrcAccess
+   from ommslib.shared.core.datatypes import redisDBIdx
    os.chdir(ROOT_DIR)
 
 
@@ -57,16 +61,16 @@ else:
 
 
 RED_SEC: _cp.SectionProxy = WEBUI_INI["REDIS"]
-REDIS: redis.Redis = redis.Redis(host=RED_SEC.get("HOST")
+RED: redis.Redis = redis.Redis(host=RED_SEC.get("HOST")
    , port=RED_SEC.getint("PORT"), password=RED_SEC.get("PWD"))
-if not REDIS.ping():
+if not RED.ping():
    print("RedisBadPing!")
    exit(2)
 
-
-CTYPE_JSON = "text/json"
+# -- misc --
+QRC_IMG_PATH = "www/imgs/qrc.png"
+CTYPE_JSON = "application/json"
 CTYPE_TEXT = "text/plain"
-
 
 APP_NAME = "omms-webui"
 app = Flask(APP_NAME, static_url_path=""
@@ -84,24 +88,23 @@ def index():
 """
 @app.route("/api/get/<item>", methods=["GET"])
 def apiget(item):
-   buffout = ""; errcode = 200; CTYPE = "text/plain"
+   errcode = 200; CTYPE = "text/plain"
    # -- create api object and pass the call --
    if item == "list-reports":
       apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR)
       buffout = apiops.list_reports()
       CTYPE = CTYPE_JSON
    elif item == "clients":
-      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=RED)
       buffout = apiops.list_clients()
       CTYPE = CTYPE_JSON
    elif item == "client_circuits":
-      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=RED)
       clttag: str = req.args["clttag"]
       buffout = apiops.list_client_circuits(clttag)
       CTYPE = CTYPE_JSON
    elif item == "redis_data":
-      # url = `/api/get/redis_data/?dbidx=2&keys=[${sp}]`;
-      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=RED)
       dbidx: int = int(req.args["dbidx"])
       keys: str = req.args["keys"]
       if keys[0] != "[" or keys[-1] != "]":
@@ -117,17 +120,17 @@ def apiget(item):
       buffout = json.dumps(buffout)
       CTYPE = CTYPE_JSON
    elif item == "clt-cir-history":
-      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=RED)
       buffout = apiops.clt_cir_history()
       CTYPE = CTYPE_JSON
    elif item == "client_kwhrs":
       dts = req.args["dts"]
       cirs = req.args["cirs"]
-      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=RED)
       buffout = apiops.clt_kwhrs(dts, cirs)
       CTYPE = CTYPE_JSON
    elif item == "overview":
-      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=RED)
       buffout = apiops.overview()
       CTYPE = CTYPE_JSON
    else:
@@ -143,7 +146,7 @@ def apipost(item):
       if item == "monthly-report":
          y: str = req.values["year"]
          m: str = req.values["month"]
-         apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+         apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=RED)
          err, val = apiops.set_report_job(item, y, m)
          if err == 0:
             buffout = json.dumps({"ERR": 0, "REPORT_ID": val})
@@ -162,13 +165,27 @@ def apiget_meters(args):
    try:
       tag, val = args.split(":")
       errcode = 200; CTYPE = "text/json"
-      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=REDIS)
+      apiops: apiOps = apiOps(INI=WEBUI_INI, conn_str=PSQL_CONN_STR, red=RED)
       buffout = apiops.list_client_meters(clt_dbid=int(val))
       # -- -- return data; errcode = 404 -- --
       return buffout, errcode, {"content-type": CTYPE}
    except Exception as e:
       logProxy.log_exp(e)
       return str(e)
+
+@app.route("/api/get/qrc/<num>/<numt>", methods=["GET"])
+def apiget_qrc(num, numt):
+   ip_addr: str = req.remote_addr
+   qrca: qrcAccess = qrcAccess(red=RED, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
+   err, uuid = qrca.create_new_qrc(WANURL_GPIO, QRC_IMG_PATH)
+   redkey, ttl = qrca.create_temp_object(ip_addr, num, numt, uuid)
+   return {"REDKEY": redkey, "TTL": ttl}, 200, {"content-type": CTYPE_JSON}
+
+
+@app.route("/api/qrc/validate/<xuuid>", methods=["GET"])
+def apiget_validate_qrc(xuuid: str):
+   print(xuuid)
+
 
 @app.route("/dbedit/<path:action>", methods=["GET", "POST", "DELETE"])
 def dbedit(action):
@@ -185,16 +202,16 @@ def dbedit(action):
       # -- return --
       hdrs["content-type"] = _ctype
       return _bout, _err, hdrs
-   except Exception as e:
+   except Exception as ee:
+      print(ee)
       hdrs["content-type"] = "text/exception"
-      print(e)
-      return str(e), 555, hdrs
+      return str(ee), 555, hdrs
 
 @app.route("/state-info")
 def state_info():
    hdrs = {"AppServer": "dbEdit ver.: 0.0.3", "content-type": "text/json"}
    try:
-      redis_ping: bool = REDIS.ping()
+      redis_ping: bool = RED.ping()
       d: {} = {"PSQL_CONN_STR": PSQL_CONN_STR
          , "REDIS_PING": redis_ping, "PSQL_CONN_CLOSED": PSQL_CONN_CLOSED}
       # -- return --
