@@ -46,8 +46,12 @@ class appClicks {
    ogpioClick() {
       try {
          $("#subMenuCol").html("");
+         /* -- -- -- -- */
          _omms.app.gpio = new OpenGPIO("appViewport");
          _omms.app.gpio.init();
+         /* -- -- -- -- */
+         _omms.app.wangate = new wanAccess();
+         _omms.app.wangate.init();
       } catch (e) {
          console.log(e);
       }

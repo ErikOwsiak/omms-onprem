@@ -4,6 +4,7 @@
 <script src="ui/js/reports/kwhrs-report.js"></script>
 <script src="ui/js/db-table.js"></script>
 <!-- system -->
+<script src="ui/js/applibs/wan_access.js"></script>
 <script src="ui/js/chart.js"></script>
 <script src="ui/js/system.js"></script>
 <script src="ui/js/data-ops.js"></script>
