@@ -12,7 +12,7 @@ class wanAccess {
          `<select id="waNumTypes"><option value="h">hours</option><option value="d">days</option></select>` +
          `<input id="bntCreateAccessQRC" type="button" value="CreateQRC" />`;
       /* -- */
-      this.frame = `<div class="wa-frame"><div class="wa-qac"></div>` +
+      this.frame = `<div class="wa-frame"><div id="waQAC" class="wa-qac"></div>` +
          `<div id="waCtrls" class="wa-ctls">${this.ctls}</div></div>`;
       /* -- */
       $("#subMenuCol").html(this.frame);
@@ -41,9 +41,21 @@ class wanAccess {
    }
 
    onCreateQRC(jsobj) {
-      if (jsobj.REDKEY) {
-
+      /* -- */
+      if (jsobj.ERROR == undefined) {
+         console.log("BadErrorCode");
+         return;
       }
+      /* -- */
+      switch (jsobj.ERROR) {
+         case 0:
+            let img = `<img src="/omms/ui/imgs/qrc.png" />`;
+            $("#waQAC").html(img);
+            break;
+         default:
+            alert(`BadErrorCode: ${jsobj.ERROR}`);
+      }
+      /* -- */
    }
 
 };
