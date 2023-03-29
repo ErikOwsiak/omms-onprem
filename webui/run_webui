@@ -1,14 +1,26 @@
 #!/usr/bin/env python3
 
-import json, time, os
+import json, time, os, sys
 import configparser as _cp, redis, setproctitle
 from psycopg2.extensions import connection as _psql_conn
 from flask import Flask, render_template, request as req, make_response
-from api.apiOps import apiOps
-from core.debug import debug
-from psql.dbConnServer import dbConnServer
-from core.logProxy import logProxy
-from api.dbEdit import dbEdit
+try:
+   from api.apiOps import apiOps
+   from core.debug import debug
+   from psql.dbConnServer import dbConnServer
+   from core.logProxy import logProxy
+   from api.dbEdit import dbEdit
+except Exception as e:
+   print(e)
+   os.chdir("../")
+   _p = os.getcwd()
+   print(_p)
+   sys.path.insert(0, _p)
+   from api.apiOps import apiOps
+   from core.debug import debug
+   from psql.dbConnServer import dbConnServer
+   from core.logProxy import logProxy
+   from api.dbEdit import dbEdit
 
 
 START_INI_PATH = "start_ini"
