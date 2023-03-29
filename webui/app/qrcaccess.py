@@ -26,11 +26,10 @@ class qrcAccess(object):
       img.save(fs_path)
       return True, hex_buff
 
-   def create_temp_object(self, ip_addr, num, numt, xuuid) -> (str, int):
+   def create_temp_object(self, ip_addr, num, numt, _uuid) -> (str, int):
       ttl = 60
-      key: str = f"QRC_REQ_{ip_addr}".upper()
-      d: {} = {"REQ_IP": ip_addr, "NUM": num, "NUMT": numt, "UUID": xuuid}
+      d: {} = {"REQ_IP": ip_addr, "NUM": num, "NUMT": numt, "UUID": _uuid}
       self.red.select(self.db_idx)
-      self.red.hset(key, mapping=d)
-      self.red.expire(key, ttl)
-      return key, ttl
+      self.red.hset(_uuid, mapping=d)
+      self.red.expire(_uuid, (ttl + 4))
+      return _uuid, ttl
