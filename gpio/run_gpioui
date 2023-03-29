@@ -14,7 +14,7 @@ except Exception as e:
    print(f"ROOT_DIR: {ROOT_DIR}")
    os.chdir("../")
    _p = os.getcwd()
-   print(_p)
+   print(f"_p: {_p}")
    sys.path.insert(0, _p)
    from core.debug import debug
    from core.utils import sysUtils
