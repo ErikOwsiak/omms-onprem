@@ -41,7 +41,7 @@ WEBUI_PORT: int = WEBUI_INI.getint("WEBUI", "PORT")
 PSQL_CONN_CLOSED: bool = False
 PSQL_CONN_STR = WEBUI_INI.get("PSQL", "CONN_STR")
 print("\n-- [ CONNECTING TO PSQL ] --")
-print(f"\tPSQL_CONN_STR: {PSQL_CONN_STR}")
+print(f" -> PSQL_CONN_STR: {PSQL_CONN_STR}")
 PSQL_CONN: _psql_conn = dbConnServer.getConnection(PSQL_CONN_STR)
 if PSQL_CONN is None:
    print("PSQL_CONN_IS_NONE")
