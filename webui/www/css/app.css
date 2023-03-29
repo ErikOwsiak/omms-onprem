@@ -460,3 +460,14 @@ div.kwhs-reading:nth-child(even) {
    padding-right: 1vh;
    float: right;
 }
+
+
+/* -------------------- */
+/* wan access */
+div.wa-frame {
+   width: 96%;
+   height: 42vh;
+   margin: 4vh auto;
+   border: 1px solid darkmagenta;
+   border-radius: 1vh;
+}
