@@ -22,9 +22,11 @@ class wanAccess {
 
    createQRC() {
       /* -- */
-      let h = $("#waNums").val(), ht = $("#waNumTypes").val();
+      let h = $("#waNums").val()
+         , ht = $("#waNumTypes").val();
       /* -- */
       let url = `/omms/ui/api/get/qrc/${h}/${ht}`;
+      console.log(url);
       $.get(url, function(jsobj) {
             console.log(jsobj);
          });
