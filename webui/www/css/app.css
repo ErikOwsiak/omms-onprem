@@ -496,3 +496,7 @@ input#waNums {
 div.wa-ctls select {
    margin: 0 1vw;
 }
+
+img.qr-img {
+   width: 80%;
+}

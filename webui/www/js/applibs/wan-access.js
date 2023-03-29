@@ -49,7 +49,7 @@ class wanAccess {
       /* -- */
       switch (jsobj.ERROR) {
          case 0:
-            let img = `<img src="/omms/ui/imgs/qrc.png" />`;
+            let img = `<img class="qr-img" src="/omms/ui/imgs/qrc.png" />`;
             $("#waQAC").html(img);
             break;
          default:
