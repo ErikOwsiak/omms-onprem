@@ -16,7 +16,9 @@ class wanAccess {
          `<div id="waCtrls" class="wa-ctls">${this.ctls}</div></div>`;
       /* -- */
       $("#subMenuCol").html(this.frame);
-      $("#bntCreateAccessQRC").off().on("click", this.createQRC);
+      $("#bntCreateAccessQRC").off().on("click", function() { 
+            this.createQRC();
+         });
       /* -- */
    }
 
@@ -39,7 +41,7 @@ class wanAccess {
 
    onCreateQRC(jsobj) {
       if (jsobj.REDKEY) {
-         
+
       }
    }
 
