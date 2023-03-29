@@ -487,3 +487,11 @@ div.wa-ctls {
    border: 1px solid darkblue;
    border-radius: 0.5vh;
 }
+
+input#waNums {
+   width: 4vw;
+}
+
+div.wa-ctls select {
+   margin: 0 1vw;
+}
