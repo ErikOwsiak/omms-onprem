@@ -47,7 +47,7 @@ PSQL_CONN: _psql_conn = dbConnServer.getConnection(PSQL_CONN_STR)
 if PSQL_CONN is None:
    print("PSQL_CONN_IS_NONE")
    exit(100)
-
+# -- test psql connection --
 if PSQL_CONN.closed:
    PSQL_CONN_CLOSED = True
    print("PSQL_CONN is closed!\n")
@@ -69,10 +69,8 @@ CTYPE_TEXT = "text/plain"
 
 
 APP_NAME = "omms-webui"
-app = Flask(APP_NAME
-   , static_url_path=""
-   , static_folder="www"
-   , template_folder="www")
+app = Flask(APP_NAME, static_url_path=""
+   , static_folder="www", template_folder="www")
 
 
 @app.route("/", methods=["GET"])
