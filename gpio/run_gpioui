@@ -12,6 +12,7 @@ try:
    from core.utils import sysUtils
    from ommslib.shared.core.datatypes import redisDBIdx
 except Exception as e:
+   print(e)
    os.chdir("../")
    _p = os.getcwd()
    print(f"_p: {_p}")
