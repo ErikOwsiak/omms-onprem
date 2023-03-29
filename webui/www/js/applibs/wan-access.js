@@ -24,13 +24,23 @@ class wanAccess {
       /* -- */
       let h = $("#waNums").val()
          , ht = $("#waNumTypes").val();
+      if (h == "" || h === undefined) {
+         alert("Enter Time Interval!");
+         return;
+      }
       /* -- */
-      let url = `/omms/ui/api/get/qrc/${h}/${ht}`;
-      console.log(url);
+      let _this = this
+         , url = `/omms/ui/api/get/qrc/${h}/${ht}`;
       $.get(url, function(jsobj) {
-            console.log(jsobj);
+            _this.onCreateQRC(jsobj);
          });
       /* -- */
+   }
+
+   onCreateQRC(jsobj) {
+      if (jsobj.REDKEY) {
+         
+      }
    }
 
 };
