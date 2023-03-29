@@ -36,6 +36,7 @@ print(f"\nSTART_INI_SIMLINK_FOUND: {START_INI_PATH}")
 WEBUI_INI: _cp.ConfigParser = _cp.ConfigParser()
 WEBUI_INI.read(START_INI_PATH)
 WEBUI_PORT: int = WEBUI_INI.getint("WEBUI", "PORT")
+WANURL_GPIO: str = WEBUI_INI.get("WAN_ACCESS", "GPIO_UI")
 
 # -- -- -- --
 PSQL_CONN_CLOSED: bool = False
@@ -77,7 +78,7 @@ app = Flask(APP_NAME
 @app.route("/", methods=["GET"])
 @app.route("/home", methods=["GET"])
 def index():
-   return render_template("index.html")
+   return render_template("index.html", _wanurl_gpio=WANURL_GPIO)
 
 
 """
