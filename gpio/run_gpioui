@@ -5,13 +5,13 @@ import configparser as _cp, redis, setproctitle
 from flask import Flask, render_template,\
    request as req, make_response, jsonify
 from gpiolib.gpiotypes import gpioOpResp, confSetData, forceData
+ROOT_DIR = os.getcwd()
+print(f"ROOT_DIR: {ROOT_DIR}")
 try:
    from core.debug import debug
    from core.utils import sysUtils
    from ommslib.shared.core.datatypes import redisDBIdx
 except Exception as e:
-   ROOT_DIR = os.getcwd()
-   print(f"ROOT_DIR: {ROOT_DIR}")
    os.chdir("../")
    _p = os.getcwd()
    print(f"_p: {_p}")
