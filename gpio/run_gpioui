@@ -10,21 +10,17 @@ try:
    from core.utils import sysUtils
    from ommslib.shared.core.datatypes import redisDBIdx
 except Exception as e:
-   print(os.getcwd())
+   ROOT_DIR = os.getcwd()
+   print(ROOT_DIR)
    os.chdir("../")
-   sys.path.append(os.getcwd())
+   _p = os.getcwd()
+   print(_p)
+   sys.path.insert(0, _p)
    print(os.getcwd())
    from core.debug import debug
    from core.utils import sysUtils
    from ommslib.shared.core.datatypes import redisDBIdx
-
-
-try:
-   os.chdir("gpio")
-except Exception as e:
-   print(e)
-finally:
-   pass
+   os.chdir(ROOT_DIR)
 
 
 START_INI_PATH = "start_ini"

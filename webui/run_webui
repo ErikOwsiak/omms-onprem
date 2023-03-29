@@ -4,7 +4,6 @@ import json, time, os, sys
 import configparser as _cp, redis, setproctitle
 from psycopg2.extensions import connection as _psql_conn
 from flask import Flask, render_template, request as req, make_response
-ROOT_DIR: str = os.getcwd()
 try:
    from api.apiOps import apiOps
    from core.debug import debug
@@ -13,6 +12,7 @@ try:
    from api.dbEdit import dbEdit
 except Exception as e:
    print(e)
+   ROOT_DIR: str = os.getcwd()
    os.chdir("../")
    _p = os.getcwd()
    print(_p)
