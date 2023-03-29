@@ -484,6 +484,7 @@ div.wa-ctls {
    height: 4vh;
    line-height: 4vh;
    margin: 2vh auto;
+   text-align: center;
    border: 1px solid darkblue;
    border-radius: 0.5vh;
 }
