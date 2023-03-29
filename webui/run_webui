@@ -4,6 +4,7 @@ import json, time, os, sys
 import configparser as _cp, redis, setproctitle
 from psycopg2.extensions import connection as _psql_conn
 from flask import Flask, render_template, request as req, make_response
+ROOT_DIR: str = os.getcwd()
 try:
    from api.apiOps import apiOps
    from core.debug import debug
@@ -21,6 +22,7 @@ except Exception as e:
    from psql.dbConnServer import dbConnServer
    from core.logProxy import logProxy
    from api.dbEdit import dbEdit
+   os.chdir(ROOT_DIR)
 
 
 START_INI_PATH = "start_ini"
