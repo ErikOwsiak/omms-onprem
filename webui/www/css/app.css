@@ -464,10 +464,10 @@ div.kwhs-reading:nth-child(even) {
 /* -------------------- */
 /* -- wan access -- */
 div.wa-frame {
-   width: 90%;
+   width: 80%;
    height: auto;
    margin: 4vh auto;
-   border: 1px solid darkmagenta;
+   border: 1px dotted darkgray;
    border-radius: 1vh;
 }
 
