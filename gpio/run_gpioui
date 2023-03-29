@@ -25,6 +25,7 @@ except Exception as e:
 
 START_INI_PATH = "start_ini"
 if not os.path.islink(START_INI_PATH):
+   print(os.getcwd())
    print(f"START_INI_SIMLINK_NOT_FOUND: {START_INI_PATH}")
    exit(1)
 print(f"\nSTART_INI_SIMLINK_FOUND: {START_INI_PATH}")
