@@ -45,7 +45,7 @@ class qrcAccess(object):
    def validate_qrc(self, _uuid: str) -> (int, str):
       self.red.select(self.db_idx)
       red_hash = self.red.hgetall(_uuid)
-      if red_hash is None:
+      if red_hash is None or len(red_hash.keys()) == 0:
          return 1, None    # not found
       # -- -- -- --
       exp: str = red_hash["EXPIRES_UTC"]

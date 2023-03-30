@@ -62,7 +62,6 @@ if PSQL_CONN.closed:
 else:
    print("PSQL_CONN_OK\n")
 
-
 RED_SEC: _cp.SectionProxy = WEBUI_INI["REDIS"]
 RED: redis.Redis = redis.Redis(host=RED_SEC.get("HOST"), port=RED_SEC.getint("PORT")
    , password=RED_SEC.get("PWD"), decode_responses=True)
@@ -91,6 +90,7 @@ def feedback():
    msg = req.args["msg"]
    css = req.args["css"]
    return render_template("feedback.html", _msg=msg, _css=css)
+
 
 """
    "/api/get/list-reports";
@@ -147,6 +147,7 @@ def apiget(item):
    # -- -- return data -- --
    return buffout, errcode, {"content-type": CTYPE}
 
+
 @app.route("/api/post/<item>", methods=["POST"])
 def apipost(item):
    try:
@@ -169,6 +170,7 @@ def apipost(item):
    except Exception as e:
       logProxy.log_exp(e)
 
+
 @app.route("/api/get/meters/<args>", methods=["GET"])
 def apiget_meters(args):
    try:
@@ -181,6 +183,7 @@ def apiget_meters(args):
    except Exception as e:
       logProxy.log_exp(e)
       return str(e)
+
 
 @app.route("/api/get/qrc/<num>/<numt>", methods=["GET"])
 def apiget_qrc(num, numt):
@@ -195,6 +198,7 @@ def apiget_qrc(num, numt):
    # -- -- -- --
    return {"ERROR": 0, "UUID": _uuid, "DATA": data, "TTL": ttl},\
       200, {"content-type": CTYPE_JSON}
+
 
 @app.route("/api/qrc/validate/<_uuid>", methods=["GET"])
 def apiget_validate_qrc(_uuid: str):
