@@ -59,6 +59,7 @@ if RELAYS_XML in [None, ""]:
    RELAYS_XML = "relays.xml"
 MSG_ERR_NO_RED_PONG: str = "NoRedPong"
 MSG_NOAUTH = "NO_AUTH"
+MSG_NOAUTH_RESCAN = f"{MSG_NOAUTH}</br>Rescan QRCode"
 
 APP_NAME = "gpio-ui"
 app = Flask(APP_NAME, static_url_path=""
@@ -73,7 +74,7 @@ def index():
    # -- if mobile & has bad or not AUTH cookie --
    qrca: qrcAccess = qrcAccess(red=REDIS, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
    if qrcAccess.is_mobile(req=req) and (not qrca.check_auth(req, GPIO_AUTH)):
-      return redirect(FEEDBACK_URL % MSG_NOAUTH, code=302)
+      return redirect(FEEDBACK_URL % MSG_NOAUTH_RESCAN, code=302)
    # -- all good here --
    key = "mode"
    if key in req.args:
@@ -130,9 +131,11 @@ def api_getconf(devid, chnl):
 @app.route("/force", methods=["POST"])
 def force():
    try:
+      # -- -- -- --
       rsp: gpioOpResp = gpioOpResp(0, "ChannelForced!", "")
       data: forceData = forceData()
       data.load(req.json)
+      # -- -- -- --
       if REDIS.ping():
          PIN_KEY: str = sysUtils.pin_redis_key(data.devid, data.chnl_id)
          REDIS.select(redisDBIdx.DB_IDX_GPIO.value)

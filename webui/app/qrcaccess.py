@@ -65,8 +65,14 @@ class qrcAccess(object):
       if not qrcAccess.is_mobile(req):
          return self.is_good_host(req)
       # -- -- -- --
-      auth = req.cookies.get(cookie_name)
-      if auth in [None, ""]:
+      _uuid = req.cookies.get(cookie_name)
+      if _uuid in [None, ""]:
+         return False
+      # -- -- -- --
+      self.red.select(self.db_idx)
+      red_hash = self.red.hgetall(_uuid)
+      # -- key has expired --
+      if red_hash is None or len(red_hash.keys()) == 0:
          return False
       # -- -- -- --
       return True
