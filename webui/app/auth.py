@@ -14,8 +14,8 @@ class auth(object):
       self.nets = [n.replace("*", "").strip() for n in _nets]
 
    def check_net(self, r: _req) -> bool:
-      ip = r.remote_addr
-      b_arr: [] = [ip.startswith(n) for n in self.nets]
+      print(f"check_net: {r.remote_addr}")
+      b_arr: [] = [r.remote_addr.startswith(n) for n in self.nets]
       accu: bool = False
       for b in b_arr:
          accu = (b or accu)
