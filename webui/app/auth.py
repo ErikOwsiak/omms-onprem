@@ -14,12 +14,14 @@ class auth(object):
       self.nets = [n.replace("*", "").strip() for n in _nets]
 
    def check_net(self, r: _req) -> bool:
+      # -- -- -- --
       remote_ip = r.headers.get("X-Forwarded-For")
       if remote_ip in [None, ""]:
          remote_ip = r.remote_addr
-      print(f"check_net: {remote_ip}")
+      # -- -- -- --
       for n in self.nets:
          if remote_ip.startswith(n):
+            print(f"[ GOOD_IP: {remote_ip} -> MATCH_ON: {n} ]")
             return True
       # -- -- -- --
       return False
