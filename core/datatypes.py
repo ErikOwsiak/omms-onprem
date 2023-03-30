@@ -22,6 +22,6 @@ class redSubMsg(object):
       self.mtype: str = d["type"]
       if self.mtype != redSubMsg.MTYPE:
          raise Exception(f"BadMsgType: {self.mtype}")
-      self.patt: str = d["pattern"].decode("utf-8")
-      self.data: str = d["data"].decode("utf-8")
-      self.channel: str = d["channel"].decode('utf-8')
+      self.patt: str = d["pattern"]
+      self.data: str = d["data"]
+      self.channel: str = d["channel"]

@@ -79,12 +79,12 @@ class sysOverview(object):
             keys_out = []
             spath: str = spath.decode("utf-8")
             for key in keys:
-               read_stat: str = hmap[key].decode("utf-8")
+               read_stat: str = hmap[key]
                _, _, stat = [s.strip() for s in read_stat.split("|")]
                # -- -- -- --
                if stat == readStatus.READ_OK:
                   continue
-               keys_out.append(key.decode("utf-8"))
+               keys_out.append(key)
             # -- -- -- --
             if len(keys_out) > 0:
                ltag, ctag = self.dbops.get_syspath_info(spath)
@@ -100,7 +100,7 @@ class sysOverview(object):
             _timing_read(syspath, hash_map)
             _read_status([kwhReadKey, pwrReadKey], syspath, hash_map)
          else:
-            missing.append(syspath.decode("utf-8"))
+            missing.append(syspath)
       # -- -- -- --
       self.data["ontime"] = ontime
       self.data["late_3h"] = late_3h

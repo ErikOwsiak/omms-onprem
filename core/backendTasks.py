@@ -79,7 +79,7 @@ class backendTasks(object):
       def _timing_read(spath, hmap: {}):
          try:
             spath: str = spath.decode("utf-8")
-            last_read: str = hmap[lastReadKey].decode("utf-8")
+            last_read: str = hmap[lastReadKey]
             _, _, dtsutc = [s.strip() for s in last_read.split("|")]
             # -- -- -- --
             dtsutc = str(dtsutc).replace("UTC", "").strip()
@@ -105,11 +105,11 @@ class backendTasks(object):
                if key not in hmap:
                   print(f"\tKeyNotFound: {key} in hmap")
                   continue
-               read_stat: str = hmap[key].decode("utf-8")
+               read_stat: str = hmap[key]
                _, _, stat = [s.strip() for s in read_stat.split("|")]
                if stat == readStatus.READ_OK:
                   continue
-               keys_out.append(key.decode("utf-8"))
+               keys_out.append(key)
             # -- -- -- --
             if len(keys_out) > 0:
                ltag, ctag = self.dbops.get_syspath_info(spath)
@@ -125,7 +125,7 @@ class backendTasks(object):
             _timing_read(syspath, hash_map)
             _read_status([kwhReadKey, pwrReadKey], syspath, hash_map)
          else:
-            missing.append(syspath.decode("utf-8"))
+            missing.append(syspath)
       # -- -- -- --
       dout: {} = {"ontime": ontime, "late_3h": late_3h
          , "late_6h": late_6h, "missing": missing, "bad_reads": bad_reads}
