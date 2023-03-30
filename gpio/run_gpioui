@@ -3,8 +3,9 @@
 import json, os.path, sys
 import configparser as _cp, redis, setproctitle
 from flask import Flask, render_template,\
-   request as req, make_response, jsonify
+   request as req, make_response, jsonify, redirect
 from gpiolib.gpiotypes import gpioOpResp, confSetData, forceData
+from gpiolib.sessOps import sessOps
 ROOT_DIR = os.getcwd()
 print(f"ROOT_DIR: {ROOT_DIR}")
 try:
@@ -63,6 +64,15 @@ app = Flask(APP_NAME, static_url_path=""
 
 @app.route("/", methods=["GET"])
 def index():
+   sess_file = req.cookies.get("CK_GPIO_SESS")
+   # -- -- -- --
+   if sess_file is None:
+      msg = "NotAuthorized"
+      return redirect(f"/omms/ui/feedback?msg={msg}&css=no-auth", code=302)
+   # -- -- -- --
+   sess: sessOps = sessOps(red=REDIS)
+   if not sess.check():
+      pass
    key = "mode"
    if key in req.args:
       mode = req.args[key]

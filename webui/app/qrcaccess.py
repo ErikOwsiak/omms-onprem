@@ -55,4 +55,4 @@ class qrcAccess(object):
       return 0, exp
 
    def check_sess_cookie(self):
-      pass
+      return True
