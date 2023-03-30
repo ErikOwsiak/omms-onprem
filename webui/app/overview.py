@@ -55,7 +55,7 @@ class sysOverview(object):
       # -- -- -- --
       def _timing_read(spath, hmap: {}):
          try:
-            spath: str = spath.decode("utf-8")
+            spath: str = spath
             last_read: str = hmap[lastReadKey]
             _, _, dtsutc = [s.strip() for s in last_read.split("|")]
             # -- -- -- --
@@ -77,7 +77,7 @@ class sysOverview(object):
          try:
             # -- -- -- --
             keys_out = []
-            spath: str = spath.decode("utf-8")
+            spath: str = spath
             for key in keys:
                read_stat: str = hmap[key]
                _, _, stat = [s.strip() for s in read_stat.split("|")]
