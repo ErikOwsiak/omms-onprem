@@ -6,6 +6,7 @@ from flask import Flask, render_template,\
    request as req, make_response, jsonify, redirect
 from gpiolib.gpiotypes import gpioOpResp, confSetData, forceData
 from webui.app.qrcaccess import qrcAccess
+from webui.app.auth import auth
 ROOT_DIR = os.getcwd()
 print(f"ROOT_DIR: {ROOT_DIR}")
 try:
@@ -46,6 +47,7 @@ if not REDIS.ping():
    exit(2)
 
 # -- -- -- --
+AUTH: auth = auth(ini=GPIO_INI, red=REDIS)
 CTYPE_JSON = "text/json"
 CTYPE_TEXT = "text/plain"
 STATIC_DIR = "www"
@@ -65,11 +67,14 @@ app = Flask(APP_NAME, static_url_path=""
 
 @app.route("/", methods=["GET"])
 def index():
-   # -- -- -- --
-   qrca: qrcAccess = qrcAccess(red=REDIS, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
-   if not qrca.check_auth(req, GPIO_AUTH):
+   # -- if not mobile and not from good LAN --
+   if (not qrcAccess.is_mobile(req)) and (not AUTH.check_net(r=req)):
       return redirect(FEEDBACK_URL % MSG_NOAUTH, code=302)
-   # -- -- -- --
+   # -- if mobile & has bad or not AUTH cookie --
+   qrca: qrcAccess = qrcAccess(red=REDIS, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
+   if qrcAccess.is_mobile(req=req) and (not qrca.check_auth(req, GPIO_AUTH)):
+      return redirect(FEEDBACK_URL % MSG_NOAUTH, code=302)
+   # -- all good here --
    key = "mode"
    if key in req.args:
       mode = req.args[key]

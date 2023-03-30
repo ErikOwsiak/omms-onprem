@@ -57,7 +57,7 @@ class qrcAccess(object):
 
    def check_auth(self, req: _req, cookie_name: str) -> bool:
       # -- check if allowed host ip --
-      if not self.is_mobile(req):
+      if not qrcAccess.is_mobile(req):
          return self.is_good_host(req)
       # -- -- -- --
       auth = req.cookies.get(cookie_name)
@@ -69,5 +69,6 @@ class qrcAccess(object):
    def is_good_host(self, req: _req) -> bool:
       return True
 
-   def is_mobile(self, req: _req) -> bool:
+   @staticmethod
+   def is_mobile(req: _req) -> bool:
       return "mobile" in req.user_agent.string.lower()
