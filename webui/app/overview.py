@@ -79,6 +79,9 @@ class sysOverview(object):
             keys_out = []
             spath: str = spath
             for key in keys:
+               if key not in hmap.keys():
+                  print(f"KeyNotFound: {key} :: in {hmap}")
+                  continue
                read_stat: str = hmap[key]
                _, _, stat = [s.strip() for s in read_stat.split("|")]
                # -- -- -- --
@@ -91,6 +94,9 @@ class sysOverview(object):
                ltag, ctag = ["n/s" if s is None else s for s in (ltag, ctag)]
                m: str = f"{spath} <br/> " + " | ".join(keys_out) + "<br/>" + " | ".join([ltag, ctag])
                bad_reads.append(m)
+            else:
+               pass
+               # print("len(keys_out) < 0")
          except Exception as e:
             logProxy.log_exp(e)
       # -- -- -- --

@@ -383,9 +383,8 @@ class dbOps(object):
 
    def get_syspath_info(self, syspath: str) -> ():
       # -- -- -- --
-      qry = f"""select t.elec_room_locl_tag
-         , t.cir_tag 
-      from core.elec_meter_circuits t 
+      qry = f"""select t.elec_room_locl_tag, t.cir_tag 
+         from core.elec_meter_circuits t 
          where t.met_syspath = '{syspath}' limit 1;"""
       # -- -- -- --
       cur: cursor = self.conn.cursor()
