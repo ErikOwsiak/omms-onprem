@@ -13,7 +13,6 @@ try:
    from core.utils import sysUtils
    from ommslib.shared.core.datatypes import redisDBIdx
 except Exception as e:
-   print(e)
    os.chdir("../")
    _p = os.getcwd()
    print(f"_p: {_p}")
@@ -35,13 +34,13 @@ print(f"\nSTART_INI_SIMLINK_FOUND: {START_INI_PATH}")
 GPIO_INI: _cp.ConfigParser = _cp.ConfigParser()
 GPIO_INI.read(START_INI_PATH)
 HTTP_PORT: int = GPIO_INI.getint("HTTP", "PORT")
-GPIO_AUTH: str = GPIO_INI.get("HTTP", "GPIO_AUTH_COOKIE")
+GPIO_AUTH: str = GPIO_INI.get("HTTP", "WEB_AUTH")
 
 # -- -- -- --
 RED_SEC: _cp.SectionProxy = GPIO_INI["REDIS"]
 GPIO_KEY_UPDATE: str = RED_SEC.get("GPIO_CONF_CHANGE")
 REDIS: redis.Redis = redis.Redis(host=RED_SEC.get("HOST")
-   , port=RED_SEC.getint("PORT"), password=RED_SEC.get("PWD"))
+   , port=RED_SEC.getint("PORT"), password=RED_SEC.get("PWD"), decode_responses=True)
 if not REDIS.ping():
    print("RedisBadPing!")
    exit(2)
@@ -52,7 +51,7 @@ CTYPE_TEXT = "text/plain"
 STATIC_DIR = "www"
 TMPL_DIR = "www/tmplts"
 IDX_PAGE = "idx.html"
-FEEDBACK_URL = "/feedback?msg=%s&css=no-auth"
+FEEDBACK_URL = "/omms/gpio/feedback?msg=%s&css=no-auth"
 RELAYS_XML: str = GPIO_INI.get("IDX_PAGE", "RELAYS_XML")
 if RELAYS_XML in [None, ""]:
    RELAYS_XML = "relays.xml"
@@ -116,9 +115,8 @@ def api_setconf():
 def api_getconf(devid, chnl):
    try:
       pin_key: str = sysUtils.pin_redis_key(devid, chnl)
-      REDIS.select(int(redisDBIdx.DB_IDX_GPIO.value))
+      REDIS.select(redisDBIdx.DB_IDX_GPIO.value)
       val = REDIS.hgetall(pin_key)
-      # jsobj = sysUtils.decode_redis(val)
       return make_response(jsonify(val), 200)
    except Exception as e:
       print(e)

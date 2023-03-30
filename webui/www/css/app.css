@@ -467,7 +467,7 @@ div.wa-frame {
    width: 80%;
    height: auto;
    margin: 4vh auto;
-   border: 1px dotted darkgray;
+   border: 0px dotted darkgray;
    border-radius: 1vh;
 }
 
@@ -478,6 +478,8 @@ div.wa-qac {
    text-align: center;
    border: 2px solid darkblue;
    border-radius: 1vh;
+   color: #b3b3bf;
+   font-size: 4.8vh;
 }
 
 div.wa-ctls {
@@ -494,11 +496,30 @@ input#waNums {
    width: 4vw;
 }
 
+div#waData {
+   height: 4vh;
+   font-size: 1.4vh;
+   text-align: center;
+   color: white;
+}
+
 div.wa-ctls select {
    margin: 0 1vw;
 }
 
 img.qr-img {
    width: 80%;
-   margin-top: 4vh;
+   margin-top: 2vh;
+}
+
+div#waCntDown {
+   height: 8vh;
+   line-height: 8vh;
+   font-size: 4vh;
+   width: 48%;
+   margin: auto;
+   text-align: center;
+   border: 1px solid gray;
+   border-radius: 1vh;
+   color: darkblue;
 }

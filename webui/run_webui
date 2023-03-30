@@ -42,9 +42,8 @@ print(f"\nSTART_INI_SIMLINK_FOUND: {START_INI_PATH}")
 WEBUI_INI: _cp.ConfigParser = _cp.ConfigParser()
 WEBUI_INI.read(START_INI_PATH)
 WEBUI_PORT: int = WEBUI_INI.getint("HTTP", "PORT")
-# WEBUI_AUTH: str = WEBUI_INI.get("HTTP", "WEBUI_AUTH_COOKIE")
 WANURL_GPIO: str = WEBUI_INI.get("WAN_ACCESS", "GPIO_UI")
-
+WEB_AUTH: str = WEBUI_INI.get("HTTP", "WEB_AUTH")
 
 # -- -- -- --
 PSQL_CONN_CLOSED: bool = False
@@ -214,7 +213,7 @@ def apiget_validate_qrc(_uuid: str):
    rval, dts = qrca.validate_qrc(_uuid)
    if rval == 0:
       res: flask.Response = redirect("/omms/gpio", code=302)
-      res.set_cookie(key=WEBUI_SESS, value=_uuid, expires=dts)
+      res.set_cookie(key=WEB_AUTH, value=_uuid, expires=dts)
       return res
    elif rval == 1:
       msg = "NotAuthorized"

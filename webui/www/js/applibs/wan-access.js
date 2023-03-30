@@ -2,8 +2,12 @@
 
 class wanAccess {
 
-   constructor() {
+   static cntdown = 0;
+   static cnttmer = null;
 
+   constructor() {
+      this.ctls = null;
+      this.frame = null;
    }
 
    init() {
@@ -13,8 +17,8 @@ class wanAccess {
          `<input id="bntCreateAccessQRC" type="button" value="CreateQRC" />`;
       /* -- */
       this.frame = `<div class="wa-frame"><div id="waQAC" class="wa-qac"></div>` +
-         `<div id="waCtrls" class="wa-ctls">${this.ctls}</div>` + 
-         `<div id="waData"></div></div>`;
+         `<div id="waData"></div>` + 
+         `<div id="waCtrls" class="wa-ctls">${this.ctls}</div></div>`;
       /* -- */
       $("#subMenuCol").html(this.frame);
       let _this = this;
@@ -22,6 +26,7 @@ class wanAccess {
             _this.createQRC();
          });
       /* -- */
+      this.clearQRCTimeout();
    }
 
    createQRC() {
@@ -51,16 +56,36 @@ class wanAccess {
       switch (jsobj.ERROR) {
          case 0:
             {
+               /* -- */
                let src = `/omms/ui/imgs/qrc.png?qr=${jsobj.UUID}`, 
                   img = `<img class="qr-img" src="${src}" />`;
-               $("#waQAC").html(img);
+               /* -- */
+               $("#waQAC").html(`${img}<div id="waCntDown"></div>`);
                $("#waData").text(jsobj.DATA);
+               /* -- */
+               wanAccess.cntdown = 60;
+               clearInterval(wanAccess.cnttmer);
+               wanAccess.cnttmer = setInterval(() => {
+                     $("#waCntDown").text(wanAccess.cntdown);
+                     if (wanAccess.cntdown == 0) {
+                        clearInterval(wanAccess.cnttmer);
+                        this.clearQRCTimeout();
+                     }
+                     wanAccess.cntdown--;
+                  }, 1000);
+               /* -- */
             }
             break;
          default:
             alert(`BadErrorCode: ${jsobj.ERROR}`);
       }
       /* -- */
+   }
+
+   clearQRCTimeout() {
+      $("#waQAC").html("");
+      let txt = "Access QRCode Generator";
+      $("#waQAC").html(txt);
    }
 
 };

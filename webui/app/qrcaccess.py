@@ -55,9 +55,19 @@ class qrcAccess(object):
       self.red.expire(_uuid, t_delt)
       return 0, exp
 
-   def check_auth(self, red_webui_key: str
-         , req: _req
-         , cookie_name: str):
+   def check_auth(self, req: _req, cookie_name: str) -> bool:
+      # -- check if allowed host ip --
+      if not self.is_mobile(req):
+         return self.is_good_host(req)
       # -- -- -- --
       auth = req.cookies.get(cookie_name)
-      print(auth)
+      if auth in [None, ""]:
+         return False
+      # -- -- -- --
+      return True
+
+   def is_good_host(self, req: _req) -> bool:
+      return True
+
+   def is_mobile(self, req: _req) -> bool:
+      return "mobile" in req.user_agent.string.lower()
