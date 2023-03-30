@@ -58,7 +58,7 @@ class dbOps(object):
                meter_info = self.red.hget(syspath, dbOps.METER_MODEL_INFO_REDIS_KEY)
                if meter_info:
                   m_tp, m_bnd, m_mdl, m_tag = \
-                     self.__parse_meter_info_str(meter_info.decode("utf-8"))
+                     self.__parse_meter_info_str(meter_info)
                else:
                   logProxy.log_warning(f"METER_INFO_NOT_FOUND: {syspath}")
             # -- -- -- --
@@ -587,7 +587,7 @@ class dbOps(object):
       self.red.select(dbOps.DB_IDX_READS)
       meter_info = self.red.hget(met_syspath, dbOps.METER_MODEL_INFO_REDIS_KEY)
       if meter_info:
-         minfo: str = meter_info.decode("utf-8").strip()
+         minfo: str = meter_info.strip()
          return 0, minfo
       else:
          msg = f"METER_INFO_NOT_FOUND: {meter_info}"

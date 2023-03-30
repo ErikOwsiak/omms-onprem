@@ -56,7 +56,7 @@ class sysOverview(object):
       def _timing_read(spath, hmap: {}):
          try:
             spath: str = spath.decode("utf-8")
-            last_read: str = hmap[lastReadKey].decode("utf-8")
+            last_read: str = hmap[lastReadKey]
             _, _, dtsutc = [s.strip() for s in last_read.split("|")]
             # -- -- -- --
             dtsutc = str(dtsutc).replace("UTC", "").strip()

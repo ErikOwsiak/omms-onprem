@@ -54,7 +54,7 @@ class apiOps(object):
       def _strdic(dd: {}) -> {}:
          x: {} = {}
          for k in dd.keys():
-            x[k.decode("utf-8")] = dd[k].decode("utf-8")
+            x[k] = dd[k]
          return x
       # -- -- --
       self.red.select(dbidx)
