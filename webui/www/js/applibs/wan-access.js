@@ -49,7 +49,8 @@ class wanAccess {
       /* -- */
       switch (jsobj.ERROR) {
          case 0:
-            let img = `<img class="qr-img" src="/omms/ui/imgs/qrc.png" />`;
+            let src = `/omms/ui/imgs/qrc.png?qr=${jsobj.UUID}`, 
+               img = `<img class="qr-img" src="${src}" />`;
             $("#waQAC").html(img);
             break;
          default:
