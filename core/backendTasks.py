@@ -63,9 +63,9 @@ class backendTasks(object):
 
    def _load_meters_info(self) -> {}:
       d: {} = {}
-      lastReadKey = "LAST_READ".encode()
-      kwhReadKey = "#RPT_kWhrs_STATUS".encode()
-      pwrReadKey = "#RPT_powerStats_STATUS".encode()
+      lastReadKey = "LAST_READ"
+      kwhReadKey = "#RPT_kWhrs_STATUS"
+      pwrReadKey = "#RPT_powerStats_STATUS"
       hours_3 = 180; hours_6 = 360
       self.red.select(redisDBIdx.DB_IDX_READS.value)
       syspaths = self.red.keys("/gdn/ck/*")
