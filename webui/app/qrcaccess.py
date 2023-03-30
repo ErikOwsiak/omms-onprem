@@ -42,14 +42,14 @@ class qrcAccess(object):
       self.red.expire(_uuid, (ttl + 4))
       return _uuid, ttl
 
-   def validate_qrc(self, _uuid: str) -> int:
+   def validate_qrc(self, _uuid: str) -> (int, str):
       self.red.select(self.db_idx)
       red_hash = self.red.hgetall(_uuid)
       if red_hash is None:
-         return 1    # not found
+         return 1, None    # not found
       # -- -- -- --
       exp: str = red_hash["EXPIRES_UTC"]
       exp_dt: datetime.datetime = datetime.datetime.strptime(exp, qrcAccess.DT_FORMAT)
       t_delt: datetime.timedelta = exp_dt - datetime.datetime.utcnow()
       self.red.expire(_uuid, t_delt)
-      return 0
+      return 0, exp
