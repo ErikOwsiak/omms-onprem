@@ -59,7 +59,6 @@ if RELAYS_XML in [None, ""]:
 MSG_ERR_NO_RED_PONG: str = "NoRedPong"
 MSG_NOAUTH = "NO_AUTH"
 
-
 APP_NAME = "gpio-ui"
 app = Flask(APP_NAME, static_url_path=""
    , static_folder=STATIC_DIR, template_folder=TMPL_DIR)

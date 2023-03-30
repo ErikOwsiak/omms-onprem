@@ -18,8 +18,8 @@ class auth(object):
       if remote_ip in [None, ""]:
          remote_ip = r.remote_addr
       print(f"check_net: {remote_ip}")
-      b_arr: [] = [r.remote_addr.startswith(n) for n in self.nets]
-      accu: bool = False
-      for b in b_arr:
-         accu = (b or accu)
-      return accu
+      for n in self.nets:
+         if remote_ip.startswith(n):
+            return True
+      # -- -- -- --
+      return False
