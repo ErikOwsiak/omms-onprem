@@ -176,9 +176,10 @@ def apiget_meters(args):
 @app.route("/api/get/qrc/<num>/<numt>", methods=["GET"])
 def apiget_qrc(num, numt):
    # -- -- -- --
+   remote_ip = req.environ.get("REMOTE_ADDR")
    qrca: qrcAccess = qrcAccess(red=RED, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
    err, uuid = qrca.create_new_qrc(WANURL_GPIO, QRC_IMG_PATH)
-   _uuid, ttl = qrca.create_temp_object(req.remote_addr, int(num), numt, uuid)
+   _uuid, ttl = qrca.create_temp_object(remote_ip, int(num), numt, uuid)
    # -- -- -- --
    return {"ERROR": 0, "UUID": _uuid, "TTL": ttl},\
       200, {"content-type": CTYPE_JSON}
