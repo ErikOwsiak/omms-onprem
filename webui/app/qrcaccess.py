@@ -11,22 +11,22 @@ class qrcAccess(object):
       self.red: redis.Redis = red
       self.db_idx: int = red_db_idx
 
-   def create_new_qrc(self, url_path, fs_path: str) -> (bool, str):
+   def create_new_qrc(self, url_path, fs_path: str) -> (bool, str, str):
       # -- -- -- --
       hex_buff: str = uuid.uuid4().hex
       qrc: qrcode.QRCode = qrcode.QRCode(version=1
          , error_correction=qrcode.constants.ERROR_CORRECT_L
          , box_size=8, border=4)
       # -- -- -- --
-      d: str = f"{url_path}/api/qrc/validate/{hex_buff}"
-      qrc.add_data(d)
+      data: str = f"{url_path}/api/qrc/validate/{hex_buff}"
+      qrc.add_data(data)
       qrc.make(fit=True)
       img: qrcode.image = qrc.make_image(fill_color="black", back_color="white")
       if os.path.exists(fs_path):
          os.unlink(fs_path)
       # -- -- -- --
       img.save(fs_path)
-      return True, hex_buff
+      return True, hex_buff, data
 
    def create_temp_object(self, ip_addr, num: int, numt: str, _uuid) -> (str, int):
       ttl = 60

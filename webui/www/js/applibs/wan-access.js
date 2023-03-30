@@ -13,7 +13,8 @@ class wanAccess {
          `<input id="bntCreateAccessQRC" type="button" value="CreateQRC" />`;
       /* -- */
       this.frame = `<div class="wa-frame"><div id="waQAC" class="wa-qac"></div>` +
-         `<div id="waCtrls" class="wa-ctls">${this.ctls}</div></div>`;
+         `<div id="waCtrls" class="wa-ctls">${this.ctls}</div>` + 
+         `<div id="waData"></div></div>`;
       /* -- */
       $("#subMenuCol").html(this.frame);
       let _this = this;
@@ -49,9 +50,12 @@ class wanAccess {
       /* -- */
       switch (jsobj.ERROR) {
          case 0:
-            let src = `/omms/ui/imgs/qrc.png?qr=${jsobj.UUID}`, 
-               img = `<img class="qr-img" src="${src}" />`;
-            $("#waQAC").html(img);
+            {
+               let src = `/omms/ui/imgs/qrc.png?qr=${jsobj.UUID}`, 
+                  img = `<img class="qr-img" src="${src}" />`;
+               $("#waQAC").html(img);
+               $("#waData").text(jsobj.DATA);
+            }
             break;
          default:
             alert(`BadErrorCode: ${jsobj.ERROR}`);

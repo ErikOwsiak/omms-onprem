@@ -184,10 +184,10 @@ def apiget_qrc(num, numt):
       remote_ip = req.remote_addr
    # -- -- -- --
    qrca: qrcAccess = qrcAccess(red=RED, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
-   err, uuid = qrca.create_new_qrc(WANURL_GPIO, QRC_IMG_PATH)
+   err, uuid, data = qrca.create_new_qrc(WANURL_GPIO, QRC_IMG_PATH)
    _uuid, ttl = qrca.create_temp_object(remote_ip, int(num), numt, uuid)
    # -- -- -- --
-   return {"ERROR": 0, "UUID": _uuid, "TTL": ttl},\
+   return {"ERROR": 0, "UUID": _uuid, "DATA": data, "TTL": ttl},\
       200, {"content-type": CTYPE_JSON}
 
 @app.route("/api/qrc/validate/<_uuid>", methods=["GET"])
