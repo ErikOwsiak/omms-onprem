@@ -14,7 +14,10 @@ class auth(object):
       self.nets = [n.replace("*", "").strip() for n in _nets]
 
    def check_net(self, r: _req) -> bool:
-      print(f"check_net: {r.remote_addr}")
+      remote_ip = r.headers.get("X-Forwarded-For")
+      if remote_ip in [None, ""]:
+         remote_ip = r.remote_addr
+      print(f"check_net: {remote_ip}")
       b_arr: [] = [r.remote_addr.startswith(n) for n in self.nets]
       accu: bool = False
       for b in b_arr:
