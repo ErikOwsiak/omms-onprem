@@ -21,7 +21,7 @@ class auth(object):
       # -- -- -- --
       for n in self.nets:
          if remote_ip.startswith(n):
-            print(f"[ GOOD_IP: {remote_ip} -> MATCH_ON: {n} ]")
+            print(f"\n[ GOOD_IP: {remote_ip} -> MATCH_ON: {n} ]\n")
             return True
       # -- -- -- --
       return False
