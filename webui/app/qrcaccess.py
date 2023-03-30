@@ -1,6 +1,7 @@
 
 import datetime, os.path
 import redis, uuid, qrcode
+from flask import Request as _req
 
 
 class qrcAccess(object):
@@ -54,5 +55,9 @@ class qrcAccess(object):
       self.red.expire(_uuid, t_delt)
       return 0, exp
 
-   def check_sess_cookie(self):
-      return True
+   def check_auth(self, red_webui_key: str
+         , req: _req
+         , cookie_name: str):
+      # -- -- -- --
+      auth = req.cookies.get(cookie_name)
+      print(auth)

@@ -17,7 +17,7 @@ class apiOps(object):
       self.conn_str: str = conn_str
       self.red: redis.Redis = red
       self.dbops: dbOps = dbOps(conn_str=self.conn_str)
-      self.reports_fld = self.ini.get("WEBUI", "REPORTS_FOLDER")
+      self.reports_fld = self.ini.get("HTTP", "REPORTS_FOLDER")
       apiOps.RPTS_FOLDER = self.reports_fld
 
    def list_reports(self) -> str:

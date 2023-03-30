@@ -5,7 +5,7 @@ import configparser as _cp, redis, setproctitle
 from flask import Flask, render_template,\
    request as req, make_response, jsonify, redirect
 from gpiolib.gpiotypes import gpioOpResp, confSetData, forceData
-from gpiolib.sessOps import sessOps
+from webui.app.qrcaccess import qrcAccess
 ROOT_DIR = os.getcwd()
 print(f"ROOT_DIR: {ROOT_DIR}")
 try:
@@ -35,6 +35,7 @@ print(f"\nSTART_INI_SIMLINK_FOUND: {START_INI_PATH}")
 GPIO_INI: _cp.ConfigParser = _cp.ConfigParser()
 GPIO_INI.read(START_INI_PATH)
 HTTP_PORT: int = GPIO_INI.getint("HTTP", "PORT")
+GPIO_AUTH: str = GPIO_INI.get("HTTP", "GPIO_AUTH_COOKIE")
 
 # -- -- -- --
 RED_SEC: _cp.SectionProxy = GPIO_INI["REDIS"]
@@ -51,10 +52,12 @@ CTYPE_TEXT = "text/plain"
 STATIC_DIR = "www"
 TMPL_DIR = "www/tmplts"
 IDX_PAGE = "idx.html"
+FEEDBACK_URL = "/feedback?msg=%s&css=no-auth"
 RELAYS_XML: str = GPIO_INI.get("IDX_PAGE", "RELAYS_XML")
 if RELAYS_XML in [None, ""]:
    RELAYS_XML = "relays.xml"
 MSG_ERR_NO_RED_PONG: str = "NoRedPong"
+MSG_NOAUTH = "NO_AUTH"
 
 
 APP_NAME = "gpio-ui"
@@ -64,15 +67,11 @@ app = Flask(APP_NAME, static_url_path=""
 
 @app.route("/", methods=["GET"])
 def index():
-   sess_file = req.cookies.get("CK_GPIO_SESS")
    # -- -- -- --
-   if sess_file is None:
-      msg = "NotAuthorized"
-      return redirect(f"/omms/ui/feedback?msg={msg}&css=no-auth", code=302)
+   qrca: qrcAccess = qrcAccess(red=REDIS, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
+   if not qrca.check_auth(req, GPIO_AUTH):
+      return redirect(FEEDBACK_URL % MSG_NOAUTH, code=302)
    # -- -- -- --
-   sess: sessOps = sessOps(red=REDIS)
-   if not sess.check():
-      pass
    key = "mode"
    if key in req.args:
       mode = req.args[key]
@@ -85,6 +84,10 @@ def index():
    # -- --
    return render_template(IDX_PAGE, _mode=mode, _rlsxml=RELAYS_XML)
 
+@app.route("/feedback", methods=["GET"])
+def feedback():
+   msg = req.args["msg"]; css = req.args["css"]
+   return render_template("feedback.html", _msg=msg, _css=css)
 
 @app.route("/setconf", methods=["POST"])
 def api_setconf():
