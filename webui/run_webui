@@ -210,7 +210,7 @@ def apiget_validate_qrc(_uuid: str):
       return res
    elif rval == 1:
       msg = "NotAuthorized"
-      res: flask.Response = redirect(f"/omms/feedback?msg={msg}&css=no-auth", code=302)
+      res: flask.Response = redirect(f"/omms/ui/feedback?msg={msg}&css=no-auth", code=302)
       return res
 
 
