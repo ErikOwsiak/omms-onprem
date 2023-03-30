@@ -209,8 +209,13 @@ def apiget_qrc(num, numt):
 
 @app.route("/api/qrc/validate/<_uuid>", methods=["GET"])
 def apiget_validate_qrc(_uuid: str):
+   # -- -- -- --
+   remote_ip = req.headers.get("X-Forwarded-For")
+   if remote_ip in [None, ""]:
+      remote_ip = req.remote_addr
+   # -- -- -- --
    qrca: qrcAccess = qrcAccess(red=RED, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
-   rval, dts = qrca.validate_qrc(_uuid)
+   rval, dts = qrca.validate_qrc(_uuid, remote_ip)
    if rval == 0:
       res: flask.Response = redirect("/omms/gpio", code=302)
       res.set_cookie(key=WEB_AUTH, value=_uuid, expires=dts)

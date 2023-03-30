@@ -2,6 +2,7 @@
 import datetime, os.path
 import redis, uuid, qrcode
 from flask import Request as _req
+from core.utils import sysUtils
 
 
 class qrcAccess(object):
@@ -43,7 +44,7 @@ class qrcAccess(object):
       self.red.expire(_uuid, (ttl + 4))
       return _uuid, ttl
 
-   def validate_qrc(self, _uuid: str) -> (int, str):
+   def validate_qrc(self, _uuid: str, remote_ip: str) -> (int, str):
       self.red.select(self.db_idx)
       red_hash = self.red.hgetall(_uuid)
       if red_hash is None or len(red_hash.keys()) == 0:
@@ -53,6 +54,10 @@ class qrcAccess(object):
       exp_dt: datetime.datetime = datetime.datetime.strptime(exp, qrcAccess.DT_FORMAT)
       t_delt: datetime.timedelta = exp_dt - datetime.datetime.utcnow()
       self.red.expire(_uuid, t_delt)
+      d: {} = {"VALIDATE_DTS": sysUtils.dts_utc(with_tz=True)
+         , "VALIDATE_IP": remote_ip}
+      self.red.hset(name=_uuid, mapping=d)
+      # -- -- -- --
       return 0, exp
 
    def check_auth(self, req: _req, cookie_name: str) -> bool:
