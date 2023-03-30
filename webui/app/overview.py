@@ -80,7 +80,8 @@ class sysOverview(object):
             spath: str = spath
             for key in keys:
                if key not in hmap.keys():
-                  print(f"KeyNotFound: {key} :: in {hmap}")
+                  # some don't carry stats reads they throw here on that key
+                  # print(f"KeyNotFound: {key} :: in {hmap}")
                   continue
                read_stat: str = hmap[key]
                _, _, stat = [s.strip() for s in read_stat.split("|")]
