@@ -53,3 +53,6 @@ class qrcAccess(object):
       t_delt: datetime.timedelta = exp_dt - datetime.datetime.utcnow()
       self.red.expire(_uuid, t_delt)
       return 0, exp
+
+   def check_sess_cookie(self):
+      pass

@@ -82,8 +82,12 @@ app = Flask(APP_NAME, static_url_path=""
 @app.route("/", methods=["GET"])
 @app.route("/home", methods=["GET"])
 def index():
-   return render_template("index.html", _wanurl_gpio=WANURL_GPIO)
-
+   qrca: qrcAccess = qrcAccess(red=RED, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
+   if qrca.check_sess_cookie():
+      return render_template("index.html", _wanurl_gpio=WANURL_GPIO)
+   else:
+      msg = "NotAuthorized"
+      return redirect(f"/omms/ui/feedback?msg={msg}&css=no-auth", code=302)
 
 @app.route("/feedback", methods=["GET"])
 def feedback():
