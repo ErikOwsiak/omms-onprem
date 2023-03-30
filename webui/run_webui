@@ -61,8 +61,8 @@ else:
 
 
 RED_SEC: _cp.SectionProxy = WEBUI_INI["REDIS"]
-RED: redis.Redis = redis.Redis(host=RED_SEC.get("HOST")
-   , port=RED_SEC.getint("PORT"), password=RED_SEC.get("PWD"))
+RED: redis.Redis = redis.Redis(host=RED_SEC.get("HOST"), port=RED_SEC.getint("PORT")
+   , password=RED_SEC.get("PWD"), decode_responses=True)
 if not RED.ping():
    print("RedisBadPing!")
    exit(2)
@@ -178,14 +178,16 @@ def apiget_qrc(num, numt):
    # -- -- -- --
    qrca: qrcAccess = qrcAccess(red=RED, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
    err, uuid = qrca.create_new_qrc(WANURL_GPIO, QRC_IMG_PATH)
-   _uuid, ttl = qrca.create_temp_object(req.remote_addr, num, numt, uuid)
+   _uuid, ttl = qrca.create_temp_object(req.remote_addr, int(num), numt, uuid)
    # -- -- -- --
    return {"ERROR": 0, "UUID": _uuid, "TTL": ttl},\
       200, {"content-type": CTYPE_JSON}
 
 @app.route("/api/qrc/validate/<_uuid>", methods=["GET"])
 def apiget_validate_qrc(_uuid: str):
-   print(_uuid)
+   qrca: qrcAccess = qrcAccess(red=RED, red_db_idx=redisDBIdx.DB_IDX_FLASK.value)
+   rval: int = qrca.validate_qrc(_uuid)
+
    return "OK"
 
 

@@ -1,9 +1,11 @@
 
-import os.path
+import datetime, os.path
 import redis, uuid, qrcode
 
 
 class qrcAccess(object):
+
+   DT_FORMAT = "%Y:%m:%d %H:%M"
 
    def __init__(self, red: redis.Redis, red_db_idx: int):
       self.red: redis.Redis = red
@@ -26,10 +28,28 @@ class qrcAccess(object):
       img.save(fs_path)
       return True, hex_buff
 
-   def create_temp_object(self, ip_addr, num, numt, _uuid) -> (str, int):
+   def create_temp_object(self, ip_addr, num: int, numt: str, _uuid) -> (str, int):
       ttl = 60
-      d: {} = {"REQ_IP": ip_addr, "NUM": num, "NUMT": numt, "UUID": _uuid}
+      now_utc = datetime.datetime.utcnow()
+      multi: int = 1 if (numt.upper() == "H") else 24
+      expr_hrs: int = num * multi
+      dt: datetime.datetime = now_utc + datetime.timedelta(hours=expr_hrs)
+      dt_str: str = dt.strftime(qrcAccess.DT_FORMAT)
+      d: {} = {"REQ_IP": ip_addr, "NUM": num, "NUMT": numt
+         , "EXPIRES_UTC": dt_str, "UUID": _uuid}
       self.red.select(self.db_idx)
       self.red.hset(_uuid, mapping=d)
       self.red.expire(_uuid, (ttl + 4))
       return _uuid, ttl
+
+   def validate_qrc(self, _uuid: str) -> int:
+      self.red.select(self.db_idx)
+      red_hash = self.red.hgetall(_uuid)
+      if red_hash is None:
+         return 1    # not found
+      # -- -- -- --
+      exp: str = red_hash["EXPIRES_UTC"]
+      exp_dt: datetime.datetime = datetime.datetime.strptime(exp, qrcAccess.DT_FORMAT)
+      t_delt: datetime.timedelta = exp_dt - datetime.datetime.utcnow()
+      self.red.expire(_uuid, t_delt)
+      return 0
