@@ -16,8 +16,8 @@ class wanAccess {
          `<select id="waNumTypes"><option value="h">hours</option><option value="d">days</option></select>` +
          `<input id="bntCreateAccessQRC" type="button" value="CreateQRC" />`;
       /* -- */
-      this.frame = `<div class="wa-frame"><div id="waQAC" class="wa-qac"></div>` +
-         `<div id="waData"></div>` + 
+      this.frame = `<div class="wa-frame">` + 
+         `<div id="waQAC" class="wa-qac"></div><div id="waData"></div>` + 
          `<div id="waCtrls" class="wa-ctls">${this.ctls}</div></div>`;
       /* -- */
       $("#subMenuCol").html(this.frame);
