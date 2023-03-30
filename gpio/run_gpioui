@@ -59,7 +59,7 @@ if RELAYS_XML in [None, ""]:
    RELAYS_XML = "relays.xml"
 MSG_ERR_NO_RED_PONG: str = "NoRedPong"
 MSG_NOAUTH = "NO_AUTH"
-MSG_NOAUTH_RESCAN = f"{MSG_NOAUTH}\nRescan QRCode"
+MSG_NOAUTH_RESCAN = f"{MSG_NOAUTH} Rescan QRCode"
 
 APP_NAME = "gpio-ui"
 app = Flask(APP_NAME, static_url_path=""
