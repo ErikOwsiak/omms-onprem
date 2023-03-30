@@ -138,7 +138,8 @@ class backendTasks(object):
          slot_dow, slot_time = ts.split(":")
          dt_now: datetime.datetime = datetime.datetime.utcnow()
          if slot_dow.upper() == dt_now.strftime("%A").upper():
-            dict_key: bytes = ts.upper().encode()
+            # dict_key: bytes = ts.upper().encode()
+            dict_key: str = ts
             if dict_key in td.keys():
                v: str = td[dict_key]
                _d = dateutil.parser.parse(v)
