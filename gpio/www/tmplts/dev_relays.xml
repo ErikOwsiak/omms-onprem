@@ -1,9 +1,8 @@
 <div class="relay-col">
-
+   <!-- header -->
    <div class="clt-head">
       DevCK : SiteGPIO
    </div>
-
    <!-- main wall -->
    <div id="devLab3rHat" class="relay-box waveshare3chHat" bus="onboard">
       <div class="head">
@@ -26,7 +25,6 @@
       <div id="devLab3rHatConf" class="channel-conf">
       </div>
    </div>
-   
    <!-- door realys -->
    <div id="devLab8R" class="relay-box waveshare8chExpBoard" bus="onboard">
       <div class="head">
@@ -65,6 +63,49 @@
       <div id="devLab8RConf" class="channel-conf">
       </div>
    </div>
-   
-<!-- file end -->
+   <!-- modbus 1 -->
+   <div id="devLabModbusLCT4R_A" class="relay-box lctech4chModbus" bus="onboard">
+      <div class="head">
+         <p>DevLab modbus 4Relay LCTech A</p>
+      </div>
+      <div class="channels">
+         <div devid="devLabModbusLCT4R_A" ch="1" class="gpio-channel">
+            <div class="ch-num">CH1</div>
+         </div>
+         <div devid="devLabModbusLCT4R_A" ch="2" class="gpio-channel">
+            <div class="ch-num">CH2</div>
+         </div>
+         <div devid="devLabModbusLCT4R_A" ch="3" class="gpio-channel">
+            <div class="ch-num">CH3</div>
+         </div>
+         <div devid="devLabModbusLCT4R_A" ch="4" class="gpio-channel">
+            <div class="ch-num">CH4</div>
+         </div>
+      </div>
+      <div id="devLabModbusLCT4R_AConf" class="channel-conf">
+      </div>
+   </div>
+   <!-- modbus 1 -->
+   <div id="devLabModbusLCT4R_B" class="relay-box lctech4chModbus" bus="onboard">
+      <div class="head">
+         <p>DevLab modbus 4Relay LCTech B</p>
+      </div>
+      <div class="channels">
+         <div devid="devLabModbusLCT4R_B" ch="1" class="gpio-channel">
+            <div class="ch-num">CH1</div>
+         </div>
+         <div devid="devLabModbusLCT4R_B" ch="2" class="gpio-channel">
+            <div class="ch-num">CH2</div>
+         </div>
+         <div devid="devLabModbusLCT4R_B" ch="3" class="gpio-channel">
+            <div class="ch-num">CH3</div>
+         </div>
+         <div devid="devLabModbusLCT4R_B" ch="4" class="gpio-channel">
+            <div class="ch-num">CH4</div>
+         </div>
+      </div>
+      <div id="devLabModbusLCT4R_BConf" class="channel-conf">
+      </div>
+   </div>
+   <!-- file end -->
 </div>
