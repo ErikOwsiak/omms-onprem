@@ -229,7 +229,7 @@ class dbEdit {
       }
       /* -- */
       let rowid = $(`#newDBItemForm #${rowidstr}`).val(), 
-         url = `/dbedit/delete?tbl=${this.current_table}&rowid=${rowid}`;
+         url = `ui/dbedit/delete?tbl=${this.current_table}&rowid=${rowid}`;
       let data = {"rowid": rowid};
       $.delete(url, data, function(res) {
             if (res.ErrorMsg == "OK")

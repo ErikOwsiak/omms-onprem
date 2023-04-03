@@ -57,7 +57,7 @@ class dbEdit(object):
       cur: cursor = self.conn.cursor()
       cur.execute(sql)
       row = cur.fetchone()
-      if row is None:
+      if row is None or row[0] is None:
          self.buffout = ""
          self.buffout_error = 404
       else:
