@@ -2,6 +2,8 @@
 
 import json, os.path, sys
 import configparser as _cp, redis, setproctitle
+import time
+
 from flask import Flask, render_template,\
    request as req, make_response, jsonify, redirect
 from gpiolib.gpiotypes import gpioOpResp, confSetData, forceData
@@ -60,6 +62,8 @@ if RELAYS_XML in [None, ""]:
 MSG_ERR_NO_RED_PONG: str = "NoRedPong"
 MSG_NOAUTH = "NO_AUTH"
 MSG_NOAUTH_RESCAN = f"{MSG_NOAUTH} Rescan QRCode"
+ON_HSET_SLEEP: float = 0.200
+
 
 APP_NAME = "gpio-ui"
 app = Flask(APP_NAME, static_url_path=""
@@ -104,9 +108,12 @@ def api_setconf():
          PIN_KEY: str = sysUtils.pin_redis_key(data.devid, data.chnl)
          REDIS.select(redisDBIdx.DB_IDX_GPIO.value)
          REDIS.delete(PIN_KEY)
-         REDIS.hset(PIN_KEY, mapping=data.mapping())
-         PUB_CHANNEL = GPIO_KEY_UPDATE.replace("!DEVID!", data.devid)
-         REDIS.publish(PUB_CHANNEL.upper(), PIN_KEY)
+         if REDIS.hset(PIN_KEY, mapping=data.mapping()) > 0:
+            time.sleep(ON_HSET_SLEEP)
+            PUB_CHANNEL = GPIO_KEY_UPDATE.replace("!DEVID!", data.devid)
+            REDIS.publish(PUB_CHANNEL.upper(), PIN_KEY)
+         else:
+            pass
       else:
          rsp.err = 1; rsp.msg = MSG_ERR_NO_RED_PONG
          print(rsp)
@@ -139,9 +146,13 @@ def force():
       if REDIS.ping():
          PIN_KEY: str = sysUtils.pin_redis_key(data.devid, data.chnl_id)
          REDIS.select(redisDBIdx.DB_IDX_GPIO.value)
-         REDIS.hset(PIN_KEY, mapping=data.mapping())
+         RED_SAVE_RVAL: int = REDIS.hset(PIN_KEY, mapping=data.mapping())
+         # if RED_SAVE_RVAL > 0:
+         time.sleep(ON_HSET_SLEEP)
          PUB_CHANNEL = GPIO_KEY_UPDATE.replace("!DEVID!", data.devid)
          REDIS.publish(PUB_CHANNEL.upper(), PIN_KEY)
+         # else:
+         # pass
       else:
          rsp.err = 1; rsp.msg = MSG_ERR_NO_RED_PONG
       # -- -- -- --
