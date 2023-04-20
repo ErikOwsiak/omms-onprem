@@ -134,8 +134,7 @@ class reportEngine(object):
       try:
          daily_rate, err, msg = self.__calc_daily_consumption(lst)
          if err == 0:
-            missing_days = lst.days_in_month() - lst.dts_utc.day
-            add_to_kwh = missing_days * daily_rate
+            add_to_kwh = daily_rate * lst.days_to_lst_of_month()
             lst.tl_kwh = round((lst.tl_kwh + add_to_kwh), 2)
             # -- -- -- --
             tl_kwh = "tl_kwh"
