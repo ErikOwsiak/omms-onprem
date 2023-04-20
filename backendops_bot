@@ -38,7 +38,8 @@ if not os.path.exists(path):
 
 
 # -- dev box --
-RED: redis.Redis = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PWD)
+RED: redis.Redis = \
+   redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PWD, decode_responses=True)
 if not RED.ping():
    print(f"Can't Ping Redis Server: {REDIS_HOST}:{REDIS_PORT}")
    exit(2)

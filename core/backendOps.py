@@ -60,7 +60,7 @@ class backendOps(object):
          red_sub.init()
          self.pubsub.psubscribe(**{red_sub.chnl_pattern: red_sub.on_msg})
       # -- -- -- --
-      self.pubsub_thread: threading.Thread = self.pubsub.run_in_thread(sleep_time=0.001)
+      self.pubsub_thread: threading.Thread = self.pubsub.run_in_thread(sleep_time=0.01)
       self.pubsub_thread.name = "RedSubThread"
       print(self.pubsub_thread)
 
