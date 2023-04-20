@@ -103,22 +103,22 @@ class reportEngine(object):
       try:
          daily_rate, err, msg = self.__calc_daily_consumption(fst)
          if err == 0:
-            val: float = 0.0
+            backfill_kwh: float = 0.0
             diff: float = daily_rate * fst.days_to_fst_of_month()
             # -- try to fix new meters --
             if fst.tl_kwh is None:
                delta: datetime.timedelta = fst.dts_utc.date() - fst.med_dt_crd
                if delta.days < 31:
-                  val = daily_rate
+                  backfill_kwh = daily_rate
             else:
-               val = fst.tl_kwh - diff
+               backfill_kwh = fst.tl_kwh - diff
             # -- -- -- --
             tl_kwh = "tl_kwh"
             if "pzem" in syspath:
                tl_kwh = "kWh"
             # -- -- -- --
             dtsutc: str = f"'{fst.dtsutc_fst_of_month()}'"
-            _data: {} = {"PATH": syspath, tl_kwh: val}
+            _data: {} = {"PATH": syspath, tl_kwh: backfill_kwh}
             self.dbops.insert_elect_kwhrs_dict(fst.met_circ_id
                , _data, dtsutc, is_backfill=True, note="AUTO-BACKFILL")
             # -- -- -- --
