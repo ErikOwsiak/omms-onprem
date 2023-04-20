@@ -134,7 +134,9 @@ class reportEngine(object):
       try:
          daily_rate, err, msg = self.__calc_daily_consumption(lst)
          if err == 0:
-            lst.tl_kwh = daily_rate * lst.days_in_month()
+            missing_days = lst.days_in_month() - lst.dts_utc.day
+            add_to_kwh = missing_days * daily_rate
+            lst.tl_kwh = round((lst.tl_kwh + add_to_kwh), 2)
             # -- -- -- --
             tl_kwh = "tl_kwh"
             if "pzem" in syspath:
