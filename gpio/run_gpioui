@@ -65,7 +65,7 @@ MSG_NOAUTH_RESCAN = f"{MSG_NOAUTH} Rescan QRCode"
 ON_HSET_SLEEP: float = 0.200
 
 
-APP_NAME = "gpio-ui"
+APP_NAME = "omms-gpioui"
 app = Flask(APP_NAME, static_url_path=""
    , static_folder=STATIC_DIR, template_folder=TMPL_DIR)
 
