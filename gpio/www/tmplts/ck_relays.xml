@@ -2,10 +2,10 @@
    <div class="clt-head">
       VersusCK : SiteGPIO
    </div>
-   <!-- roof realys -->
+   <!-- roof relays -->
    <div id="CK_ROOF" class="relay-box waveshare3chHat" bus="onboard">
       <div class="head">
-         <p>Roof Relays</p>
+         <p>CK Roof Relays</p>
       </div>
       <div class="channels">
          <div devid="CK_ROOF" ch="1" class="gpio-channel">
@@ -27,7 +27,7 @@
    <!-- p16 0 relays -->
    <div id="gpioP16_0" class="relay-box lctech4chModbus" bus="modbus">
       <div class="head">
-         <p>B0.T Relays (A)</p>
+         <p>CK B0.T Relays (A)</p>
       </div>
       <div class="channels">
          <div devid="gpioP16_0" ch="1" class="gpio-channel">
@@ -49,7 +49,7 @@
    <!-- p16 1 relays -->
    <div id="gpioP16_1" class="relay-box lctech4chModbus" bus="modbus">
       <div class="head">
-         <p>B0.T Relays (B)</p>
+         <p>CK B0.T Relays (B)</p>
       </div>
       <div class="channels">
          <div devid="gpioP16_1" ch="1" class="gpio-channel">
