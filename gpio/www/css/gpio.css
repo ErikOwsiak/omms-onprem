@@ -38,8 +38,10 @@ dtype {
    font-size: 2vh;
    padding: 2px 8px;
    margin-left: 1vw;
-   border: 1px solid rgb(78, 84, 117);
+   color: rgb(140, 142, 151);
+   border: 1px solid rgb(140, 142, 151);
    border-radius: 4px;
+   text-indent: 0 !important;
 }
 
 div.disable {
