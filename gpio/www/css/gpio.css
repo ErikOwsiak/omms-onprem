@@ -110,3 +110,10 @@ div._HH, div._MM {
    border: 1px solid darkblue;
    border-radius: 4px;
 }
+
+dtype {
+   display: inline-block;
+   font-weight: lighter;
+   size: 1vh;
+   text-indent: 1vw;
+}

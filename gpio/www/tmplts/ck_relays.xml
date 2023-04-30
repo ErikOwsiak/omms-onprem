@@ -5,8 +5,10 @@
    <!-- roof relays -->
    <div id="gpioRoof" type="waveshare3chHat" class="relay-box waveshare3chHat" bus="onboard">
       <div class="head">
-         <p>CK Roof Relays</p>
-         <small>waveshare3chHat</small>
+         <div>
+            <p>CK Roof Relays</p>
+            <dtype>waveshare3chHat</dtype>
+         </div>
       </div>
       <div class="channels">
          <div devid="gpioRoof" ch="1" class="gpio-channel">
