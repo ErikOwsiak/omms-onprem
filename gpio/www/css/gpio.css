@@ -35,9 +35,9 @@ div.head p {
 dtype {
    display: inline-block;
    font-weight: lighter;
-   size: 1vh;
-   text-indent: 1vw;
-   padding: 2px;
+   font-size: 2vh;
+   padding: 2px 8px;
+   margin-left: 1vw;
    border: 1px solid rgb(78, 84, 117);
    border-radius: 4px;
 }
