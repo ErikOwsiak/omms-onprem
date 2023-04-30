@@ -28,7 +28,18 @@ div.head {
 }
 
 div.head p {
+   display: inline-block;
    margin-bottom: 0;
+}
+
+dtype {
+   display: inline-block;
+   font-weight: lighter;
+   size: 1vh;
+   text-indent: 1vw;
+   padding: 2px;
+   border: 1px solid rgb(78, 84, 117);
+   border-radius: 4px;
 }
 
 div.disable {
@@ -109,11 +120,4 @@ div._HH, div._MM {
    text-indent: 1vw;
    border: 1px solid darkblue;
    border-radius: 4px;
-}
-
-dtype {
-   display: inline-block;
-   font-weight: lighter;
-   size: 1vh;
-   text-indent: 1vw;
 }
