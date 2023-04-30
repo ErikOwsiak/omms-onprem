@@ -30,7 +30,10 @@
    <!-- p16 0 relays -->
    <div id="gpioP16_0" type="lctech4chModbus" class="relay-box lctech4chModbus" bus="modbus">
       <div class="head">
-         <p>CK B0.T Relays (A)</p>
+         <div>
+            <p>CK B0.T Relays (A)</p>
+            <dtype>lctech4chModbus</dtype>
+         </div>
       </div>
       <div class="channels">
          <div devid="gpioP16_0" ch="1" class="gpio-channel">
@@ -52,7 +55,10 @@
    <!-- p16 1 relays -->
    <div id="gpioP16_1" type="lctech4chModbus" class="relay-box lctech4chModbus" bus="modbus">
       <div class="head">
-         <p>CK B0.T Relays (B)</p>
+         <div>
+            <p>CK B0.T Relays (B)</p>
+            <dtype>lctech4chModbus</dtype>
+         </div>
       </div>
       <div class="channels">
          <div devid="gpioP16_1" ch="1" class="gpio-channel">
@@ -74,7 +80,10 @@
    <!-- p7 0 relays -->
    <div id="gpioP7_0" type="lctech4chModbus" class="relay-box lctech4chModbus" bus="modbus">
       <div class="head">
-         <p>CK A0.T Relays (A)</p>
+         <div>
+            <p>CK A0.T Relays (A)</p>
+            <dtype>lctech4chModbus</dtype>
+         </div>
       </div>
       <div class="channels">
          <div devid="gpioP7_0" ch="1" class="gpio-channel">
