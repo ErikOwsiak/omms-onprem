@@ -6,7 +6,7 @@
    <div id="gpioRoof" type="waveshare3chHat" class="relay-box waveshare3chHat" bus="onboard">
       <div class="head">
          <div>
-            <p>CK Roof Relays</p>
+            <p>CK Roof</p>
             <dtype>waveshare3chHat</dtype>
          </div>
       </div>
@@ -31,7 +31,7 @@
    <div id="gpioP16_0" type="lctech4chModbus" class="relay-box lctech4chModbus" bus="modbus">
       <div class="head">
          <div>
-            <p>CK B0.T Relays (A)</p>
+            <p>CK B0.T (a)</p>
             <dtype>lctech4chModbus</dtype>
          </div>
       </div>
@@ -56,7 +56,7 @@
    <div id="gpioP16_1" type="lctech4chModbus" class="relay-box lctech4chModbus" bus="modbus">
       <div class="head">
          <div>
-            <p>CK B0.T Relays (B)</p>
+            <p>CK B0.T (b)</p>
             <dtype>lctech4chModbus</dtype>
          </div>
       </div>
@@ -81,7 +81,7 @@
    <div id="gpioP7_0" type="lctech4chModbus" class="relay-box lctech4chModbus" bus="modbus">
       <div class="head">
          <div>
-            <p>CK A0.T Relays (A)</p>
+            <p>CK A0.T (a)</p>
             <dtype>lctech4chModbus</dtype>
          </div>
       </div>
