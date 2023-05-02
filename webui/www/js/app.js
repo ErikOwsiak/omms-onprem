@@ -365,7 +365,7 @@ _omms.app = {
                if (jsobj.ERR == 1 && jsobj.VAL == 0) {
                   msg = "No Data Found To Run Report!"
                } else {
-                  msg = "NewRerpotJobError";
+                  msg = "NewReportJobError";
                }
                alert(msg);
             }
