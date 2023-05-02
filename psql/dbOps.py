@@ -554,9 +554,9 @@ class dbOps(object):
 
    def get_last_11_kwhrs(self, ctag: str, rpt_y: int, rpt_m: int) -> ():
       qry = f"""select t.report_jobid, t.total_val, t._year, t._month
-           from reports.client_monthly t where t.client_tag = '{ctag}' 
-           and t._year = {rpt_y} and t._month = {rpt_m} order by
-           t.report_jobid asc limit 1;"""
+         from reports.client_monthly t where t.client_tag = '{ctag}' 
+         and t._year = {rpt_y} and t._month = {rpt_m} order by
+         t.report_jobid desc limit 1;"""
       row: () = self.__qry_row(qry)
       return row
 
