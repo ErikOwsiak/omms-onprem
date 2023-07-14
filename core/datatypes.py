@@ -12,7 +12,10 @@
    if data[0] != "(" or data[-1] != ")":
       print("BadDataWrapper")
 """
+import datetime
 
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 class redSubMsg(object):
 
    MTYPE:  str = "pmessage"
@@ -25,3 +28,23 @@ class redSubMsg(object):
       self.patt: str = d["pattern"]
       self.data: str = d["data"]
       self.channel: str = d["channel"]
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# qry = """select t.met_cir_rowid rowid
+#       , t.cir_tag
+#       , t.met_syspath spath
+#       , t.elec_room_locl_tag ltag
+#       , t.met_dt_crd
+#    from core.elec_meter_circuits t;"""
+class sysCircuit(object):
+
+   def __init__(self, d: {}):
+      self.met_cir_rowid: int = int(d[0])
+      self.cir_tag: str = d[1]
+      self.met_syspath: str = d[2]
+      self.elc_room_tag: str = d[3]
+      self.met_dt_crd: datetime.datetime = d[4]
+
+   def __str__(self):
+      return f"rowid: {self.met_cir_rowid} | cir_tag: {self.cir_tag} | spath: {self.met_syspath}"

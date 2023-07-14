@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+import os, sys
+import configparser as _cp
+# -- system --
+try:
+   from core.debug import debug
+   from toolsOps import checkMonthReads
+except ModuleNotFoundError as e:
+   print(f"\n{e}\n[ Update ENV PYTHONPATH ]\n")
+   sys.exit(1)
+
+
+INI: _cp.ConfigParser = _cp.ConfigParser()
+INI.read("../conf/system.ini")
+
+
+# -- -- -- -- -- -- -- --
+PSQL_CONN_SEC_INI = INI["PSQL_PROD"]
+if debug.is_dev_box():
+   PSQL_CONN_SEC_INI = INI["PSQL_DEV"]
+# -- -- -- -- -- -- -- --
+PSQL_CONN_STR: str = PSQL_CONN_SEC_INI["CONN_STR"]
+
+
+if len(sys.argv) != 3:
+   print("you must pass pass month year to the program")
+   sys.exit(1)
+
+MONTH: int = int(sys.argv[1])
+if MONTH not in range(1, 13):
+   print(f"bad month input: {MONTH}")
+   sys.exit(2)
+YEAR: int = int(sys.argv[2])
+
+
+def main():
+   checker: checkMonthReads.monthReadsChecker \
+      = checkMonthReads.monthReadsChecker(MONTH, YEAR, PSQL_CONN_STR)
+   checker.run()
+
+
+# -- --  entry point  -- --
+if __name__ == "__main__":
+    main()

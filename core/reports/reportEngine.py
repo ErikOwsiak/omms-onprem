@@ -58,6 +58,7 @@ class reportEngine(object):
          , year: int
          , month: int) -> [metCircConsumption, None]:
       try:
+         # read data for month/year
          rows = self.dbops.get_fst_lst_circuit_reading(sys_cir.met_circ_id, year, month)
          row_count = len(rows)
          if row_count == 0:

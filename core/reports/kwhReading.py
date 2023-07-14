@@ -17,6 +17,7 @@ class kwhReading(object):
       self.med_dt_crd: datetime.date = med_dt_crd
       self.year = year
       self.month = month
+      # -- row comes from db qry --
       self.read_id = row[0]
       self.met_circ_id = row[1]
       self.dts_utc: datetime.datetime = row[2]
@@ -66,7 +67,15 @@ class kwhReading(object):
       if self.tl_kwh is None or other.tl_kwh is None:
          self.msg = "OneOfInputsIsNone"
          return None
-      return self.tl_kwh - other.tl_kwh
+      return round(float(self.tl_kwh - other.tl_kwh), 2)
+
+   def calc_days(self, other) -> [None, int]:
+      other: kwhReading = other
+      if self.dts_utc is None or other.dts_utc is None:
+         self.msg = "OneOfInputsIsNone"
+         return None
+      delta: datetime.timedelta = (self.dts_utc - other.dts_utc)
+      return delta.days
 
    def info(self) -> str:
       return f"{self.cir_tag}; {self.tl_kwh}; {self.dts_utc.replace(microsecond=0)}"

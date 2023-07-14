@@ -99,8 +99,8 @@ class dbOps(object):
          note = f"'{note}'" if note is not None else dbOps.NULL
          ins = f"""insert into streams.kwhs_raw
             (met_circ_dbid, dts_utc, is_backfilled, total_kwhs, l1_kwhs, l2_kwhs, l3_kwhs, backfill_notes)
-            values({dbid}, {dtsutc}, {is_backfill}, {tl_kwh}, {l1_kwh}, {l2_kwh}
-            , {l3_kwh}, {note}) returning row_dbid;"""
+            values({dbid}, {dtsutc}, {is_backfill}, {tl_kwh}, {l1_kwh}, {l2_kwh}, {l3_kwh}, {note})
+            returning row_dbid;"""
          # -- print text block --
          color = "blue"
          lns: [] = utils.txt_block_formatted(ins, color=color)
@@ -115,6 +115,30 @@ class dbOps(object):
             return True
          else:
             print(colored(f"\t\tINSERT ERROR!\n", color))
+            return False
+      except Exception as e:
+         logProxy.log_exp(e)
+      finally:
+         cur.close()
+
+   def backfill_kwhrs(self, met_cir_id: int, tl_kwh: float, dts: str):
+      cur: cursor = None
+      try:
+         qry: str = reportsSQL.backfill_kwhrs(met_cir_id, tl_kwh, dts)
+         cur = self.conn.cursor()
+         cur.execute(qry)
+         # -- print text block --
+         color = "light_blue"
+         lns: [] = utils.txt_block_formatted(qry, color=color)
+         [print(ln) for ln in lns]
+         # -- --
+         self.conn.commit()
+         if cur.rowcount == 1:
+            row_dbid = cur.fetchone()
+            print(colored(f"\t\tGOOD BACKFILL: {row_dbid}\n", color))
+            return True
+         else:
+            print(colored(f"\t\tBACKFILL ERROR!\n", color))
             return False
       except Exception as e:
          logProxy.log_exp(e)
@@ -552,6 +576,14 @@ class dbOps(object):
       rows: [] = self.__qry_rows(qry)
       return rows
 
+   def get_last_of_month(self, met_cir_id: int,  y: int, m: int) -> ():
+      qry: str = reportsSQL.year_month_lst_read(met_cir_id, y, m)
+      return self.__qry_row(qry)
+
+   def get_first_of_month(self, met_cir_id: int,  y: int, m: int) -> ():
+      qry: str = reportsSQL.year_month_fst_read(met_cir_id, y, m)
+      return self.__qry_row(qry)
+
    def get_last_11_kwhrs(self, ctag: str, rpt_y: int, rpt_m: int) -> ():
       qry = f"""select t.report_jobid, t.total_val, t._year, t._month
          from reports.client_monthly t where t.client_tag = '{ctag}' 
@@ -559,6 +591,9 @@ class dbOps(object):
          t.report_jobid desc limit 1;"""
       row: () = self.__qry_row(qry)
       return row
+
+   def qry_to_rows(self, qry: str) -> []:
+      return self.__qry_rows(qry)
 
    def __qry_rows(self, qry) -> []:
       cur: cursor = self.conn.cursor()
