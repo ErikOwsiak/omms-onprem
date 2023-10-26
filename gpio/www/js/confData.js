@@ -1,0 +1,11 @@
+
+
+class confData {
+
+   constructor() {
+      
+   }
+
+
+
+};

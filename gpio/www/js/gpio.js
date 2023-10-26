@@ -3,13 +3,18 @@ const gpio = {
 
    init() {
       /* -- */
+      let conf = null;
       const sel = ".gpio-channel:not(.disable)";
       const coll = document.querySelectorAll(sel);
-      let conf = null;
       /* -- */
       for (let e of coll)
          e.addEventListener("click", gpio.onChannelClick);
       /* -- */
+      const holidays = [new Holiday(1, 1, "New Year"), new Holiday(1, 6, "Three Kings")
+         , new Holiday(5, 1, "Labor Day"), new Holiday(5, 3, "Constitution Day")
+         , new Holiday(8, 15, "Army Day"), new Holiday(11, 1, "All Saints' Day")
+         , new Holiday(11, 11, "Independence Day"), new Holiday(12, 25, "Xmas")
+         , new Holiday(12, 26, "Xmas 2nd")]
    },
 
    onChannelClick() {

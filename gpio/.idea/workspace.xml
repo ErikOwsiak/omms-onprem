@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4f74a9bc-8465-4a35-9bd3-c56f2d89a6cb" name="Changes" comment="ck updates">
+      <change beforePath="$PROJECT_DIR$/../backendops_bot" beforeDir="false" afterPath="$PROJECT_DIR$/../backendops_bot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/run_gpioui" beforeDir="false" afterPath="$PROJECT_DIR$/run_gpioui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/start_ini" beforeDir="false" afterPath="$PROJECT_DIR$/start_ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/css/gpio.css" beforeDir="false" afterPath="$PROJECT_DIR$/www/css/gpio.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/js/gpio.js" beforeDir="false" afterPath="$PROJECT_DIR$/www/js/gpio.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/tmplts/ck_relays.xml" beforeDir="false" afterPath="$PROJECT_DIR$/www/tmplts/ck_relays.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/tmplts/conf.xml" beforeDir="false" afterPath="$PROJECT_DIR$/www/tmplts/conf.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/tmplts/dev_relays.xml" beforeDir="false" afterPath="$PROJECT_DIR$/www/tmplts/dev_relays.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/www/tmplts/idx.html" beforeDir="false" afterPath="$PROJECT_DIR$/www/tmplts/idx.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ommslib" beforeDir="false" afterPath="$PROJECT_DIR$/../ommslib" afterDir="true" />
+      <change beforePath="$PROJECT_DIR$/../webui/start_ini" beforeDir="false" afterPath="$PROJECT_DIR$/../webui/start_ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../webui/www/reports" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4f74a9bc-8465-4a35-9bd3-c56f2d89a6cb" name="Changes" comment="" />
+      <created>1698348338893</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1698348338893</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="ck updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="ck updates" />
+  </component>
+</project>

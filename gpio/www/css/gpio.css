@@ -68,7 +68,8 @@ div.ln-ch-info {
    line-height: 3.2vh;
    text-indent: 1vw;
    font-size: 2vh;
-   border-bottom: 1px dotted darkblue;
+   padding-bottom: 8px;
+   border-bottom: 2px solid rgb(106, 106, 161);
 }
 
 div.ln-time {
@@ -102,6 +103,11 @@ div.selTime {
    display: inline-block;
 }
 
+div.__weekdaysBox, div.__weekendBox {
+   width: 90%;
+   margin: auto;
+}
+
 div._HH, div._MM {
    display: inline-block;
 }
@@ -122,4 +128,10 @@ div._HH, div._MM {
    text-indent: 1vw;
    border: 1px solid darkblue;
    border-radius: 4px;
+}
+
+.holidayList span {
+   margin: 2px;
+   padding: 4px;
+   border: 1px solid darkblue;
 }

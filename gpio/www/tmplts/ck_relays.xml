@@ -1,4 +1,15 @@
 <div class="relay-col">
+   <!-- holidays -->
+   <div class="__holidaysBox">
+      <div class="holidayList">
+         <span>01/01</span>
+      </div>
+      <div class="">
+         <input type="text" id="txtDayMonth">
+         <input type="button" id="btnAddHoliday" value="add">
+      </div>
+   </div>
+   <!-- header -->
    <div class="clt-head">
       VersusCK : SiteGPIO
    </div>

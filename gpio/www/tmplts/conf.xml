@@ -2,34 +2,89 @@
    <div id="_chConfForm" class="chnl-conf-box">
       <div id="channelInfo" class="ln-ch-info">
       </div>
-      <div class="ln-time">
-         <div id="divSel_TimeOn" _idtag="TimeOn" class="selTime">
-            <div id="divSel_TimeOn_HH" class="_HH">
-               TimeON&nbsp;-&nbsp;&nbsp;&nbsp;Hours/DayParts&nbsp;&nbsp;:&nbsp;&nbsp;
-               <select id="selHH_TimeOn" _idtag="TimeOn" class="selSelTime">
-               </select>
+      <!-- weekdays -->
+      <div class="__weekdaysBox">
+         <div class="__weekdaysHdr">Weekdays</div>
+         <div class="ln-time">
+            <div id="divSel_TimeOn" _idtag="TimeOn" class="selTime">
+               <div id="divSel_TimeOn_HH" class="_HH">
+                  ON&nbsp;-&nbsp;&nbsp;Hours/DayParts:&nbsp;&nbsp;
+                  <select id="selHH_TimeOn" _idtag="TimeOn" class="selSelTime">
+                  </select>
+               </div>
+               <div id="divSel_TimeOn_MM" class="_MM">
+                  &nbsp;Minutes:&nbsp;
+                  <select id="selMM_TimeOn" class="selSelTime">
+                  </select>
+               </div>
             </div>
-            <div id="divSel_TimeOn_MM" class="_MM">
-               &nbsp;Minutes:&nbsp;
-               <select id="selMM_TimeOn" class="selSelTime">
-               </select>
+         </div>
+         <div class="ln-time">
+            <div id="divSel_TimeOff" _idtag="TimeOff" class="selTime">
+               <div id="divSel_TimeOff_HH" class="_HH">
+                  OFF&nbsp;-&nbsp;&nbsp;Hours/DayParts:&nbsp;&nbsp;
+                  <select id="selHH_TimeOff" _idtag="TimeOff" class="selSelTime">
+                  </select>
+               </div>
+               <div id="divSel_TimeOn_MM" class="_MM">
+                  &nbsp;Minutes:&nbsp;
+                  <select id="selMM_TimeOff" class="selSelTime">
+                  </select>
+               </div>
             </div>
          </div>
       </div>
-      <div class="ln-time">
-         <div id="divSel_TimeOff" _idtag="TimeOff" class="selTime">
-            <div id="divSel_TimeOff_HH" class="_HH">
-               TimeOFF&nbsp;-&nbsp;&nbsp;&nbsp;Hours/DayParts&nbsp;&nbsp;:&nbsp;&nbsp;
-               <select id="selHH_TimeOff" _idtag="TimeOff" class="selSelTime">
-               </select>
+      <!-- ////////////////////////////////////////////////////// 
+         weekend & holiday
+      /////////////////////////////////////////////////////// -->
+      <div class="__weekendBox">
+         <div class="__weekendHdr">Weekend &amp; Holidays</div>
+         <!-- on -->
+         <div class="ln-time">
+            <div id="divSel_TimeOn_Wknd" _idtag="TimeOn_Wknd" class="selTime">
+               <div id="divSel_TimeOn_HH_Wknd" class="_HH">
+                  ON&nbsp;-&nbsp;&nbsp;Hours/DayParts:&nbsp;&nbsp;
+                  <!-- hour on -->
+                  <select id="selHH_TimeOn_Wknd" _idtag="TimeOn_Wknd" class="selSelTime">
+                  </select>
+               </div>
+               <div id="divSel_TimeOn_MM_Wknd" class="_MM">
+                  &nbsp;Minutes:&nbsp;
+                  <!-- minutes on -->
+                  <select id="selMM_TimeOn_Wknd" class="selSelTime">
+                  </select>
+               </div>
             </div>
-            <div id="divSel_TimeOn_MM" class="_MM">
-               &nbsp;Minutes:&nbsp;
-               <select id="selMM_TimeOff" class="selSelTime">
-               </select>
+         </div>
+         <!-- off -->
+         <div class="ln-time">
+            <div id="divSel_TimeOff_Wknd" _idtag="TimeOff_Wknd" class="selTime">
+               <div id="divSel_TimeOff_HH_Wknd" class="_HH">
+                  OFF&nbsp;-&nbsp;Hours/DayParts:&nbsp;&nbsp;
+                  <!-- hour off -->
+                  <select id="selHH_TimeOff_Wknd" _idtag="TimeOff" class="selSelTime">
+                  </select>
+               </div>
+               <div id="divSel_TimeOn_MM_Wknd" class="_MM">
+                  &nbsp;Minutes:&nbsp;
+                  <!-- minutes off -->
+                  <select id="selMM_TimeOff_Wknd" class="selSelTime">
+                  </select>
+               </div>
+            </div>
+         </div>
+         <!-- holidays -->
+         <div class="__holidaysBox">
+            <div class="holidayList">
+               <span>01/01</span>
+            </div>
+            <div class="">
+               <input type="text" id="txtDayMonth">
+               <input type="button" id="btnAddHoliday" value="add">
             </div>
          </div>
       </div>
+      <!-- -->
       <div id="feedbackBox" class="ln-time chnlnm">
       </div>
       <div class="ln-time chnlnm">

@@ -1,0 +1,11 @@
+[
+  {"m": 1, "d": 1, "lbl": "New Year"},
+  {"m": 1, "d": 6, "lbl": "Three Kings"},
+  {"m": 5, "d": 1, "lbl": "Labor Day"},
+  {"m": 5, "d": 3, "lbl": "Constitution Day"},
+  {"m": 8, "d": 15, "lbl": "Army Day"},
+  {"m": 11, "d": 1, "lbl": "All Saints' Day"},
+  {"m": 11, "d": 11, "lbl": "Independence Day"},
+  {"m": 12, "d": 25, "lbl": "Xmas 1st Day"},
+  {"m": 12, "d": 26, "lbl": "Xmas 2nd Day"}
+]
