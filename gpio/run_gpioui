@@ -115,7 +115,8 @@ def api_setconf():
          else:
             pass
       else:
-         rsp.err = 1; rsp.msg = MSG_ERR_NO_RED_PONG
+         rsp.err = 1
+         rsp.msg = MSG_ERR_NO_RED_PONG
          print(rsp)
       # -- -- -- --
       return make_response(rsp.toJson(), 200)

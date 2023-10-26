@@ -110,7 +110,8 @@ class gpioConf {
             let chnlName = document.getElementById("txtChnlName").value;
             /* -- */
             let data = {"devid": t.devid, "chnl": t.chnl, chnlName
-               , "ON": `${onHH}:${onMM}`, "OFF": `${offHH}:${offMM}`};
+               , "ON": `${onHH}:${onMM}`, "OFF": `${offHH}:${offMM}`
+               , "HOLIDAY_ON": "00:00", "HOLIDAY_OFF": "00:00"};
             /* -- */
             t.setConf(data);
          };
